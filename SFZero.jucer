@@ -30,6 +30,8 @@
   </EXPORTFORMATS>
   <MAINGROUP id="STGh0u" name="SFZero">
     <GROUP id="{1110531B-E755-9964-D428-0B0E27C2D745}" name="Source">
+      <FILE id="WD6w8Y" name="SFZRegion.cpp" compile="1" resource="0" file="Source/SFZRegion.cpp"/>
+      <FILE id="AqMmDI" name="SFZRegion.h" compile="0" resource="0" file="Source/SFZRegion.h"/>
       <FILE id="onAAbD" name="ClickableLabel.cpp" compile="1" resource="0"
             file="Source/ClickableLabel.cpp"/>
       <FILE id="lQwIPH" name="ClickableLabel.h" compile="0" resource="0"
