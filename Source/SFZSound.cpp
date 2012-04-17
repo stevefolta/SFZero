@@ -13,7 +13,7 @@ SFZSound::~SFZSound()
 	int numRegions = regions.size();
 	for (int i = 0; i < numRegions; ++i) {
 		delete regions[i];
-		regions[i] = NULL;
+		regions.set(i, NULL);
 		}
 	delete errors;
 }
