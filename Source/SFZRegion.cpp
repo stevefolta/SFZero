@@ -4,6 +4,12 @@
 
 SFZRegion::SFZRegion()
 {
+	clear();
+}
+
+
+void SFZRegion::clear()
+{
 	memset(this, 0, sizeof(*this));
 	hikey = 127;
 	hivel = 127;

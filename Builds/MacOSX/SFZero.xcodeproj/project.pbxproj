@@ -6,6 +6,8 @@
 	objectVersion = 46;
 	objects = {
 
+		9A9B3209FB015AF875823752 = { isa = PBXBuildFile; fileRef = 599C02E0F420DC380EEFC20C; };
+		ABE8EFB3C0F3DCE8FE6A05F6 = { isa = PBXBuildFile; fileRef = 78BCF013B575D6F1873DADB9; };
 		37F6514066A69756A0823BB1 = { isa = PBXBuildFile; fileRef = 538BEFDE79D729FB1DEE45BF; };
 		CF73B0CBA67F07557DB63C6B = { isa = PBXBuildFile; fileRef = 58936302501FF9BDC57FD2AD; };
 		AD176710287BE5EA0093D766 = { isa = PBXBuildFile; fileRef = DAA03FEE55E69B4369AF5CC3; };
@@ -17,12 +19,20 @@
 		538BEFDE79D729FB1DEE45BF = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SFZRegion.cpp; path = ../../Source/SFZRegion.cpp; sourceTree = "SOURCE_ROOT"; };
 		5714153FF0E96F6B906634BC = { isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Info.plist; sourceTree = "SOURCE_ROOT"; };
 		58936302501FF9BDC57FD2AD = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ClickableLabel.cpp; path = ../../Source/ClickableLabel.cpp; sourceTree = "SOURCE_ROOT"; };
+		599C02E0F420DC380EEFC20C = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SFZReader.cpp; path = ../../Source/SFZReader.cpp; sourceTree = "SOURCE_ROOT"; };
+		78BCF013B575D6F1873DADB9 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SFZSound.cpp; path = ../../Source/SFZSound.cpp; sourceTree = "SOURCE_ROOT"; };
+		A3749ED25A7E0B000E2802C7 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFZReader.h; path = ../../Source/SFZReader.h; sourceTree = "SOURCE_ROOT"; };
+		AE5722B8D8272393FC53DF61 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFZSound.h; path = ../../Source/SFZSound.h; sourceTree = "SOURCE_ROOT"; };
 		CEC4595B434C2BEB8D75568A = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppConfig.h; path = ../../JuceLibraryCode/AppConfig.h; sourceTree = "SOURCE_ROOT"; };
 		DAA03FEE55E69B4369AF5CC3 = { isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SFZeroAudioProcessor.cpp; path = ../../Source/SFZeroAudioProcessor.cpp; sourceTree = "SOURCE_ROOT"; };
 		EB522CABB2B700AAC2C8B3A0 = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ClickableLabel.h; path = ../../Source/ClickableLabel.h; sourceTree = "SOURCE_ROOT"; };
 		EF1F927BFC1E03C85A2A572D = { isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFZeroAudioProcessor.h; path = ../../Source/SFZeroAudioProcessor.h; sourceTree = "SOURCE_ROOT"; };
 		F58CF06FA4864E28A5A63E86 = { isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SFZero.component; sourceTree = "BUILT_PRODUCTS_DIR"; };
 		51CFBE442A5398A97E360FF2 = { isa = PBXGroup; children = (
+				599C02E0F420DC380EEFC20C,
+				A3749ED25A7E0B000E2802C7,
+				78BCF013B575D6F1873DADB9,
+				AE5722B8D8272393FC53DF61,
 				538BEFDE79D729FB1DEE45BF,
 				10421734874B3C471B8F7504,
 				58936302501FF9BDC57FD2AD,
@@ -132,6 +142,8 @@
 				85208BAE4C5CA75C76CB776F ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
 		758584424887DF5BC9CE8C8C = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (  ); runOnlyForDeploymentPostprocessing = 0; };
 		C89C1B1F28A8A1079FC8B9BD = { isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+				9A9B3209FB015AF875823752,
+				ABE8EFB3C0F3DCE8FE6A05F6,
 				37F6514066A69756A0823BB1,
 				CF73B0CBA67F07557DB63C6B,
 				AD176710287BE5EA0093D766,

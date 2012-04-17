@@ -17,6 +17,7 @@ class SFZRegion {
 
 
 		SFZRegion();
+		void	clear();
 
 		SFZSample* sample;
 		unsigned char lokey, hikey;
