@@ -9,13 +9,22 @@ class SFZSound;
 
 class SFZReader {
 	public:
-		SFZReader(const char* text, unsigned int length);
+		SFZReader();
+		~SFZReader();
+
+		SFZSound*	read(const char* text, unsigned int length);
 
 	protected:
-		const char*	p;
-		const char*	end;
 		SFZSound*	sound;
 		StringArray*	errors;
+		int	line;
+
+		const char*	handleLineEnd(char lineEndChar, const char* p);
+		int 	keyValue(const String& str);
+		int 	triggerValue(const String& str);
+		int 	loopModeValue(const String& str);
+		void	finishRegion(SFZRegion* region);
+		void	error(const String& message);
 	};
 
 

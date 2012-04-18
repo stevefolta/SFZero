@@ -12,7 +12,7 @@ class SFZRegion {
 			attack, release, first, legato
 			};
 		enum LoopMode {
-			no_loop, one_shot, loop_continuous, loop_sustain
+			sample_loop, no_loop, one_shot, loop_continuous, loop_sustain
 			};
 
 
