@@ -48,4 +48,30 @@ void SFZSound::addUnsupportedOpcode(const String& opcode)
 }
 
 
+void SFZSound::dump()
+{
+	int i;
+
+	printf("Errors:\n");
+	int numErrors = errors.size();
+	for (i = 0; i < numErrors; ++i) {
+		char message[256];
+		errors[i].copyToUTF8(message, 256);
+		printf("- %s\n", message);
+		}
+
+	printf("Unused opcodes:\n");
+	for (HashMap<String,String>::Iterator i(unusedOpcodes); i.next();) {
+		char opcode[64];
+		i.getKey().copyToUTF8(opcode, 64);
+		printf("  %s\n");
+		}
+
+	printf("Regions:\n");
+	int numRegions = regions.size();
+	for (i = 0; i < numRegions; ++i)
+		regions[i]->dump();
+}
+
+
 

@@ -18,6 +18,8 @@ class SFZSound : public SynthesiserSound {
 		void	addError(const String& message);
 		void	addUnsupportedOpcode(const String& opcode);
 
+		void	dump();
+
 	protected:
 		Array<SFZRegion*>	regions;
 		StringArray      	errors;
