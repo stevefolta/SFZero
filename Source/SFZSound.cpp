@@ -68,7 +68,7 @@ void SFZSound::dump()
 		for (HashMap<String,String>::Iterator i(unusedOpcodes); i.next();) {
 			char opcode[64];
 			i.getKey().copyToUTF8(opcode, 64);
-			printf("  %s\n");
+			printf("  %s\n", opcode);
 			}
 		printf("\n");
 		}
