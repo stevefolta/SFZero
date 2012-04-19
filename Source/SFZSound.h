@@ -15,11 +15,11 @@ class SFZSound : public SynthesiserSound {
 		bool	appliesToChannel(const int midiChannel);
 
 		void	addRegion(SFZRegion* region); 	// Takes ownership of the region.
-		void	setErrors(StringArray* newErrors);
+		void	addError(const String& message);
 
 	protected:
 		Array<SFZRegion*>	regions;
-		StringArray*     	errors;
+		StringArray      	errors;
 	};
 
 

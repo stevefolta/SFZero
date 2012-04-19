@@ -3,7 +3,6 @@
 
 
 SFZSound::SFZSound()
-	: errors(NULL)
 {
 }
 
@@ -15,7 +14,6 @@ SFZSound::~SFZSound()
 		delete regions[i];
 		regions.set(i, NULL);
 		}
-	delete errors;
 }
 
 
@@ -38,10 +36,9 @@ void SFZSound::addRegion(SFZRegion* region)
 }
 
 
-void SFZSound::setErrors(StringArray* newErrors)
+void SFZSound::addError(const String& message)
 {
-	delete errors;
-	errors = newErrors;
+	errors.add(message);
 }
 
 

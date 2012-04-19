@@ -8,13 +8,11 @@ SFZReader::SFZReader()
 	: line(1)
 {
 	sound = new SFZSound();
-	errors = new StringArray();
 }
 
 
 SFZReader::~SFZReader()
 {
-	delete errors;
 	delete sound;
 }
 
@@ -187,8 +185,6 @@ nextElement:
 fatalError:
 	if (buildingRegion && buildingRegion == &curRegion)
 		finishRegion(buildingRegion);
-	sound->setErrors(errors);
-	errors = NULL;
 	SFZSound* result = sound;
 	sound = NULL;
 	return sound;
@@ -250,7 +246,7 @@ void SFZReader::error(const String& message)
 {
 	String fullMessage = message;
 	fullMessage += " (line " + String(line) + ").";
-	errors->add(fullMessage);
+	sound->addError(fullMessage);
 }
 
 

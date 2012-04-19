@@ -16,7 +16,6 @@ class SFZReader {
 
 	protected:
 		SFZSound*	sound;
-		StringArray*	errors;
 		int	line;
 
 		const char*	handleLineEnd(char lineEndChar, const char* p);
