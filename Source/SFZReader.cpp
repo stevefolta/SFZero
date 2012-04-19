@@ -4,20 +4,31 @@
 #include "StringSlice.h"
 
 
-SFZReader::SFZReader()
-	: line(1)
+SFZReader::SFZReader(SFZSound* soundIn)
+	: sound(soundIn), line(1)
 {
-	sound = new SFZSound();
 }
 
 
 SFZReader::~SFZReader()
 {
-	delete sound;
 }
 
 
-SFZSound* SFZReader::read(const char* text, unsigned int length)
+void SFZReader::read(const File& file)
+{
+	MemoryBlock contents;
+	bool ok = file.loadFileAsData(contents);
+	if (!ok) {
+		sound->addError("Couldn't read \"" + file.getFullPathName() + "\"");
+		return;
+		}
+
+	read((const char*) contents.getData(), contents.getSize());
+}
+
+
+void SFZReader::read(const char* text, unsigned int length)
 {
 	const char* p = text;
 	const char* end = text + length;
@@ -184,9 +195,6 @@ nextElement:
 fatalError:
 	if (buildingRegion && buildingRegion == &curRegion)
 		finishRegion(buildingRegion);
-	SFZSound* result = sound;
-	sound = NULL;
-	return result;
 }
 
 

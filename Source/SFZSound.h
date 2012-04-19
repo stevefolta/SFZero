@@ -8,7 +8,7 @@ class SFZRegion;
 
 class SFZSound : public SynthesiserSound {
 	public:
-		SFZSound();
+		SFZSound(const File& file);
 		~SFZSound();
 
 		bool	appliesToNote(const int midiNoteNumber);
@@ -21,6 +21,7 @@ class SFZSound : public SynthesiserSound {
 		void	dump();
 
 	protected:
+		File 	file;
 		Array<SFZRegion*>	regions;
 		StringArray      	errors;
 		HashMap<String, String>	unusedOpcodes;

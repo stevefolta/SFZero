@@ -1,9 +1,13 @@
 #include "SFZSound.h"
 #include "SFZRegion.h"
+#include "SFZReader.h"
 
 
-SFZSound::SFZSound()
+SFZSound::SFZSound(const File& fileIn)
+	: file(fileIn)
 {
+	SFZReader reader(this);
+	reader.read(file);
 }
 
 

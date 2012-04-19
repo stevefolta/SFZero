@@ -9,10 +9,11 @@ class SFZSound;
 
 class SFZReader {
 	public:
-		SFZReader();
+		SFZReader(SFZSound* sound);
 		~SFZReader();
 
-		SFZSound*	read(const char* text, unsigned int length);
+		void	read(const File& file);
+		void	read(const char* text, unsigned int length);
 
 	protected:
 		SFZSound*	sound;
