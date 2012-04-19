@@ -46,13 +46,13 @@ SFZSound* SFZReader::read(const char* text, unsigned int length)
 				if (c == '\n' || c == '\r')
 					break;
 				}
-			p = handleLineEnd(c, p);
+			p = handleLineEnd(p);
 			continue;
 			}
 
 		// Check if it's a blank line.
 		if (c == '\r' || c == '\n') {
-			p = handleLineEnd(c, p);
+			p = handleLineEnd(p);
 			continue;
 			}
 
@@ -102,7 +102,6 @@ SFZSound* SFZReader::read(const char* text, unsigned int length)
 					c = *p++;
 					if (c == '=' || c == ' ' || c == '\t' || c == '\r' || c == '\n')
 						break;
-					p += 1;
 					}
 				if (p >= end || c != '=') {
 					error("Malformed parameter");
@@ -131,6 +130,10 @@ SFZSound* SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->hikey = keyValue(value);
 					else if (opcode == "key")
 						buildingRegion->hikey = buildingRegion->lokey = keyValue(value);
+					else if (opcode == "lovel")
+						buildingRegion->lovel = value.getIntValue();
+					else if (opcode == "hivel")
+						buildingRegion->hivel = value.getIntValue();
 					else if (opcode == "trigger")
 						buildingRegion->trigger = (SFZRegion::Trigger) triggerValue(value);
 					else if (opcode == "group")
@@ -172,7 +175,7 @@ nextElement:
 				p += 1;
 				}
 			if (c == '\r' || c == '\n') {
-				p = handleLineEnd(c, ++p);
+				p = handleLineEnd(p);
 				break;
 				}
 			}
@@ -183,13 +186,14 @@ fatalError:
 		finishRegion(buildingRegion);
 	SFZSound* result = sound;
 	sound = NULL;
-	return sound;
+	return result;
 }
 
 
-const char* SFZReader::handleLineEnd(char lineEndChar, const char* p)
+const char* SFZReader::handleLineEnd(const char* p)
 {
 	// Check for DOS-style line ending.
+	char lineEndChar = *p++;
 	if (lineEndChar == '\r' && *p == '\n')
 		p += 1;
 	line += 1;

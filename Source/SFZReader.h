@@ -18,7 +18,7 @@ class SFZReader {
 		SFZSound*	sound;
 		int	line;
 
-		const char*	handleLineEnd(char lineEndChar, const char* p);
+		const char*	handleLineEnd(const char* p);
 		int 	keyValue(const String& str);
 		int 	triggerValue(const String& str);
 		int 	loopModeValue(const String& str);
