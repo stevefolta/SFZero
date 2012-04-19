@@ -1,5 +1,6 @@
 #include "SFZSound.h"
 #include "SFZRegion.h"
+#include "SFZSample.h"
 #include "SFZReader.h"
 
 
@@ -37,6 +38,15 @@ bool SFZSound::appliesToChannel(const int midiChannel)
 void SFZSound::addRegion(SFZRegion* region)
 {
 	regions.add(region);
+}
+
+
+void SFZSound::addSample(String path)
+{
+	File sampleFile = file.getSiblingFile(path);
+	String samplePath = sampleFile.getFullPathName();
+	if (samples[samplePath] == NULL)
+		samples.set(samplePath, new SFZSample(sampleFile));
 }
 
 

@@ -4,6 +4,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 class SFZRegion;
+class SFZSample;
 
 
 class SFZSound : public SynthesiserSound {
@@ -15,6 +16,7 @@ class SFZSound : public SynthesiserSound {
 		bool	appliesToChannel(const int midiChannel);
 
 		void	addRegion(SFZRegion* region); 	// Takes ownership of the region.
+		void	addSample(String path);
 		void	addError(const String& message);
 		void	addUnsupportedOpcode(const String& opcode);
 
@@ -23,6 +25,7 @@ class SFZSound : public SynthesiserSound {
 	protected:
 		File 	file;
 		Array<SFZRegion*>	regions;
+		HashMap<String, SFZSample*>	samples;
 		StringArray      	errors;
 		HashMap<String, String>	unusedOpcodes;
 	};
