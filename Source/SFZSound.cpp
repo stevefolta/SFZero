@@ -42,4 +42,10 @@ void SFZSound::addError(const String& message)
 }
 
 
+void SFZSound::addUnsupportedOpcode(const String& opcode)
+{
+	unusedOpcodes.set(opcode, opcode);
+}
+
+
 

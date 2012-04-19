@@ -157,12 +157,8 @@ SFZSound* SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->volume = value.getFloatValue();
 					else if (opcode == "pan")
 						buildingRegion->pan = value.getFloatValue();
-					else {
-						error(
-							"SFZero doesn't handle the \"" +
-							String(opcode.start, opcode.length()) +
-							"\" opcode");
-						}
+					else
+						sound->addUnsupportedOpcode(String(opcode.start, opcode.length()));
 					}
 				}
 

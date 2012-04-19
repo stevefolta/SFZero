@@ -16,10 +16,12 @@ class SFZSound : public SynthesiserSound {
 
 		void	addRegion(SFZRegion* region); 	// Takes ownership of the region.
 		void	addError(const String& message);
+		void	addUnsupportedOpcode(const String& opcode);
 
 	protected:
 		Array<SFZRegion*>	regions;
 		StringArray      	errors;
+		HashMap<String, String>	unusedOpcodes;
 	};
 
 
