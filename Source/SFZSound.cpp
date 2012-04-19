@@ -19,6 +19,9 @@ SFZSound::~SFZSound()
 		delete regions[i];
 		regions.set(i, NULL);
 		}
+
+	for (HashMap<String,SFZSample*>::Iterator i(samples); i.next();)
+		delete i.getValue();
 }
 
 
@@ -41,12 +44,16 @@ void SFZSound::addRegion(SFZRegion* region)
 }
 
 
-void SFZSound::addSample(String path)
+SFZSample* SFZSound::addSample(String path)
 {
-	File sampleFile = file.getSiblingFile(path);
+	File sampleFile = file.getSiblingFile(path.replaceCharacter('\\', '/'));
 	String samplePath = sampleFile.getFullPathName();
-	if (samples[samplePath] == NULL)
-		samples.set(samplePath, new SFZSample(sampleFile));
+	SFZSample* sample = samples[samplePath];
+	if (sample == NULL) {
+		sample = new SFZSample(sampleFile);
+		samples.set(samplePath, sample);
+		}
+	return sample;
 }
 
 
@@ -91,6 +98,11 @@ void SFZSound::dump()
 	int numRegions = regions.size();
 	for (i = 0; i < numRegions; ++i)
 		regions[i]->dump();
+	printf("\n");
+
+	printf("Samples:\n");
+	for (HashMap<String,SFZSample*>::Iterator i(samples); i.next();)
+		i.getValue()->dump();
 }
 
 

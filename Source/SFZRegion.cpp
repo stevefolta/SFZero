@@ -1,4 +1,5 @@
 #include "SFZRegion.h"
+#include "SFZSample.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -21,7 +22,13 @@ void SFZRegion::clear()
 
 void SFZRegion::dump()
 {
-	printf("%d - %d, vel %d - %d\n", lokey, hikey, lovel, hivel);
+	printf("%d - %d, vel %d - %d", lokey, hikey, lovel, hivel);
+	if (sample) {
+		char name[64];
+		sample->getShortName().copyToUTF8(name, 64);
+		printf(": %s", name);
+		}
+	printf("\n");
 }
 
 

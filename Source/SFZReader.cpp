@@ -122,7 +122,42 @@ void SFZReader::read(const char* text, unsigned int length)
 				if (opcode == "sample") {
 					// "sample" is the only opcode that takes a string, and strings
 					// are kind of funny to parse because they can contain whitespace.
-					//***
+					const char* pathStart = p;
+					const char* potentialEnd = NULL;
+					while (p < end) {
+						c = *p;
+						if (c == ' ') {
+							// Is this space part of the filename?  Or the start of the next
+							// opcode?  We don't know yet.
+							potentialEnd = p;
+							p += 1;
+							// Skip any more spaces.
+							while (p < end && *p == ' ')
+								p += 1;
+							}
+						else if (c == '\n' || c == '\r' || c == '\t')
+							break;
+						else if (c == '=') {
+							// We've been looking at an opcode; we need to rewind to
+							// potentialEnd.
+							p = potentialEnd;
+							break;
+							}
+						p += 1;
+						}
+					if (p > pathStart) {
+						// Can't do this:
+						//  	String path(CharPointer_UTF8(pathStart), CharPointer_UTF8(p));
+						// It won't compile for some unfathomable reason.
+						CharPointer_UTF8 end(p);
+						String path(CharPointer_UTF8(pathStart), end);
+						if (buildingRegion)
+							buildingRegion->sample = sound->addSample(path);
+						else
+							error("Adding sample outside a group or region");
+						}
+					else
+						error("Empty sample path");
 					}
 				else {
 					const char* valueStart = p;

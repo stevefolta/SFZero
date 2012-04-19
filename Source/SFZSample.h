@@ -10,6 +10,8 @@ class SFZSample {
 			: file(fileIn) {}
 
 		File	getFile() { return file; }
+		String	getShortName();
+		void	dump();
 
 	protected:
 		File	file;

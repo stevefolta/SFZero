@@ -16,7 +16,7 @@ class SFZSound : public SynthesiserSound {
 		bool	appliesToChannel(const int midiChannel);
 
 		void	addRegion(SFZRegion* region); 	// Takes ownership of the region.
-		void	addSample(String path);
+		SFZSample*	addSample(String path);
 		void	addError(const String& message);
 		void	addUnsupportedOpcode(const String& opcode);
 
