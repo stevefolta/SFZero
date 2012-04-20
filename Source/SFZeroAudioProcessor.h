@@ -55,6 +55,7 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 	protected:
 		File sfzFile;
 		Synthesiser synth;
+		AudioFormatManager formatManager;
 
 		void	loadSound(double* progressVar = NULL);
 

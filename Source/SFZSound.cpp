@@ -69,14 +69,17 @@ void SFZSound::addUnsupportedOpcode(const String& opcode)
 }
 
 
-void SFZSound::loadSamples(double* progressVar)
+void SFZSound::loadSamples(AudioFormatManager* formatManager, double* progressVar)
 {
 	if (progressVar)
 		*progressVar = 0.0;
 
 	double numSamplesLoaded = 1.0, numSamples = samples.size();
 	for (HashMap<String,SFZSample*>::Iterator i(samples); i.next();) {
-		i.getValue()->load();
+		SFZSample* sample = i.getValue();
+		bool ok = sample->load(formatManager);
+		if (!ok)
+			addError("Couldn't load sample \"" + sample->getShortName() + "\"");
 
 		numSamplesLoaded += 1.0;
 		if (progressVar)

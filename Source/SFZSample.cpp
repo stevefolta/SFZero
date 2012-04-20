@@ -1,9 +1,20 @@
 #include "SFZSample.h"
 
 
-void SFZSample::load()
+bool SFZSample::load(AudioFormatManager* formatManager)
 {
-	/***/
+	AudioFormatReader* reader = formatManager->createReaderFor(file);
+	if (reader == NULL)
+		return false;
+	buffer = new AudioSampleBuffer(reader->numChannels, reader->lengthInSamples);
+	reader->read(buffer, 0, reader->lengthInSamples, 0, true, true);
+	delete reader;
+}
+
+
+SFZSample::~SFZSample()
+{
+	delete buffer;
 }
 
 

@@ -5,6 +5,8 @@
 
 SFZeroAudioProcessor::SFZeroAudioProcessor()
 {
+	formatManager.registerFormat(new AiffAudioFormat(), false);
+	formatManager.registerFormat(new WavAudioFormat(), false);
 }
 
 SFZeroAudioProcessor::~SFZeroAudioProcessor()
@@ -183,7 +185,7 @@ void SFZeroAudioProcessor::loadSound(double* progressVar)
 		}
 
 	SFZSound* sound = new SFZSound(sfzFile);
-	sound->loadSamples(progressVar);
+	sound->loadSamples(&formatManager, progressVar);
 
 	synth.addSound(sound);
 }
