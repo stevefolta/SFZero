@@ -1,0 +1,11 @@
+#!/bin/bash
+
+$EDITOR 	\
+	SFZeroEditor.{h,cpp} 	\
+	SFZeroAudioProcessor.{h,cpp} 	\
+	SFZSound.{h,cpp} 	\
+	SFZRegion.{h,cpp} 	\
+	SFZSample.{h,cpp} 	\
+	SFZReader.{h,cpp} 	\
+
+
