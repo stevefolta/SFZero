@@ -82,7 +82,6 @@ void SFZeroEditor::timerCallback()
 
 void SFZeroEditor::chooseFile()
 {
-	SFZeroAudioProcessor* processor = getProcessor();
 	FileChooser chooser(
 		"Select an SFZ file...",
 		File::nonexistent,

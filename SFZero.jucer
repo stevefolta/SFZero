@@ -12,7 +12,7 @@
     <XCODE_MAC targetFolder="Builds/MacOSX" objCExtraSuffix="yKK8uA" juceFolder="../../local/src/juce/modules"
                vstFolder="~/SDKs/vstsdk2.4">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SFZero (Debug)"
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SFZero"
                        osxSDK="default" osxCompatibility="default" osxArchitecture="default"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="2" targetName="SFZero"
                        osxSDK="default" osxCompatibility="default" osxArchitecture="default"/>

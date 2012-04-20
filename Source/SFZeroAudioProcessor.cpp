@@ -141,7 +141,7 @@ bool SFZeroAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* SFZeroAudioProcessor::createEditor()
 {
-    return new SFZeroEditor(this);
+	return new SFZeroEditor(this);
 }
 
 
