@@ -12,7 +12,7 @@
     <XCODE_MAC targetFolder="Builds/MacOSX" objCExtraSuffix="yKK8uA" juceFolder="../../local/src/juce/modules"
                vstFolder="~/SDKs/vstsdk2.4">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SFZero"
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SFZero (Debug)"
                        osxSDK="default" osxCompatibility="default" osxArchitecture="default"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="2" targetName="SFZero"
                        osxSDK="default" osxCompatibility="default" osxArchitecture="default"/>
@@ -30,6 +30,7 @@
   </EXPORTFORMATS>
   <MAINGROUP id="STGh0u" name="SFZero">
     <GROUP id="{1110531B-E755-9964-D428-0B0E27C2D745}" name="Source">
+      <FILE id="NiGfnB" name="SFZSample.cpp" compile="1" resource="0" file="Source/SFZSample.cpp"/>
       <FILE id="NBnZcx" name="SFZReader.cpp" compile="1" resource="0" file="Source/SFZReader.cpp"/>
       <FILE id="RqdEoe" name="SFZReader.h" compile="0" resource="0" file="Source/SFZReader.h"/>
       <FILE id="ud8UW7" name="SFZSound.cpp" compile="1" resource="0" file="Source/SFZSound.cpp"/>

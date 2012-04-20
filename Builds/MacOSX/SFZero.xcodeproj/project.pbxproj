@@ -30,6 +30,7 @@
 		4996E654F041DF72FBE4DA48 /* AUScopeElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32DB407A1558EBE436E9E5FE /* AUScopeElement.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		51DC936CA394C9E4905F4FE8 /* juce_RTAS_DigiCode2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DF86F532289F20CCA5115C0 /* juce_RTAS_DigiCode2.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		537D25F08EF3F0F27DE81C2F /* AUOutputElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1B384C8CDEE280CBD32BB1F3 /* AUOutputElement.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		5597F61B3BC68CF806C2063D /* SFZSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 087D76845D4040B8C347126D /* SFZSample.cpp */; };
 		565FEFD745F674A5F4E424AE /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 807F21DAE5F796CF8B15216B /* AudioUnit.framework */; };
 		5F11944D896E25D26E74D041 /* AUOutputBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37C9A19D08D731E26979F482 /* AUOutputBase.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		63E1C0A6E033849B36142B95 /* juce_RTAS_DigiCode3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3412016F68F25B2FDB880A2F /* juce_RTAS_DigiCode3.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -102,6 +103,7 @@
 		08163EF7D9B2D214BFFE6B10 /* juce_AudioPlayHead.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_AudioPlayHead.h; path = ../../JuceLibraryCode/modules/juce_audio_processors/processors/juce_AudioPlayHead.h; sourceTree = SOURCE_ROOT; };
 		081C4C0AB606598DD926EEED /* juce_BooleanPropertyComponent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_BooleanPropertyComponent.cpp; path = ../../JuceLibraryCode/modules/juce_gui_basics/properties/juce_BooleanPropertyComponent.cpp; sourceTree = SOURCE_ROOT; };
 		0828AADD73EB41D9E6E8FE0C /* juce_LowLevelGraphicsContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_LowLevelGraphicsContext.h; path = ../../JuceLibraryCode/modules/juce_graphics/contexts/juce_LowLevelGraphicsContext.h; sourceTree = SOURCE_ROOT; };
+		087D76845D4040B8C347126D /* SFZSample.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SFZSample.cpp; path = ../../Source/SFZSample.cpp; sourceTree = SOURCE_ROOT; };
 		08CE501EA98C47E85F594224 /* juce_MidiKeyboardState.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_MidiKeyboardState.cpp; path = ../../JuceLibraryCode/modules/juce_audio_basics/midi/juce_MidiKeyboardState.cpp; sourceTree = SOURCE_ROOT; };
 		092148A2DFA7C4FF469BEAA8 /* juce_mac_WebBrowserComponent.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = juce_mac_WebBrowserComponent.mm; path = ../../JuceLibraryCode/modules/juce_gui_extra/native/juce_mac_WebBrowserComponent.mm; sourceTree = SOURCE_ROOT; };
 		092E62610A0FAAF182EDB2B2 /* juce_RectangleList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_RectangleList.h; path = ../../JuceLibraryCode/modules/juce_graphics/geometry/juce_RectangleList.h; sourceTree = SOURCE_ROOT; };
@@ -873,7 +875,7 @@
 		F42E7F03632F9820CAEC930B /* juce_ReadWriteLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_ReadWriteLock.h; path = ../../JuceLibraryCode/modules/juce_core/threads/juce_ReadWriteLock.h; sourceTree = SOURCE_ROOT; };
 		F4EE20104023F1C7F6120908 /* juce_RectanglePlacement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_RectanglePlacement.h; path = ../../JuceLibraryCode/modules/juce_graphics/placement/juce_RectanglePlacement.h; sourceTree = SOURCE_ROOT; };
 		F57D58FA16481BD9F460A2DC /* juce_Random.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_Random.h; path = ../../JuceLibraryCode/modules/juce_core/maths/juce_Random.h; sourceTree = SOURCE_ROOT; };
-		F58CF06FA4864E28A5A63E86 /* SFZero.component */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SFZero.component; sourceTree = BUILT_PRODUCTS_DIR; };
+		F58CF06FA4864E28A5A63E86 /* SFZero (Debug).component */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SFZero (Debug).component"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F58CFD26B51D9CFC1B569536 /* juce_AudioProcessorGraph.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_AudioProcessorGraph.cpp; path = ../../JuceLibraryCode/modules/juce_audio_processors/processors/juce_AudioProcessorGraph.cpp; sourceTree = SOURCE_ROOT; };
 		F599851AEC6B7CF36078E95C /* juce_CriticalSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = juce_CriticalSection.h; path = ../../JuceLibraryCode/modules/juce_core/threads/juce_CriticalSection.h; sourceTree = SOURCE_ROOT; };
 		F62F3D9DABE26AD158BE7088 /* juce_MenuBarModel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = juce_MenuBarModel.cpp; path = ../../JuceLibraryCode/modules/juce_gui_basics/menus/juce_MenuBarModel.cpp; sourceTree = SOURCE_ROOT; };
@@ -1341,6 +1343,7 @@
 		51CFBE442A5398A97E360FF2 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				087D76845D4040B8C347126D /* SFZSample.cpp */,
 				599C02E0F420DC380EEFC20C /* SFZReader.cpp */,
 				A3749ED25A7E0B000E2802C7 /* SFZReader.h */,
 				78BCF013B575D6F1873DADB9 /* SFZSound.cpp */,
@@ -2548,7 +2551,7 @@
 		FA2D93B22C49D6C1D6C24C42 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F58CF06FA4864E28A5A63E86 /* SFZero.component */,
+				F58CF06FA4864E28A5A63E86 /* SFZero (Debug).component */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2583,7 +2586,7 @@
 			name = SFZero;
 			productInstallPath = "$(HOME)/Library/Audio/Plug-Ins/Components/";
 			productName = SFZero;
-			productReference = F58CF06FA4864E28A5A63E86 /* SFZero.component */;
+			productReference = F58CF06FA4864E28A5A63E86 /* SFZero (Debug).component */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -2650,6 +2653,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5597F61B3BC68CF806C2063D /* SFZSample.cpp in Sources */,
 				9A9B3209FB015AF875823752 /* SFZReader.cpp in Sources */,
 				ABE8EFB3C0F3DCE8FE6A05F6 /* SFZSound.cpp in Sources */,
 				37F6514066A69756A0823BB1 /* SFZRegion.cpp in Sources */,
@@ -2808,7 +2812,7 @@
 				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PRODUCT_NAME = SFZero;
+				PRODUCT_NAME = "SFZero (Debug)";
 				WARNING_CFLAGS = "-Wreorder";
 				ZERO_LINK = NO;
 			};

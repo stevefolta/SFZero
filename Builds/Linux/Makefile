@@ -43,6 +43,7 @@ ifeq ($(CONFIG),Release)
 endif
 
 OBJECTS := \
+  $(OBJDIR)/SFZSample_a123fdf2.o \
   $(OBJDIR)/SFZReader_9958ac8b.o \
   $(OBJDIR)/SFZSound_a114f351.o \
   $(OBJDIR)/SFZRegion_21f6fa3c.o \
@@ -79,6 +80,11 @@ clean:
 	-@rm -f $(OUTDIR)/$(TARGET)
 	-@rm -rf $(OBJDIR)/*
 	-@rm -rf $(OBJDIR)
+
+$(OBJDIR)/SFZSample_a123fdf2.o: ../../Source/SFZSample.cpp
+	-@mkdir -p $(OBJDIR)
+	@echo "Compiling SFZSample.cpp"
+	@$(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
 $(OBJDIR)/SFZReader_9958ac8b.o: ../../Source/SFZReader.cpp
 	-@mkdir -p $(OBJDIR)
