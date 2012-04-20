@@ -1,72 +1,67 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-    It contains the basic startup code for a Juce application.
-
-  ==============================================================================
-*/
-
 #ifndef __PLUGINPROCESSOR_H_7DD34D53__
 #define __PLUGINPROCESSOR_H_7DD34D53__
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+class SFZSound;
 
-//==============================================================================
-/**
-*/
-class SFZeroAudioProcessor  : public AudioProcessor
-{
-public:
-    //==============================================================================
-    SFZeroAudioProcessor();
-    ~SFZeroAudioProcessor();
 
-    //==============================================================================
-    void prepareToPlay(double sampleRate, int samplesPerBlock);
-    void releaseResources();
+class SFZeroAudioProcessor  : public AudioProcessor {
+	public:
+		SFZeroAudioProcessor();
+		~SFZeroAudioProcessor();
 
-    void processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
+		void prepareToPlay(double sampleRate, int samplesPerBlock);
+		void releaseResources();
+		void processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
 
-    //==============================================================================
-    AudioProcessorEditor* createEditor();
-    bool hasEditor() const;
+		AudioProcessorEditor* createEditor();
+		bool hasEditor() const;
 
-    //==============================================================================
-    const String getName() const;
+		const String getName() const;
 
-    int getNumParameters();
+		int getNumParameters();
 
-    float getParameter(int index);
-    void setParameter(int index, float newValue);
+		float getParameter(int index);
+		void setParameter(int index, float newValue);
 
-    const String getParameterName(int index);
-    const String getParameterText(int index);
+		const String getParameterName(int index);
+		const String getParameterText(int index);
 
-    const String getInputChannelName(int channelIndex) const;
-    const String getOutputChannelName(int channelIndex) const;
-    bool isInputChannelStereoPair(int index) const;
-    bool isOutputChannelStereoPair(int index) const;
+		void	setSfzFile(File* newSfzFile);
+		File	getSfzFile() { return sfzFile; }
 
-    bool acceptsMidi() const;
-    bool producesMidi() const;
+		const String getInputChannelName(int channelIndex) const;
+		const String getOutputChannelName(int channelIndex) const;
+		bool isInputChannelStereoPair(int index) const;
+		bool isOutputChannelStereoPair(int index) const;
 
-    //==============================================================================
-    int getNumPrograms();
-    int getCurrentProgram();
-    void setCurrentProgram(int index);
-    const String getProgramName(int index);
-    void changeProgramName(int index, const String& newName);
+		bool acceptsMidi() const;
+		bool producesMidi() const;
 
-    //==============================================================================
-    void getStateInformation(MemoryBlock& destData);
-    void setStateInformation(const void* data, int sizeInBytes);
+		int getNumPrograms();
+		int getCurrentProgram();
+		void setCurrentProgram(int index);
+		const String getProgramName(int index);
+		void changeProgramName(int index, const String& newName);
 
-private:
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SFZeroAudioProcessor);
-};
+		void getStateInformation(MemoryBlock& destData);
+		void setStateInformation(const void* data, int sizeInBytes);
+
+		MidiKeyboardState	keyboardState;
+
+		SFZSound*	getSound();
+
+	protected:
+		File sfzFile;
+		Synthesiser synth;
+
+		void	loadSound();
+
+	private:
+		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SFZeroAudioProcessor);
+	};
+
 
 #endif  // __PLUGINPROCESSOR_H_7DD34D53__
+

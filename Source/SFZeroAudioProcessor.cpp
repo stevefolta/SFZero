@@ -1,18 +1,8 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-    It contains the basic startup code for a Juce application.
-
-  ==============================================================================
-*/
-
 #include "SFZeroAudioProcessor.h"
 #include "SFZeroEditor.h"
+#include "SFZSound.h"
 
 
-//==============================================================================
 SFZeroAudioProcessor::SFZeroAudioProcessor()
 {
 }
@@ -21,7 +11,6 @@ SFZeroAudioProcessor::~SFZeroAudioProcessor()
 {
 }
 
-//==============================================================================
 const String SFZeroAudioProcessor::getName() const
 {
     return JucePlugin_Name;
@@ -50,6 +39,14 @@ const String SFZeroAudioProcessor::getParameterText(int index)
 {
     return String::empty;
 }
+
+
+void SFZeroAudioProcessor::setSfzFile(File* newSfzFile)
+{
+	sfzFile = *newSfzFile;
+	loadSound();
+}
+
 
 const String SFZeroAudioProcessor::getInputChannelName(int channelIndex) const
 {
@@ -112,40 +109,29 @@ void SFZeroAudioProcessor::changeProgramName(int index, const String& newName)
 {
 }
 
-//==============================================================================
+
 void SFZeroAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+	synth.setCurrentPlaybackSampleRate(sampleRate);
+	keyboardState.reset();
 }
 
 void SFZeroAudioProcessor::releaseResources()
 {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
+	// When playback stops, you can use this as an opportunity to free up any
+	// spare memory, etc.
+	keyboardState.reset();
 }
+
 
 void SFZeroAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    for (int channel = 0; channel < getNumInputChannels(); ++channel)
-    {
-        float* channelData = buffer.getSampleData(channel);
-
-        // ..do something to the data...
-    }
-
-    // In case we have more outputs than inputs, we'll clear any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    for (int i = getNumInputChannels(); i < getNumOutputChannels(); ++i)
-    {
-        buffer.clear(i, 0, buffer.getNumSamples());
-    }
+	int numSamples = buffer.getNumSamples();
+	keyboardState.processNextMidiBuffer(midiMessages, 0, numSamples, true);
+	synth.renderNextBlock(buffer, midiMessages, 0, numSamples);
 }
 
-//==============================================================================
+
 bool SFZeroAudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
@@ -156,7 +142,7 @@ AudioProcessorEditor* SFZeroAudioProcessor::createEditor()
     return new SFZeroEditor(this);
 }
 
-//==============================================================================
+
 void SFZeroAudioProcessor::getStateInformation(MemoryBlock& destData)
 {
     // You should use this method to store your parameters in the memory block.
@@ -170,9 +156,32 @@ void SFZeroAudioProcessor::setStateInformation(const void* data, int sizeInBytes
     // whose contents will have been created by the getStateInformation() call.
 }
 
-//==============================================================================
-// This creates new instances of the plugin..
+
+SFZSound* SFZeroAudioProcessor::getSound()
+{
+	SynthesiserSound* sound = synth.getSound(0);
+	return dynamic_cast<SFZSound*>(sound);
+}
+
+
+void SFZeroAudioProcessor::loadSound()
+{
+	synth.clearSounds();
+
+	if (!sfzFile.existsAsFile()) {
+		//***
+		return;
+		}
+
+	SFZSound* sound = new SFZSound(sfzFile);
+	synth.addSound(sound);
+}
+
+
+
+
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new SFZeroAudioProcessor();
 }
+
