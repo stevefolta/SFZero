@@ -20,6 +20,8 @@ class SFZSound : public SynthesiserSound {
 		void	addError(const String& message);
 		void	addUnsupportedOpcode(const String& opcode);
 
+		void	loadSamples(double* progressVar = NULL);
+
 		void	dump();
 
 	protected:

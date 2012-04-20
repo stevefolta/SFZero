@@ -41,10 +41,10 @@ const String SFZeroAudioProcessor::getParameterText(int index)
 }
 
 
-void SFZeroAudioProcessor::setSfzFile(File* newSfzFile)
+void SFZeroAudioProcessor::setSfzFile(File* newSfzFile, double* progressVar)
 {
 	sfzFile = *newSfzFile;
-	loadSound();
+	loadSound(progressVar);
 }
 
 
@@ -164,7 +164,7 @@ SFZSound* SFZeroAudioProcessor::getSound()
 }
 
 
-void SFZeroAudioProcessor::loadSound()
+void SFZeroAudioProcessor::loadSound(double* progressVar)
 {
 	synth.clearSounds();
 
@@ -174,6 +174,8 @@ void SFZeroAudioProcessor::loadSound()
 		}
 
 	SFZSound* sound = new SFZSound(sfzFile);
+	sound->loadSamples(progressVar);
+
 	synth.addSound(sound);
 }
 

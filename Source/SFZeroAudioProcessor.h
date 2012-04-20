@@ -28,7 +28,7 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 		const String getParameterName(int index);
 		const String getParameterText(int index);
 
-		void	setSfzFile(File* newSfzFile);
+		void	setSfzFile(File* newSfzFile, double* progressVar = NULL);
 		File	getSfzFile() { return sfzFile; }
 
 		const String getInputChannelName(int channelIndex) const;
@@ -56,7 +56,7 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 		File sfzFile;
 		Synthesiser synth;
 
-		void	loadSound();
+		void	loadSound(double* progressVar = NULL);
 
 	private:
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SFZeroAudioProcessor);

@@ -9,6 +9,7 @@ class SFZSample {
 		SFZSample(const File& fileIn)
 			: file(fileIn) {}
 
+		void	load();
 		File	getFile() { return file; }
 		String	getShortName();
 		void	dump();

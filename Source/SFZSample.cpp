@@ -1,6 +1,12 @@
 #include "SFZSample.h"
 
 
+void SFZSample::load()
+{
+	/***/
+}
+
+
 String SFZSample::getShortName()
 {
 	return file.getFileName();

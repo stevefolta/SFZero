@@ -1,6 +1,15 @@
 #include "SFZeroEditor.h"
 #include "SFZeroAudioProcessor.h"
 
+enum {
+	hMargin = 10,
+	vMargin = 10,
+	buttonHeight = 25,
+	labelHeight = 25,
+	progressBarHeight = 40,
+	keyboardHeight = 70,
+	};
+
 
 SFZeroEditor::SFZeroEditor(SFZeroAudioProcessor* ownerFilter)
 	: AudioProcessorEditor(ownerFilter),
@@ -44,13 +53,6 @@ void SFZeroEditor::paint(Graphics& g)
 
 void SFZeroEditor::resized()
 {
-	enum {
-		hMargin = 10,
-		vMargin = 10,
-		buttonHeight = 25,
-		labelHeight = 25,
-		keyboardHeight = 70,
-		};
 	int marginedWidth = getWidth() - 2 * hMargin;
 
 	fileLabel.setBounds(
@@ -94,7 +96,23 @@ void SFZeroEditor::chooseFile()
 
 void SFZeroEditor::setFile(File* newFile)
 {
-	getProcessor()->setSfzFile(newFile);
+	double progress;
+	pathLabel.setVisible(false);
+	fileLabel.setVisible(false);
+	ProgressBar progressBar(progress);
+	addAndMakeVisible(&progressBar);
+	int marginedWidth = getWidth() - 2 * hMargin;
+	progressBar.setBounds(
+		hMargin, vMargin, marginedWidth, progressBarHeight);
+
+	getProcessor()->setSfzFile(newFile, &progress);
+
+	//*** Show errors etc.
+
+	removeChildComponent(&progressBar);
+	pathLabel.setVisible(true);
+	fileLabel.setVisible(true);
+
 	updateFile(newFile);
 }
 
