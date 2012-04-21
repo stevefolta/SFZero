@@ -22,6 +22,8 @@ class SFZSound : public SynthesiserSound {
 
 		void	loadSamples(AudioFormatManager* formatManager, double* progressVar = NULL);
 
+		String	getErrorsString();
+
 		void	dump();
 
 	protected:

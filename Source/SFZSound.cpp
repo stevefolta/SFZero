@@ -91,6 +91,23 @@ void SFZSound::loadSamples(AudioFormatManager* formatManager, double* progressVa
 }
 
 
+String SFZSound::getErrorsString()
+{
+	String result;
+	int numErrors = errors.size();
+	for (int i = 0; i < numErrors; ++i)
+		result += errors[i] + "\n";
+
+	if (unusedOpcodes.size() > 0) {
+		result += "\nUnsupported opcodes:";
+		for (HashMap<String,String>::Iterator i(unusedOpcodes); i.next();)
+			result += " " + i.getKey();
+		result += "\n";
+		}
+	return result;
+}
+
+
 void SFZSound::dump()
 {
 	int i;
