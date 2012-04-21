@@ -5,8 +5,8 @@
 
 SFZeroAudioProcessor::SFZeroAudioProcessor()
 {
-	formatManager.registerFormat(new AiffAudioFormat(), false);
 	formatManager.registerFormat(new WavAudioFormat(), false);
+	formatManager.registerFormat(new OggVorbisAudioFormat(), false);
 }
 
 SFZeroAudioProcessor::~SFZeroAudioProcessor()
