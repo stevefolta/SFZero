@@ -91,6 +91,19 @@ void SFZSound::loadSamples(AudioFormatManager* formatManager, double* progressVa
 }
 
 
+SFZRegion* SFZSound::getRegionFor(int note, int velocity)
+{
+	int numRegions = regions.size();
+	for (int i = 0; i < numRegions; ++i) {
+		SFZRegion* region = regions[i];
+		if (region->matches(note, velocity, SFZRegion::attack))
+			return region;
+		}
+
+	return NULL;
+}
+
+
 String SFZSound::getErrorsString()
 {
 	String result;

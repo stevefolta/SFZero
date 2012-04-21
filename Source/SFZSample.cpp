@@ -6,6 +6,7 @@ bool SFZSample::load(AudioFormatManager* formatManager)
 	AudioFormatReader* reader = formatManager->createReaderFor(file);
 	if (reader == NULL)
 		return false;
+	sampleRate = reader->sampleRate;
 	buffer = new AudioSampleBuffer(reader->numChannels, reader->lengthInSamples);
 	reader->read(buffer, 0, reader->lengthInSamples, 0, true, true);
 	delete reader;

@@ -7,5 +7,6 @@ $EDITOR 	\
 	SFZRegion.{h,cpp} 	\
 	SFZSample.{h,cpp} 	\
 	SFZReader.{h,cpp} 	\
+	SFZVoice.{h,cpp} 	\
 
 

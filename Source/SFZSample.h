@@ -12,12 +12,15 @@ class SFZSample {
 
 		bool	load(AudioFormatManager* formatManager);
 		File	getFile() { return file; }
+		AudioSampleBuffer*	getBuffer() { return buffer; }
+		double	getSampleRate() { return sampleRate; }
 		String	getShortName();
 		void	dump();
 
 	protected:
 		File	file;
 		AudioSampleBuffer*	buffer;
+		double	sampleRate;
 	};
 
 

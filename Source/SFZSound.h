@@ -22,6 +22,8 @@ class SFZSound : public SynthesiserSound {
 
 		void	loadSamples(AudioFormatManager* formatManager, double* progressVar = NULL);
 
+		SFZRegion*	getRegionFor(int note, int velocity);
+
 		String	getErrorsString();
 
 		void	dump();
