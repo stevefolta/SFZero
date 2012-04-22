@@ -30,6 +30,8 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 		double    	pitchRatio;
 		float     	gainLeft, gainRight;
 		double    	sourceSamplePosition;
+
+		void	killNote();
 	};
 
 

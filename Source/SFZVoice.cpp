@@ -2,6 +2,9 @@
 #include "SFZSound.h"
 #include "SFZRegion.h"
 #include "SFZSample.h"
+#include "SFZDebug.h"
+
+static const float globalGain = -4.0;
 
 
 SFZVoice::SFZVoice()
@@ -29,21 +32,23 @@ void SFZVoice::startNote(
 {
 	SFZSound* sound = dynamic_cast<SFZSound*>(soundIn);
 	if (sound == NULL) {
-		clearCurrentNote();
+		killNote();
 		return;
 		}
 
-	region = sound->getRegionFor(midiNoteNumber, (int) velocity * 127.0);
+	region = sound->getRegionFor(midiNoteNumber, (int) (velocity * 127.0));
 	if (region == NULL || region->sample == NULL || region->sample->getBuffer() == NULL) {
-		clearCurrentNote();
+		killNote();
 		return;
 		}
 
 	double targetFreq = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 	double naturalFreq = MidiMessage::getMidiNoteInHertz(region->pitch_keycenter);
-	pitchRatio = (targetFreq * region->sample->getSampleRate()) / (naturalFreq * getSampleRate());
+	pitchRatio =
+		(targetFreq * region->sample->getSampleRate()) /
+		(naturalFreq * getSampleRate());
 
-	gainLeft = gainRight = region->volume;
+	gainLeft = gainRight = Decibels::decibelsToGain(globalGain + region->volume);
 	sourceSamplePosition = 0.0;
 	//***
 }
@@ -52,12 +57,12 @@ void SFZVoice::startNote(
 void SFZVoice::stopNote(const bool allowTailOff)
 {
 	if (!allowTailOff) {
-		clearCurrentNote();
+		killNote();
 		return;
 		}
 
 	/***/
-	clearCurrentNote();
+	killNote();
 }
 
 
@@ -78,6 +83,9 @@ void SFZVoice::controllerMoved(
 void SFZVoice::renderNextBlock(
 	AudioSampleBuffer& outputBuffer, int startSample, int numSamples)
 {
+	if (region == NULL)
+		return;
+
 	AudioSampleBuffer* buffer = region->sample->getBuffer();
 	const float* inL = buffer->getSampleData(0, 0);
 	const float* inR =
@@ -85,11 +93,13 @@ void SFZVoice::renderNextBlock(
 	float sourceLength = buffer->getNumSamples();
 
 	float* outL = outputBuffer.getSampleData(0, startSample);
-	float* outR = outputBuffer.getNumChannels() > 1 ? outputBuffer.getSampleData(1, startSample) : nullptr;
+	float* outR =
+		outputBuffer.getNumChannels() > 1 ?
+		outputBuffer.getSampleData(1, startSample) : NULL;
 
-	float sourceSamplePosition = this->sourceSamplePosition;
+	double sourceSamplePosition = this->sourceSamplePosition;
 
-	while (--numSamples > 0) {
+	while (--numSamples >= 0) {
 		int pos = (int) sourceSamplePosition;
 		float alpha = (float) (sourceSamplePosition - pos);
 		float invAlpha = 1.0f - alpha;
@@ -117,6 +127,13 @@ void SFZVoice::renderNextBlock(
 		}
 
 	this->sourceSamplePosition = sourceSamplePosition;
+}
+
+
+void SFZVoice::killNote()
+{
+	region = NULL;
+	clearCurrentNote();
 }
 
 

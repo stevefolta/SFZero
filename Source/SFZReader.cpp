@@ -2,13 +2,7 @@
 #include "SFZRegion.h"
 #include "SFZSound.h"
 #include "StringSlice.h"
-
-#undef DBG
-#if JUCE_DEBUG
-	#define DBG(msg)	Logger::writeToLog(msg)
-#else
-	#define	DBG(msg)
-#endif
+#include "SFZDebug.h"
 
 
 SFZReader::SFZReader(SFZSound* soundIn)
@@ -24,7 +18,6 @@ SFZReader::~SFZReader()
 
 void SFZReader::read(const File& file)
 {
-	DBG("Reading \"" + file.getFullPathName() + "\"");
 	MemoryBlock contents;
 	bool ok = file.loadFileAsData(contents);
 	if (!ok) {
@@ -182,8 +175,12 @@ void SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->lokey = keyValue(value);
 					else if (opcode == "hikey")
 						buildingRegion->hikey = keyValue(value);
-					else if (opcode == "key")
-						buildingRegion->hikey = buildingRegion->lokey = keyValue(value);
+					else if (opcode == "key") {
+						buildingRegion->hikey =
+						buildingRegion->lokey =
+						buildingRegion->pitch_keycenter =
+							keyValue(value);
+						}
 					else if (opcode == "lovel")
 						buildingRegion->lovel = value.getIntValue();
 					else if (opcode == "hivel")

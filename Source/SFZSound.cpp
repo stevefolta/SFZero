@@ -2,6 +2,7 @@
 #include "SFZRegion.h"
 #include "SFZSample.h"
 #include "SFZReader.h"
+#include "SFZDebug.h"
 
 
 SFZSound::SFZSound(const File& fileIn)

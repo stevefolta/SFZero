@@ -1,12 +1,23 @@
 #include "SFZeroAudioProcessor.h"
 #include "SFZeroEditor.h"
 #include "SFZSound.h"
+#include "SFZVoice.h"
 
 
 SFZeroAudioProcessor::SFZeroAudioProcessor()
 {
+#if JUCE_DEBUG
+	Logger::setCurrentLogger(
+		FileLogger::createDefaultAppLogger(
+			"SFZero", "SFZero.log", "SFZero started"),
+		true);
+#endif
+
 	formatManager.registerFormat(new WavAudioFormat(), false);
 	formatManager.registerFormat(new OggVorbisAudioFormat(), false);
+
+	for (int i = 0; i < 32; ++i)
+		synth.addVoice(new SFZVoice());
 }
 
 SFZeroAudioProcessor::~SFZeroAudioProcessor()
