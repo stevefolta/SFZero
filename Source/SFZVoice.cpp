@@ -45,8 +45,10 @@ void SFZVoice::startNote(
 		return;
 		}
 
+	double note = midiNoteNumber;
+
 	double sampleRate = getSampleRate();
-	double targetFreq = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+	double targetFreq = noteHz(note);
 	double naturalFreq = MidiMessage::getMidiNoteInHertz(region->pitch_keycenter);
 	pitchRatio =
 		(targetFreq * region->sample->getSampleRate()) /
@@ -166,6 +168,15 @@ void SFZVoice::killNote()
 {
 	region = NULL;
 	clearCurrentNote();
+}
+
+
+double SFZVoice::noteHz(double note, const double freqOfA)
+{
+	// Like MidiMessage::getMidiNoteInHertz(), but with a float note.
+	note -= 12 * 6 + 9;
+	// Now 0 = A
+	return freqOfA * pow(2.0, note / 12.0);
 }
 
 

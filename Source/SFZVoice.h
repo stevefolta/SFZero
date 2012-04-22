@@ -34,6 +34,7 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 		SFZEG     	ampeg;
 
 		void	killNote();
+		double	noteHz(double note, const double freqOfA = 440.0);
 	};
 
 
