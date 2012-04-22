@@ -213,6 +213,32 @@ void SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->pan = value.getFloatValue();
 					else if (opcode == "amp_veltrack")
 						buildingRegion->amp_veltrack = value.getFloatValue();
+					else if (opcode == "ampeg_delay")
+						buildingRegion->ampeg.delay = value.getFloatValue();
+					else if (opcode == "ampeg_start")
+						buildingRegion->ampeg.start = value.getFloatValue();
+					else if (opcode == "ampeg_attack")
+						buildingRegion->ampeg.attack = value.getFloatValue();
+					else if (opcode == "ampeg_hold")
+						buildingRegion->ampeg.hold = value.getFloatValue();
+					else if (opcode == "ampeg_decay")
+						buildingRegion->ampeg.decay = value.getFloatValue();
+					else if (opcode == "ampeg_sustain")
+						buildingRegion->ampeg.sustain = value.getFloatValue();
+					else if (opcode == "ampeg_release")
+						buildingRegion->ampeg.release = value.getFloatValue();
+					else if (opcode == "ampeg_vel2delay")
+						buildingRegion->ampeg_veltrack.delay = value.getFloatValue();
+					else if (opcode == "ampeg_vel2attack")
+						buildingRegion->ampeg_veltrack.attack = value.getFloatValue();
+					else if (opcode == "ampeg_vel2hold")
+						buildingRegion->ampeg_veltrack.hold = value.getFloatValue();
+					else if (opcode == "ampeg_vel2decay")
+						buildingRegion->ampeg_veltrack.decay = value.getFloatValue();
+					else if (opcode == "ampeg_vel2sustain")
+						buildingRegion->ampeg_veltrack.sustain = value.getFloatValue();
+					else if (opcode == "ampeg_vel2release")
+						buildingRegion->ampeg_veltrack.release = value.getFloatValue();
 					else
 						sound->addUnsupportedOpcode(String(opcode.start, opcode.length()));
 					}

@@ -39,7 +39,7 @@ void SFZRegion::clear()
 	volume = pan = 0.0;
 	amp_veltrack = 100.0;
 	ampeg.clear();
-	ampeg_veltrack.clear();
+	ampeg_veltrack.clearMod();
 }
 
 
