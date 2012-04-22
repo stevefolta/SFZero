@@ -121,7 +121,7 @@ void SFZVoice::renderNextBlock(
 		float r = inR ? (inR[pos] * invAlpha + inR[pos + 1] * alpha) : l;
 
 		float gainLeft = noteGainLeft * ampegGain;
-		float gainRight = gainRight * ampegGain;
+		float gainRight = noteGainRight * ampegGain;
 		l *= gainLeft;
 		r *= gainRight;
 		// Shouldn't we dither here?
@@ -138,6 +138,9 @@ void SFZVoice::renderNextBlock(
 		if (--samplesUntilNextAmpSegment < 0) {
 			ampeg.level = ampegGain;
 			ampeg.nextSegment();
+			ampegGain = ampeg.level;
+			ampegSlope = ampeg.slope;
+			samplesUntilNextAmpSegment = ampeg.samplesUntilNextSegment;
 			}
 
 		if (sourceSamplePosition > sourceLength || ampeg.isDone()) {

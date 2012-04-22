@@ -1,4 +1,5 @@
 #include "SFZEG.h"
+#include "SFZDebug.h"
 
 
 SFZEG::SFZEG()
@@ -26,18 +27,7 @@ void SFZEG::startNote(
 		}
 	sampleRate = newSampleRate;
 
-	if (parameters.delay <= 0) {
-		segment = Attack;
-		level = parameters.start / 100.0;
-		samplesUntilNextSegment = parameters.attack * sampleRate;
-		slope = 1.0 / samplesUntilNextSegment;
-		}
-	else {
-		segment = Delay;
-		level = 0.0;
-		slope = 0.0;
-		samplesUntilNextSegment = parameters.delay * sampleRate;
-		}
+	startDelay();
 }
 
 
@@ -65,6 +55,7 @@ void SFZEG::nextSegment()
 			break;
 
 		case Release:
+		default:
 			segment = Done;
 			break;
 		}
@@ -136,8 +127,8 @@ void SFZEG::startSustain()
 	else {
 		segment = Sustain;
 		level = parameters.sustain / 100.0;
-		slope = 1.0;
-		samplesUntilNextSegment = 0xFFFFFFFF;
+		slope = 0.0;
+		samplesUntilNextSegment = 0x7FFFFFFF;
 		}
 }
 
@@ -151,7 +142,7 @@ void SFZEG::startRelease()
 		}
 
 	segment = Release;
-	samplesUntilNextSegment = parameters.release * sampleRate;
+	samplesUntilNextSegment = release * sampleRate;
 	slope = -level / samplesUntilNextSegment;
 }
 

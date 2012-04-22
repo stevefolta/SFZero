@@ -15,9 +15,9 @@ class SFZEG {
 		void	noteOff();
 		bool	isDone() { return segment == Done; }
 
-		float       	level;
-		float       	slope;
-		unsigned int	samplesUntilNextSegment;
+		float	level;
+		float	slope;
+		long 	samplesUntilNextSegment;
 
 	protected:
 		enum Segment {
