@@ -185,8 +185,10 @@ void SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->lovel = value.getIntValue();
 					else if (opcode == "hivel")
 						buildingRegion->hivel = value.getIntValue();
+/***
 					else if (opcode == "trigger")
 						buildingRegion->trigger = (SFZRegion::Trigger) triggerValue(value);
+***/
 					else if (opcode == "group")
 						buildingRegion->group = (unsigned long) value.getLargeIntValue();
 					else if (opcode == "off_by")
@@ -195,12 +197,21 @@ void SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->offset = (unsigned long) value.getLargeIntValue();
 					else if (opcode == "end")
 						buildingRegion->end = (unsigned long) value.getLargeIntValue();
-					else if (opcode == "loop_mode")
-						buildingRegion->loop_mode = (SFZRegion::LoopMode) loopModeValue(value);
+					else if (opcode == "loop_mode") {
+						if (value == "no_loop" || value == "one_shot")
+							buildingRegion->loop_mode = (SFZRegion::LoopMode) loopModeValue(value);
+						else {
+							String fauxOpcode =
+								String(opcode.start, opcode.length()) + "=" + value;
+							sound->addUnsupportedOpcode(fauxOpcode);
+							}
+						}
+/***
 					else if (opcode == "loop_start")
 						buildingRegion->loop_start = (unsigned long) value.getLargeIntValue();
 					else if (opcode == "loop_end")
 						buildingRegion->loop_end = (unsigned long) value.getLargeIntValue();
+***/
 					else if (opcode == "transpose")
 						buildingRegion->transpose = value.getIntValue();
 					else if (opcode == "tune")
@@ -211,8 +222,10 @@ void SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->pitch_keytrack = value.getIntValue();
 					else if (opcode == "volume")
 						buildingRegion->volume = value.getFloatValue();
+/***
 					else if (opcode == "pan")
 						buildingRegion->pan = value.getFloatValue();
+***/
 					else if (opcode == "amp_veltrack")
 						buildingRegion->amp_veltrack = value.getFloatValue();
 					else if (opcode == "ampeg_delay")
