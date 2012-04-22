@@ -45,19 +45,9 @@ void SFZVoice::startNote(
 		return;
 		}
 
-	double note = midiNoteNumber;
-	note += region->transpose;
-	note += region->tune / 100.0;
-
-	double sampleRate = getSampleRate();
-	double adjustedPitch =
-		region->pitch_keycenter + (note - region->pitch_keycenter) *
-		(region->pitch_keytrack / 100.0);
-	double targetFreq = noteHz(adjustedPitch);
-	double naturalFreq = MidiMessage::getMidiNoteInHertz(region->pitch_keycenter);
-	pitchRatio =
-		(targetFreq * region->sample->getSampleRate()) /
-		(naturalFreq * sampleRate);
+	curMidiNote = midiNoteNumber;
+	curPitchWheel = currentPitchWheelPosition;
+	calcPitchRatio();
 
 	double noteGainDB = globalGain + region->volume;
 	// Thanks to <http:://www.drealm.info/sfz/plj-sfz.xhtml> for explaining the
@@ -68,7 +58,8 @@ void SFZVoice::startNote(
 	noteGainDB += velocityGainDB;
 	noteGainLeft = noteGainRight = Decibels::decibelsToGain(noteGainDB);
 	sourceSamplePosition = 0.0;
-	ampeg.startNote(&region->ampeg, floatVelocity, sampleRate, &region->ampeg_veltrack);
+	ampeg.startNote(
+		&region->ampeg, floatVelocity, getSampleRate(), &region->ampeg_veltrack);
 }
 
 
@@ -95,7 +86,11 @@ void SFZVoice::stopNoteForGroup()
 
 void SFZVoice::pitchWheelMoved(const int newValue)
 {
-	/***/
+	if (region == NULL)
+		return;
+
+	curPitchWheel = newValue;
+	calcPitchRatio();
 }
 
 
@@ -189,6 +184,31 @@ int SFZVoice::getOffBy()
 	return (region ? region->off_by : 0);
 }
 
+
+
+void SFZVoice::calcPitchRatio()
+{
+	double note = curMidiNote;
+	note += region->transpose;
+	note += region->tune / 100.0;
+
+	double sampleRate = getSampleRate();
+	double adjustedPitch =
+		region->pitch_keycenter +
+		(note - region->pitch_keycenter) * (region->pitch_keytrack / 100.0);
+	if (curPitchWheel != 8192) {
+		double wheel = ((2.0 * curPitchWheel / 16383.0) - 1.0);
+		if (wheel > 0)
+			adjustedPitch += wheel * region->bend_up / 100.0;
+		else
+			adjustedPitch += wheel * region->bend_down / -100.0;
+		}
+	double targetFreq = noteHz(adjustedPitch);
+	double naturalFreq = MidiMessage::getMidiNoteInHertz(region->pitch_keycenter);
+	pitchRatio =
+		(targetFreq * region->sample->getSampleRate()) /
+		(naturalFreq * sampleRate);
+}
 
 
 void SFZVoice::killNote()

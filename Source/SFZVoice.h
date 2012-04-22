@@ -32,11 +32,13 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 
 	protected:
 		SFZRegion*	region;
+		int       	curMidiNote, curPitchWheel;
 		double    	pitchRatio;
 		float     	noteGainLeft, noteGainRight;
 		double    	sourceSamplePosition;
 		SFZEG     	ampeg;
 
+		void	calcPitchRatio();
 		void	killNote();
 		double	noteHz(double note, const double freqOfA = 440.0);
 	};

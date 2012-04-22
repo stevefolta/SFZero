@@ -51,6 +51,7 @@ class SFZRegion {
 		int transpose;
 		int tune;
 		int pitch_keycenter, pitch_keytrack;
+		int bend_up, bend_down;
 
 		float volume, pan;
 		float amp_veltrack;
