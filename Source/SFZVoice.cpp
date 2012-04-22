@@ -44,11 +44,12 @@ void SFZVoice::startNote(
 		return;
 		}
 
+	double sampleRate = getSampleRate();
 	double targetFreq = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 	double naturalFreq = MidiMessage::getMidiNoteInHertz(region->pitch_keycenter);
 	pitchRatio =
 		(targetFreq * region->sample->getSampleRate()) /
-		(naturalFreq * getSampleRate());
+		(naturalFreq * sampleRate);
 
 	double noteGainDB = globalGain + region->volume;
 	// Thanks to <http:://www.drealm.info/sfz/plj-sfz.xhtml> for explaining the
@@ -59,6 +60,7 @@ void SFZVoice::startNote(
 	noteGainDB += velocityGainDB;
 	noteGainLeft = noteGainRight = Decibels::decibelsToGain(noteGainDB);
 	sourceSamplePosition = 0.0;
+	ampeg.startNote(&region->ampeg, floatVelocity, sampleRate, &region->ampeg_veltrack);
 }
 
 
@@ -69,8 +71,7 @@ void SFZVoice::stopNote(const bool allowTailOff)
 		return;
 		}
 
-	/***/
-	killNote();
+	ampeg.noteOff();
 }
 
 
@@ -106,6 +107,9 @@ void SFZVoice::renderNextBlock(
 		outputBuffer.getSampleData(1, startSample) : NULL;
 
 	double sourceSamplePosition = this->sourceSamplePosition;
+	float ampegGain = ampeg.level;
+	float ampegSlope = ampeg.slope;
+	long samplesUntilNextAmpSegment = ampeg.samplesUntilNextSegment;
 
 	while (--numSamples >= 0) {
 		int pos = (int) sourceSamplePosition;
@@ -116,8 +120,11 @@ void SFZVoice::renderNextBlock(
 		float l = (inL[pos] * invAlpha + inL[pos + 1] * alpha);
 		float r = inR ? (inR[pos] * invAlpha + inR[pos + 1] * alpha) : l;
 
-		l *= noteGainLeft;
-		r *= noteGainRight;
+		float gainLeft = noteGainLeft * ampegGain;
+		float gainRight = gainRight * ampegGain;
+		l *= gainLeft;
+		r *= gainRight;
+		// Shouldn't we dither here?
 
 		if (outR) {
 			*outL++ += l;
@@ -127,14 +134,21 @@ void SFZVoice::renderNextBlock(
 			*outL++ += (l + r) * 0.5f;
 
 		sourceSamplePosition += pitchRatio;
+		ampegGain += ampegSlope;
+		if (--samplesUntilNextAmpSegment < 0) {
+			ampeg.level = ampegGain;
+			ampeg.nextSegment();
+			}
 
-		if (sourceSamplePosition > sourceLength) {
+		if (sourceSamplePosition > sourceLength || ampeg.isDone()) {
 			stopNote (false);
 			break;
 			}
 		}
 
 	this->sourceSamplePosition = sourceSamplePosition;
+	ampeg.level = ampegGain;
+	ampeg.samplesUntilNextSegment = samplesUntilNextAmpSegment;
 }
 
 

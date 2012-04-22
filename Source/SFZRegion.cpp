@@ -4,6 +4,26 @@
 #include <stdio.h>
 
 
+void SFZEGParameters::clear()
+{
+	delay = 0.0;
+	start = 0.0;
+	attack = 0.0;
+	hold = 0.0;
+	decay = 0.0;
+	sustain = 100.0;
+	release = 0.0;
+}
+
+
+void SFZEGParameters::clearMod()
+{
+	// Clear for velocity or other modification.
+	delay = start = attack = hold = decay = sustain = release = 0.0;
+}
+
+
+
 SFZRegion::SFZRegion()
 {
 	clear();
@@ -18,6 +38,8 @@ void SFZRegion::clear()
 	pitch_keycenter = 60; 	// C4
 	volume = pan = 0.0;
 	amp_veltrack = 100.0;
+	ampeg.clear();
+	ampeg_veltrack.clear();
 }
 
 

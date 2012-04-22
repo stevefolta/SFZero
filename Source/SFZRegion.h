@@ -6,6 +6,13 @@ class SFZSample;
 
 // SFZRegion is designed to be able to be bitwise-copied.
 
+struct SFZEGParameters {
+	float	delay, start, attack, hold, decay, sustain, release;
+
+	void	clear();
+	void	clearMod();
+	};
+
 class SFZRegion {
 	public:
 		enum Trigger {
@@ -43,6 +50,8 @@ class SFZRegion {
 
 		float volume, pan;
 		float amp_veltrack;
+
+		SFZEGParameters	ampeg, ampeg_veltrack;
 	};
 
 

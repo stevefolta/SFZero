@@ -2,6 +2,7 @@
 #define SFZVoice_h
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "SFZEG.h"
 
 class SFZRegion;
 
@@ -30,6 +31,7 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 		double    	pitchRatio;
 		float     	noteGainLeft, noteGainRight;
 		double    	sourceSamplePosition;
+		SFZEG     	ampeg;
 
 		void	killNote();
 	};

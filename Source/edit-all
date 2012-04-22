@@ -8,5 +8,6 @@ $EDITOR 	\
 	SFZSample.{h,cpp} 	\
 	SFZReader.{h,cpp} 	\
 	SFZVoice.{h,cpp} 	\
+	SFZEG.{h,cpp} 	\
 
 

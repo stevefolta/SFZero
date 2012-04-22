@@ -30,6 +30,7 @@
   </EXPORTFORMATS>
   <MAINGROUP id="STGh0u" name="SFZero">
     <GROUP id="{1110531B-E755-9964-D428-0B0E27C2D745}" name="Source">
+      <FILE id="sS7JgC" name="SFZEG.cpp" compile="1" resource="0" file="Source/SFZEG.cpp"/>
       <FILE id="iUWz27" name="SFZVoice.cpp" compile="1" resource="0" file="Source/SFZVoice.cpp"/>
       <FILE id="NiGfnB" name="SFZSample.cpp" compile="1" resource="0" file="Source/SFZSample.cpp"/>
       <FILE id="NBnZcx" name="SFZReader.cpp" compile="1" resource="0" file="Source/SFZReader.cpp"/>
