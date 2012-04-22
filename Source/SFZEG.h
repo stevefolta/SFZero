@@ -6,8 +6,11 @@
 
 class SFZEG {
 	public:
+		static const float bottomLevel = 0.001;
+
 		SFZEG();
 
+		void	setExponentialDecay(bool newExponentialDecay);
 		void	startNote(
 			const SFZEGParameters* parameters, float floatVelocity, float sampleRate,
 			const SFZEGParameters* velMod = 0);
@@ -18,6 +21,7 @@ class SFZEG {
 		float	level;
 		float	slope;
 		long 	samplesUntilNextSegment;
+		bool	segmentIsExponential;
 
 	protected:
 		enum Segment {
@@ -26,6 +30,7 @@ class SFZEG {
 		Segment	segment;
 		SFZEGParameters	parameters;
 		float	sampleRate;
+		bool	exponentialDecay;
 
 		void	startDelay();
 		void	startAttack();

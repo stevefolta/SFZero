@@ -11,6 +11,7 @@ static const float globalGain = -4.0;
 SFZVoice::SFZVoice()
 	: region(NULL)
 {
+	ampeg.setExponentialDecay(true);
 }
 
 
@@ -110,6 +111,7 @@ void SFZVoice::renderNextBlock(
 	float ampegGain = ampeg.level;
 	float ampegSlope = ampeg.slope;
 	long samplesUntilNextAmpSegment = ampeg.samplesUntilNextSegment;
+	bool ampSegmentIsExponential = ampeg.segmentIsExponential;
 
 	while (--numSamples >= 0) {
 		int pos = (int) sourceSamplePosition;
@@ -134,13 +136,17 @@ void SFZVoice::renderNextBlock(
 			*outL++ += (l + r) * 0.5f;
 
 		sourceSamplePosition += pitchRatio;
-		ampegGain += ampegSlope;
+		if (ampSegmentIsExponential)
+			ampegGain *= ampegSlope;
+		else
+			ampegGain += ampegSlope;
 		if (--samplesUntilNextAmpSegment < 0) {
 			ampeg.level = ampegGain;
 			ampeg.nextSegment();
 			ampegGain = ampeg.level;
 			ampegSlope = ampeg.slope;
 			samplesUntilNextAmpSegment = ampeg.samplesUntilNextSegment;
+			ampSegmentIsExponential = ampeg.segmentIsExponential;
 			}
 
 		if (sourceSamplePosition > sourceLength || ampeg.isDone()) {
