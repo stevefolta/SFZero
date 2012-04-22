@@ -3,6 +3,13 @@
 #include "SFZSound.h"
 #include "StringSlice.h"
 
+#undef DBG
+#if JUCE_DEBUG
+	#define DBG(msg)	Logger::writeToLog(msg)
+#else
+	#define	DBG(msg)
+#endif
+
 
 SFZReader::SFZReader(SFZSound* soundIn)
 	: sound(soundIn), line(1)
@@ -17,6 +24,7 @@ SFZReader::~SFZReader()
 
 void SFZReader::read(const File& file)
 {
+	DBG("Reading \"" + file.getFullPathName() + "\"");
 	MemoryBlock contents;
 	bool ok = file.loadFileAsData(contents);
 	if (!ok) {
@@ -246,8 +254,31 @@ const char* SFZReader::handleLineEnd(const char* p)
 
 int SFZReader::keyValue(const String& str)
 {
-	/***/
-	return str.getIntValue();
+	char c = str[0];
+	if (c >= '0' && c <= '9')
+		return str.getIntValue();
+
+	int note = 0;
+	static const int notes[] = {
+		12 + 0, 12 + 2, 3, 5, 7, 8, 10,
+		};
+	if (c >= 'A' && c <= 'G')
+		note = notes[c - 'A'];
+	else if (c >= 'a' && c <= 'g')
+		note = notes[c - 'a'];
+	int octaveStart = 1;
+	c = str[1];
+	if (c == 'b' || c == '#') {
+		octaveStart += 1;
+		if (c == 'b')
+			note -= 1;
+		else
+			note += 1;
+		}
+	int octave = str.substring(octaveStart).getIntValue();
+	// A3 == 57.
+	int result = octave * 12 + note + (57 - 4 * 12);
+	return result;
 }
 
 
