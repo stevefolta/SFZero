@@ -9,8 +9,10 @@
 #undef DBG
 #if JUCE_DEBUG
 	#define DBG(msg)	Logger::writeToLog(msg)
+	#define SHOW(item)	DBG( #item " = " + String(item) )
 #else
 	#define	DBG(msg)
+	#define	SHOW(msg)
 #endif
 
 
