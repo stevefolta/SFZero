@@ -67,12 +67,13 @@ void SFZVoice::startNote(
 
 void SFZVoice::stopNote(const bool allowTailOff)
 {
-	if (!allowTailOff) {
+	if (!allowTailOff || region == NULL) {
 		killNote();
 		return;
 		}
 
-	ampeg.noteOff();
+	if (region->loop_mode != SFZRegion::one_shot)
+		ampeg.noteOff();
 }
 
 
