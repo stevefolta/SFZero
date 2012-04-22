@@ -28,7 +28,7 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 	protected:
 		SFZRegion*	region;
 		double    	pitchRatio;
-		float     	gainLeft, gainRight;
+		float     	noteGainLeft, noteGainRight;
 		double    	sourceSamplePosition;
 
 		void	killNote();

@@ -211,6 +211,8 @@ void SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->volume = value.getFloatValue();
 					else if (opcode == "pan")
 						buildingRegion->pan = value.getFloatValue();
+					else if (opcode == "amp_veltrack")
+						buildingRegion->amp_veltrack = value.getFloatValue();
 					else
 						sound->addUnsupportedOpcode(String(opcode.start, opcode.length()));
 					}

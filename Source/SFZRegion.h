@@ -42,6 +42,7 @@ class SFZRegion {
 		int pitch_keycenter;
 
 		float volume, pan;
+		float amp_veltrack;
 	};
 
 

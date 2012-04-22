@@ -17,6 +17,7 @@ void SFZRegion::clear()
 	hivel = 127;
 	pitch_keycenter = 60; 	// C4
 	volume = pan = 0.0;
+	amp_veltrack = 100.0;
 }
 
 

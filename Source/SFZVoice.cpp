@@ -3,6 +3,7 @@
 #include "SFZRegion.h"
 #include "SFZSample.h"
 #include "SFZDebug.h"
+#include <math.h>
 
 static const float globalGain = -4.0;
 
@@ -26,7 +27,7 @@ bool SFZVoice::canPlaySound(SynthesiserSound* sound)
 
 void SFZVoice::startNote(
 	const int midiNoteNumber,
-	const float velocity,
+	const float floatVelocity,
 	SynthesiserSound* soundIn,
 	const int currentPitchWheelPosition)
 {
@@ -36,6 +37,7 @@ void SFZVoice::startNote(
 		return;
 		}
 
+	int velocity = (int) (floatVelocity * 127.0);
 	region = sound->getRegionFor(midiNoteNumber, (int) (velocity * 127.0));
 	if (region == NULL || region->sample == NULL || region->sample->getBuffer() == NULL) {
 		killNote();
@@ -48,7 +50,11 @@ void SFZVoice::startNote(
 		(targetFreq * region->sample->getSampleRate()) /
 		(naturalFreq * getSampleRate());
 
-	gainLeft = gainRight = Decibels::decibelsToGain(globalGain + region->volume);
+	double noteGainDB = globalGain + region->volume;
+	double velocityGain = -20.0 * log10((127.0 * 127.0) / (velocity * velocity));
+	velocityGain *= region->amp_veltrack * 100;
+	noteGainDB += velocityGain;
+	noteGainLeft = noteGainRight = Decibels::decibelsToGain(noteGainDB);
 	sourceSamplePosition = 0.0;
 	//***
 }
@@ -108,8 +114,8 @@ void SFZVoice::renderNextBlock(
 		float l = (inL[pos] * invAlpha + inL[pos + 1] * alpha);
 		float r = inR ? (inR[pos] * invAlpha + inR[pos + 1] * alpha) : l;
 
-		l *= gainLeft;
-		r *= gainRight;
+		l *= noteGainLeft;
+		r *= noteGainRight;
 
 		if (outR) {
 			*outL++ += l;
