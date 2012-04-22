@@ -1,7 +1,7 @@
 #include "SFZEG.h"
 #include "SFZDebug.h"
 
-static const int fastReleaseTime = 0.01;
+static const float fastReleaseTime = 0.01;
 
 
 SFZEG::SFZEG()
