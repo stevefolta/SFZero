@@ -38,7 +38,7 @@ void SFZVoice::startNote(
 		}
 
 	int velocity = (int) (floatVelocity * 127.0);
-	region = sound->getRegionFor(midiNoteNumber, (int) (velocity * 127.0));
+	region = sound->getRegionFor(midiNoteNumber, velocity);
 	if (region == NULL || region->sample == NULL || region->sample->getBuffer() == NULL) {
 		killNote();
 		return;
@@ -51,12 +51,14 @@ void SFZVoice::startNote(
 		(naturalFreq * getSampleRate());
 
 	double noteGainDB = globalGain + region->volume;
-	double velocityGain = -20.0 * log10((127.0 * 127.0) / (velocity * velocity));
-	velocityGain *= region->amp_veltrack * 100;
-	noteGainDB += velocityGain;
+	// Thanks to <http:://www.drealm.info/sfz/plj-sfz.xhtml> for explaining the
+	// velocity curve in a way that I could understand, although they mean
+	// "log10" when they say "log".
+	double velocityGainDB = -20.0 * log10((127.0 * 127.0) / (velocity * velocity));
+	velocityGainDB *= region->amp_veltrack / 100.0;
+	noteGainDB += velocityGainDB;
 	noteGainLeft = noteGainRight = Decibels::decibelsToGain(noteGainDB);
 	sourceSamplePosition = 0.0;
-	//***
 }
 
 
