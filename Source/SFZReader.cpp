@@ -207,6 +207,8 @@ void SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->tune = value.getIntValue();
 					else if (opcode == "pitch_keycenter")
 						buildingRegion->pitch_keycenter = keyValue(value);
+					else if (opcode == "pitch_keytrack")
+						buildingRegion->pitch_keytrack = value.getIntValue();
 					else if (opcode == "volume")
 						buildingRegion->volume = value.getFloatValue();
 					else if (opcode == "pan")

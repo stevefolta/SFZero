@@ -46,9 +46,14 @@ void SFZVoice::startNote(
 		}
 
 	double note = midiNoteNumber;
+	note += region->transpose;
+	note += region->tune / 100.0;
 
 	double sampleRate = getSampleRate();
-	double targetFreq = noteHz(note);
+	double adjustedPitch =
+		region->pitch_keycenter + (note - region->pitch_keycenter) *
+		(region->pitch_keytrack / 100.0);
+	double targetFreq = noteHz(adjustedPitch);
 	double naturalFreq = MidiMessage::getMidiNoteInHertz(region->pitch_keycenter);
 	pitchRatio =
 		(targetFreq * region->sample->getSampleRate()) /

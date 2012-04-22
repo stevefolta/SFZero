@@ -46,7 +46,7 @@ class SFZRegion {
 		unsigned long loop_start, loop_end;
 		int transpose;
 		int tune;
-		int pitch_keycenter;
+		int pitch_keycenter, pitch_keytrack;
 
 		float volume, pan;
 		float amp_veltrack;

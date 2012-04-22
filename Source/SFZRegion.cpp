@@ -36,6 +36,7 @@ void SFZRegion::clear()
 	hikey = 127;
 	hivel = 127;
 	pitch_keycenter = 60; 	// C4
+	pitch_keytrack = 100;
 	volume = pan = 0.0;
 	amp_veltrack = 100.0;
 	ampeg.clear();
