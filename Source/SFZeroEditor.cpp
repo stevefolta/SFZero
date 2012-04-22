@@ -3,8 +3,8 @@
 #include "SFZSound.h"
 
 enum {
-	hMargin = 10,
-	vMargin = 10,
+	hMargin = 12,
+	vMargin = 12,
 	buttonHeight = 25,
 	labelHeight = 25,
 	progressBarHeight = 40,
@@ -14,22 +14,31 @@ enum {
 
 SFZeroEditor::SFZeroEditor(SFZeroAudioProcessor* ownerFilter)
 	: AudioProcessorEditor(ownerFilter),
-		fileLabel(String::empty, "File..."),
+		fileLabel(String::empty, "File... (click here to choose)"),
 		pathLabel(String::empty),
 		midiKeyboard(ownerFilter->keyboardState, MidiKeyboardComponent::horizontalKeyboard)
 {
 	setSize(500, 300);
 
+#ifdef JUCE_MAC
+	Font fileFont("Helvetica", 22.0, Font::bold);
+	Font labelFont("Helvetica", 15.0, Font::plain);
+#else
+	Font fileFont("Ariel", 22.0, Font::bold);
+	Font labelFont("Ariel", 15.0, Font::plain);
+#endif
+
 	addAndMakeVisible(&fileLabel);
-	fileLabel.setFont(Font(18.0, Font::bold));
+	fileLabel.setFont(fileFont);
 	fileLabel.setColour(Label::textColourId, Colours::grey);
 	fileLabel.addClickListener(this);
 
 	addAndMakeVisible(&pathLabel);
-	pathLabel.setFont(Font(14.0));
+	pathLabel.setFont(labelFont);
+	pathLabel.setColour(Label::textColourId, Colours::grey);
 
 	addAndMakeVisible(&infoLabel);
-	infoLabel.setFont(Font(14.0));
+	infoLabel.setFont(labelFont);
 	infoLabel.setJustificationType(Justification::topLeft);
 
 	addAndMakeVisible(&midiKeyboard);
