@@ -2,6 +2,7 @@
 #define __PLUGINPROCESSOR_H_7DD34D53__
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "SFZSynth.h"
 
 class SFZSound;
 
@@ -54,7 +55,7 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 
 	protected:
 		File sfzFile;
-		Synthesiser synth;
+		SFZSynth synth;
 		AudioFormatManager formatManager;
 
 		void	loadSound(double* progressVar = NULL);

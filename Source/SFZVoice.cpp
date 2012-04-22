@@ -84,6 +84,15 @@ void SFZVoice::stopNote(const bool allowTailOff)
 }
 
 
+void SFZVoice::stopNoteForGroup()
+{
+	if (region->off_mode == SFZRegion::normal)
+		ampeg.fastRelease();
+	else
+		ampeg.noteOff();
+}
+
+
 void SFZVoice::pitchWheelMoved(const int newValue)
 {
 	/***/
@@ -167,6 +176,19 @@ void SFZVoice::renderNextBlock(
 	ampeg.level = ampegGain;
 	ampeg.samplesUntilNextSegment = samplesUntilNextAmpSegment;
 }
+
+
+int SFZVoice::getGroup()
+{
+	return (region ? region->group : 0);
+}
+
+
+int SFZVoice::getOffBy()
+{
+	return (region ? region->off_by : 0);
+}
+
 
 
 void SFZVoice::killNote()

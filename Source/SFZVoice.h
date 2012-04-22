@@ -19,12 +19,16 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 			SynthesiserSound* sound,
 			const int currentPitchWheelPosition);
     void	stopNote(const bool allowTailOff);
+		void	stopNoteForGroup();
     void	pitchWheelMoved(const int newValue);
     void	controllerMoved(
 			const int controllerNumber,
 			const int newValue);
     void	renderNextBlock(
 			AudioSampleBuffer& outputBuffer, int startSample, int numSamples);
+
+		int	getGroup();
+		int	getOffBy();
 
 	protected:
 		SFZRegion*	region;

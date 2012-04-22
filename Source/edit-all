@@ -9,5 +9,6 @@ $EDITOR 	\
 	SFZReader.{h,cpp} 	\
 	SFZVoice.{h,cpp} 	\
 	SFZEG.{h,cpp} 	\
+	SFZSynth.{h,cpp} 	\
 
 

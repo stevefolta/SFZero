@@ -21,6 +21,9 @@ class SFZRegion {
 		enum LoopMode {
 			sample_loop, no_loop, one_shot, loop_continuous, loop_sustain
 			};
+		enum OffMode {
+			fast, normal
+			};
 
 
 		SFZRegion();
@@ -39,6 +42,7 @@ class SFZRegion {
 		unsigned char lovel, hivel;
 		Trigger trigger;
 		unsigned long group, off_by;
+		OffMode off_mode;
 
 		unsigned long offset;
 		unsigned long end;

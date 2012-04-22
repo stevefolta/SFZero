@@ -1,6 +1,8 @@
 #include "SFZEG.h"
 #include "SFZDebug.h"
 
+static const int fastReleaseTime = 0.01;
+
 
 SFZEG::SFZEG()
 	: exponentialDecay(false)
@@ -72,6 +74,15 @@ void SFZEG::nextSegment()
 void SFZEG::noteOff()
 {
 	startRelease();
+}
+
+
+void SFZEG::fastRelease()
+{
+	segment = Release;
+	samplesUntilNextSegment = fastReleaseTime * sampleRate;
+	slope = -level / samplesUntilNextSegment;
+	segmentIsExponential = false;
 }
 
 
@@ -158,7 +169,7 @@ void SFZEG::startRelease()
 	float release = parameters.release;
 	if (release <= 0) {
 		// Enforce a short release, to prevent clicks.
-		release = 0.01;
+		release = fastReleaseTime;
 		}
 
 	segment = Release;

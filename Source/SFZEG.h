@@ -16,6 +16,7 @@ class SFZEG {
 			const SFZEGParameters* velMod = 0);
 		void	nextSegment();
 		void	noteOff();
+		void	fastRelease();
 		bool	isDone() { return segment == Done; }
 
 		float	level;
