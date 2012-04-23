@@ -7,7 +7,7 @@
 class SFZSample {
 	public:
 		SFZSample(const File& fileIn)
-			: file(fileIn), buffer(NULL), loopStart(0), loopEnd(0) {}
+			: loopStart(0), loopEnd(0), file(fileIn), buffer(NULL) {}
 		~SFZSample();
 
 		bool	load(AudioFormatManager* formatManager);
