@@ -37,6 +37,7 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 		float     	noteGainLeft, noteGainRight;
 		double    	sourceSamplePosition;
 		SFZEG     	ampeg;
+		unsigned long	loopStart, loopEnd;
 
 		void	calcPitchRatio();
 		void	killNote();

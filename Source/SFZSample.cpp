@@ -9,6 +9,12 @@ bool SFZSample::load(AudioFormatManager* formatManager)
 	sampleRate = reader->sampleRate;
 	buffer = new AudioSampleBuffer(reader->numChannels, reader->lengthInSamples);
 	reader->read(buffer, 0, reader->lengthInSamples, 0, true, true);
+	StringPairArray* metadata = &reader->metadataValues;
+	int numLoops = metadata->getValue("NumSampleLoops", "0").getIntValue();
+	if (numLoops > 0) {
+		loopStart = metadata->getValue("Loop0Start", "0").getLargeIntValue();
+		loopEnd = metadata->getValue("Loop0End", "0").getLargeIntValue();
+		}
 	delete reader;
 	return true;
 }

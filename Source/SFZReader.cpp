@@ -206,12 +206,10 @@ void SFZReader::read(const char* text, unsigned int length)
 							sound->addUnsupportedOpcode(fauxOpcode);
 							}
 						}
-/***
 					else if (opcode == "loop_start")
 						buildingRegion->loop_start = (unsigned long) value.getLargeIntValue();
 					else if (opcode == "loop_end")
 						buildingRegion->loop_end = (unsigned long) value.getLargeIntValue();
-***/
 					else if (opcode == "transpose")
 						buildingRegion->transpose = value.getIntValue();
 					else if (opcode == "tune")

@@ -45,10 +45,12 @@ void SFZVoice::startNote(
 		return;
 		}
 
+	// Pitch.
 	curMidiNote = midiNoteNumber;
 	curPitchWheel = currentPitchWheelPosition;
 	calcPitchRatio();
 
+	// Gain.
 	double noteGainDB = globalGain + region->volume;
 	// Thanks to <http:://www.drealm.info/sfz/plj-sfz.xhtml> for explaining the
 	// velocity curve in a way that I could understand, although they mean
@@ -60,6 +62,26 @@ void SFZVoice::startNote(
 	sourceSamplePosition = 0.0;
 	ampeg.startNote(
 		&region->ampeg, floatVelocity, getSampleRate(), &region->ampeg_veltrack);
+
+	// Loop.
+	loopStart = loopEnd = 0;
+	SFZRegion::LoopMode loopMode = region->loop_mode;
+	if (loopMode == SFZRegion::sample_loop) {
+		if (region->sample->loopStart < region->sample->loopEnd)
+			loopMode = SFZRegion::no_loop;
+		else
+			loopMode = SFZRegion::loop_continuous;
+		}
+	if (loopMode != SFZRegion::one_shot) {
+		if (region->loop_start < region->loop_end) {
+			loopStart = region->loop_start;
+			loopEnd = region->loop_end;
+			}
+		else {
+			loopStart = region->sample->loopStart;
+			loopEnd = region->sample->loopEnd;
+			}
+		}
 }
 
 
@@ -119,11 +141,15 @@ void SFZVoice::renderNextBlock(
 		outputBuffer.getNumChannels() > 1 ?
 		outputBuffer.getSampleData(1, startSample) : NULL;
 
+	// Cache some values, to give them at least some chance of ending up in
+	// registers.
 	double sourceSamplePosition = this->sourceSamplePosition;
 	float ampegGain = ampeg.level;
 	float ampegSlope = ampeg.slope;
 	long samplesUntilNextAmpSegment = ampeg.samplesUntilNextSegment;
 	bool ampSegmentIsExponential = ampeg.segmentIsExponential;
+	float loopStart = this->loopStart;
+	float loopEnd = this->loopEnd;
 
 	while (--numSamples >= 0) {
 		int pos = (int) sourceSamplePosition;
@@ -147,7 +173,12 @@ void SFZVoice::renderNextBlock(
 		else
 			*outL++ += (l + r) * 0.5f;
 
+		// Next sample.
 		sourceSamplePosition += pitchRatio;
+		if (loopStart < loopEnd && sourceSamplePosition >= loopEnd)
+			sourceSamplePosition = loopStart;
+
+		// Update EG.
 		if (ampSegmentIsExponential)
 			ampegGain *= ampegSlope;
 		else

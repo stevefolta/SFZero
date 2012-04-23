@@ -7,7 +7,7 @@
 class SFZSample {
 	public:
 		SFZSample(const File& fileIn)
-			: file(fileIn), buffer(NULL) {}
+			: file(fileIn), buffer(NULL), loopStart(0), loopEnd(0) {}
 		~SFZSample();
 
 		bool	load(AudioFormatManager* formatManager);
@@ -16,6 +16,8 @@ class SFZSample {
 		double	getSampleRate() { return sampleRate; }
 		String	getShortName();
 		void	dump();
+
+		unsigned long	loopStart, loopEnd;
 
 	protected:
 		File	file;
