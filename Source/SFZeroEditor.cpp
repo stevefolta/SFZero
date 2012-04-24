@@ -1,6 +1,7 @@
 #include "SFZeroEditor.h"
 #include "SFZeroAudioProcessor.h"
 #include "SFZSound.h"
+#include "SFZDebug.h"
 
 enum {
 	hMargin = 12,
@@ -90,6 +91,9 @@ void SFZeroEditor::labelClicked(Label* clickedLabel)
 
 void SFZeroEditor::timerCallback()
 {
+#ifdef JUCE_DEBUG
+	getProcessor()->relayLogMessages();
+#endif
 }
 
 

@@ -10,5 +10,6 @@ $EDITOR 	\
 	SFZVoice.{h,cpp} 	\
 	SFZEG.{h,cpp} 	\
 	SFZSynth.{h,cpp} 	\
+	SFZDebug.{h,cpp} 	\
 
 

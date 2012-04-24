@@ -2,14 +2,16 @@
 #include "SFZeroEditor.h"
 #include "SFZSound.h"
 #include "SFZVoice.h"
+#include "SFZDebug.h"
 
 
 SFZeroAudioProcessor::SFZeroAudioProcessor()
 {
 #if JUCE_DEBUG
 	Logger::setCurrentLogger(
-		FileLogger::createDefaultAppLogger(
-			"SFZero", "SFZero.log", "SFZero started"),
+		new FifoLogger(
+			FileLogger::createDefaultAppLogger(
+				"SFZero", "SFZero.log", "SFZero started")),
 		true);
 #endif
 
@@ -184,6 +186,15 @@ SFZSound* SFZeroAudioProcessor::getSound()
 	SynthesiserSound* sound = synth.getSound(0);
 	return dynamic_cast<SFZSound*>(sound);
 }
+
+
+#if JUCE_DEBUG
+void SFZeroAudioProcessor::relayLogMessages()
+{
+	logger->relayMessages();
+}
+#endif
+
 
 
 void SFZeroAudioProcessor::loadSound(double* progressVar)

@@ -5,6 +5,7 @@
 #include "SFZSynth.h"
 
 class SFZSound;
+class FifoLogger;
 
 
 class SFZeroAudioProcessor  : public AudioProcessor {
@@ -53,10 +54,17 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 
 		SFZSound*	getSound();
 
+#if JUCE_DEBUG
+		void	relayLogMessages();
+#endif
+
 	protected:
 		File sfzFile;
 		SFZSynth synth;
 		AudioFormatManager formatManager;
+#if JUCE_DEBUG
+		FifoLogger*	logger;
+#endif
 
 		void	loadSound(double* progressVar = NULL);
 

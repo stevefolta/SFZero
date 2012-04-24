@@ -16,5 +16,25 @@
 #endif
 
 
+class FifoLogger : public Logger {
+	public:
+		FifoLogger(/* takes */ Logger* outputLogger);
+		~FifoLogger();
+
+		virtual void logMessage(const String& message);
+		void	relayMessages();
+		String	nextMessage();
+		bool	hasMessage();
+
+	protected:
+		enum {
+			capacity = 8192,
+			};
+		Logger*	outputLogger;
+		AbstractFifo	fifo;
+		char	buffer[capacity];
+	};
+
+
 #endif
 
