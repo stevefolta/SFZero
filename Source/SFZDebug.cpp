@@ -85,11 +85,11 @@ String LogFifo::nextMessage()
 	// Read the string.
 	String result;
 	fifo.prepareToRead(msgSize, start1, size1, start2, size2);
-	if (start1 > 0) {
+	if (size1 > 0) {
 		p = &buffer[start1];
 		result = String(CharPointer_UTF8(p), CharPointer_UTF8(p + size1));
 		}
-	if (start2 > 0) {
+	if (size2 > 0) {
 		p = &buffer[start2];
 		result += String(CharPointer_UTF8(p), CharPointer_UTF8(p + size2));
 		}
