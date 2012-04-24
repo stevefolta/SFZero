@@ -8,11 +8,9 @@
 SFZeroAudioProcessor::SFZeroAudioProcessor()
 {
 #if JUCE_DEBUG
-	Logger::setCurrentLogger(
-		new FifoLogger(
-			FileLogger::createDefaultAppLogger(
-				"SFZero", "SFZero.log", "SFZero started")),
-		true);
+	setupLogging(
+		FileLogger::createDefaultAppLogger(
+			"SFZero", "SFZero.log", "SFZero started"));
 #endif
 
 	formatManager.registerFormat(new WavAudioFormat(), false);
@@ -191,7 +189,7 @@ SFZSound* SFZeroAudioProcessor::getSound()
 #if JUCE_DEBUG
 void SFZeroAudioProcessor::relayLogMessages()
 {
-	logger->relayMessages();
+	relayFifoLogMessages();
 }
 #endif
 

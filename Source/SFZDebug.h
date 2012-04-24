@@ -8,7 +8,7 @@
 
 #undef DBG
 #if JUCE_DEBUG
-	#define DBG(msg)	Logger::writeToLog(msg)
+	#define DBG(msg)	fifoLogMessage(msg)
 	#define SHOW(item)	DBG( #item " = " + String(item) )
 #else
 	#define	DBG(msg)
@@ -16,12 +16,12 @@
 #endif
 
 
-class FifoLogger : public Logger {
+class LogFifo {
 	public:
-		FifoLogger(/* takes */ Logger* outputLogger);
-		~FifoLogger();
+		LogFifo();
+		~LogFifo();
 
-		virtual void logMessage(const String& message);
+		void logMessage(const String& message);
 		void	relayMessages();
 		String	nextMessage();
 		bool	hasMessage();
@@ -30,11 +30,13 @@ class FifoLogger : public Logger {
 		enum {
 			capacity = 8192,
 			};
-		Logger*	outputLogger;
 		AbstractFifo	fifo;
 		char	buffer[capacity];
 	};
 
+extern void setupLogging(Logger* logger);
+extern void fifoLogMessage(const String& message);
+extern void relayFifoLogMessages();
 
 #endif
 

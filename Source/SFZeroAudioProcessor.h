@@ -62,9 +62,6 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 		File sfzFile;
 		SFZSynth synth;
 		AudioFormatManager formatManager;
-#if JUCE_DEBUG
-		FifoLogger*	logger;
-#endif
 
 		void	loadSound(double* progressVar = NULL);
 

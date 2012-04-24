@@ -1,19 +1,20 @@
 #include "SFZDebug.h"
 
+static LogFifo* fifo = NULL;
 
-FifoLogger::FifoLogger(Logger* outputLoggerIn)
-	: outputLogger(outputLoggerIn), fifo(capacity)
+
+LogFifo::LogFifo()
+	: fifo(capacity)
 {
 }
 
 
-FifoLogger::~FifoLogger()
+LogFifo::~LogFifo()
 {
-	delete outputLogger;
 }
 
 
-void FifoLogger::logMessage(const String& message)
+void LogFifo::logMessage(const String& message)
 {
 	const char* p;
 
@@ -57,22 +58,16 @@ void FifoLogger::logMessage(const String& message)
 }
 
 
-void FifoLogger::relayMessages()
+void LogFifo::relayMessages()
 {
-	// Juce has stupidly protected Logger::logMessage(), so we have to do it this
-	// way.
-	setCurrentLogger(outputLogger, false);
-
 	while (hasMessage()) {
 		String message = nextMessage();
-		writeToLog(message);
+		Logger::writeToLog(message);
 		}
-
-	setCurrentLogger(this, false);
 }
 
 
-String FifoLogger::nextMessage()
+String LogFifo::nextMessage()
 {
 	// Read the count.
 	unsigned long msgSize = 0;
@@ -99,13 +94,39 @@ String FifoLogger::nextMessage()
 		result += String(CharPointer_UTF8(p), CharPointer_UTF8(p + size2));
 		}
 	fifo.finishedRead(size1 + size2);
+
+	return result;
 }
 
 
-bool FifoLogger::hasMessage()
+bool LogFifo::hasMessage()
 {
 	return fifo.getNumReady() > 0;
 }
+
+
+
+void setupLogging(Logger* logger)
+{
+	if (fifo == NULL)
+		fifo = new LogFifo();
+	Logger::setCurrentLogger(logger, true);
+}
+
+
+void fifoLogMessage(const String& message)
+{
+	if (fifo)
+		fifo->logMessage(message);
+}
+
+
+void relayFifoLogMessages()
+{
+	if (fifo)
+		fifo->relayMessages();
+}
+
 
 
 
