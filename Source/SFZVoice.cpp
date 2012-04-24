@@ -193,7 +193,7 @@ void SFZVoice::renderNextBlock(
 			}
 
 		if (sourceSamplePosition > sourceLength || ampeg.isDone()) {
-			stopNote (false);
+			killNote();
 			break;
 			}
 		}
