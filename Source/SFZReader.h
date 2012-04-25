@@ -20,6 +20,7 @@ class SFZReader {
 		int	line;
 
 		const char*	handleLineEnd(const char* p);
+		const char*	readPathInto(String* pathOut, const char* p, const char* end);
 		int 	keyValue(const String& str);
 		int 	triggerValue(const String& str);
 		int 	loopModeValue(const String& str);

@@ -121,37 +121,9 @@ void SFZReader::read(const char* text, unsigned int length)
 					}
 				StringSlice opcode(parameterStart, p - 1);
 				if (opcode == "sample") {
-					// "sample" is the only opcode that takes a string, and strings
-					// are kind of funny to parse because they can contain whitespace.
-					const char* pathStart = p;
-					const char* potentialEnd = NULL;
-					while (p < end) {
-						c = *p;
-						if (c == ' ') {
-							// Is this space part of the filename?  Or the start of the next
-							// opcode?  We don't know yet.
-							potentialEnd = p;
-							p += 1;
-							// Skip any more spaces.
-							while (p < end && *p == ' ')
-								p += 1;
-							}
-						else if (c == '\n' || c == '\r' || c == '\t')
-							break;
-						else if (c == '=') {
-							// We've been looking at an opcode; we need to rewind to
-							// potentialEnd.
-							p = potentialEnd;
-							break;
-							}
-						p += 1;
-						}
-					if (p > pathStart) {
-						// Can't do this:
-						//  	String path(CharPointer_UTF8(pathStart), CharPointer_UTF8(p));
-						// It won't compile for some unfathomable reason.
-						CharPointer_UTF8 end(p);
-						String path(CharPointer_UTF8(pathStart), end);
+					String path;
+					p = readPathInto(&path, p, end);
+					if (!path.isEmpty()) {
 						if (buildingRegion)
 							buildingRegion->sample = sound->addSample(path);
 						else
@@ -290,6 +262,47 @@ const char* SFZReader::handleLineEnd(const char* p)
 	if (lineEndChar == '\r' && *p == '\n')
 		p += 1;
 	line += 1;
+	return p;
+}
+
+
+const char* SFZReader::readPathInto(
+	String* pathOut, const char* pIn, const char* endIn)
+{
+	// Paths are kind of funny to parse because they can contain whitespace.
+	const char* p = pIn;
+	const char* end = endIn;
+	const char* pathStart = p;
+	const char* potentialEnd = NULL;
+	while (p < end) {
+		char c = *p;
+		if (c == ' ') {
+			// Is this space part of the path?  Or the start of the next opcode?  We
+			// don't know yet.
+			potentialEnd = p;
+			p += 1;
+			// Skip any more spaces.
+			while (p < end && *p == ' ')
+				p += 1;
+			}
+		else if (c == '\n' || c == '\r' || c == '\t')
+			break;
+		else if (c == '=') {
+			// We've been looking at an opcode; we need to rewind to
+			// potentialEnd.
+			p = potentialEnd;
+			break;
+			}
+		p += 1;
+		}
+	if (p > pathStart) {
+		// Can't do this:
+		//  	String path(CharPointer_UTF8(pathStart), CharPointer_UTF8(p));
+		// It won't compile for some unfathomable reason.
+		CharPointer_UTF8 end(p);
+		String path(CharPointer_UTF8(pathStart), end);
+		*pathOut = path;
+		}
 	return p;
 }
 
