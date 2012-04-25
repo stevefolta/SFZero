@@ -45,9 +45,17 @@ void SFZSound::addRegion(SFZRegion* region)
 }
 
 
-SFZSample* SFZSound::addSample(String path)
+SFZSample* SFZSound::addSample(String path, String defaultPath)
 {
-	File sampleFile = file.getSiblingFile(path.replaceCharacter('\\', '/'));
+	path = path.replaceCharacter('\\', '/');
+	defaultPath = defaultPath.replaceCharacter('\\', '/');
+	File sampleFile;
+	if (defaultPath.isEmpty())
+		sampleFile = file.getSiblingFile(path);
+	else {
+		File defaultDir = file.getSiblingFile(defaultPath);
+		sampleFile = defaultDir.getChildFile(path);
+		}
 	String samplePath = sampleFile.getFullPathName();
 	SFZSample* sample = samples[samplePath];
 	if (sample == NULL) {

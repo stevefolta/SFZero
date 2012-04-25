@@ -38,6 +38,8 @@ void SFZReader::read(const char* text, unsigned int length)
 	SFZRegion curGroup;
 	SFZRegion curRegion;
 	SFZRegion* buildingRegion = NULL;
+	bool inControl = false;
+	String defaultPath;
 
 	while (p < end) {
 		// We're at the start of a line; skip any whitespace.
@@ -95,15 +97,24 @@ void SFZReader::read(const char* text, unsigned int length)
 						finishRegion(&curRegion);
 					curRegion = curGroup;
 					buildingRegion = &curRegion;
+					inControl = false;
 					}
 				else if (tag == "group") {
 					if (buildingRegion && buildingRegion == &curRegion)
 						finishRegion(&curRegion);
 					curGroup.clear();
 					buildingRegion = &curGroup;
+					inControl = false;
+					}
+				else if (tag == "control") {
+					if (buildingRegion && buildingRegion == &curRegion)
+						finishRegion(&curRegion);
+					curGroup.clear();
+					buildingRegion = NULL;
+					inControl = true;
 					}
 				else
-					error("Illegal tag.");
+					error("Illegal tag");
 				}
 
 			// Parameter.
@@ -120,12 +131,21 @@ void SFZReader::read(const char* text, unsigned int length)
 					goto nextElement;
 					}
 				StringSlice opcode(parameterStart, p - 1);
-				if (opcode == "sample") {
+				if (inControl) {
+					if (opcode == "default_path")
+						p = readPathInto(&defaultPath, p, end);
+					else {
+						String fauxOpcode =
+							String(opcode.start, opcode.length()) + " (in <control>)";
+						sound->addUnsupportedOpcode(fauxOpcode);
+						}
+					}
+				else if (opcode == "sample") {
 					String path;
 					p = readPathInto(&path, p, end);
 					if (!path.isEmpty()) {
 						if (buildingRegion)
-							buildingRegion->sample = sound->addSample(path);
+							buildingRegion->sample = sound->addSample(path, defaultPath);
 						else
 							error("Adding sample outside a group or region");
 						}
@@ -228,6 +248,8 @@ void SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->ampeg_veltrack.sustain = value.getFloatValue();
 					else if (opcode == "ampeg_vel2release")
 						buildingRegion->ampeg_veltrack.release = value.getFloatValue();
+					else if (opcode == "default_path")
+						error("\"default_path\" outside of <control> tag");
 					else
 						sound->addUnsupportedOpcode(String(opcode.start, opcode.length()));
 					}
@@ -303,6 +325,8 @@ const char* SFZReader::readPathInto(
 		String path(CharPointer_UTF8(pathStart), end);
 		*pathOut = path;
 		}
+	else
+		*pathOut = String::empty;
 	return p;
 }
 
