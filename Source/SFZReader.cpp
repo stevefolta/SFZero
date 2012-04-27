@@ -216,10 +216,8 @@ void SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->bend_down = value.getIntValue();
 					else if (opcode == "volume")
 						buildingRegion->volume = value.getFloatValue();
-/***
 					else if (opcode == "pan")
 						buildingRegion->pan = value.getFloatValue();
-***/
 					else if (opcode == "amp_veltrack")
 						buildingRegion->amp_veltrack = value.getFloatValue();
 					else if (opcode == "ampeg_delay")

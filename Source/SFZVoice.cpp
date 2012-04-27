@@ -5,7 +5,7 @@
 #include "SFZDebug.h"
 #include <math.h>
 
-static const float globalGain = -4.0;
+static const float globalGain = -1.0;
 
 
 SFZVoice::SFZVoice()
@@ -59,6 +59,12 @@ void SFZVoice::startNote(
 	velocityGainDB *= region->amp_veltrack / 100.0;
 	noteGainDB += velocityGainDB;
 	noteGainLeft = noteGainRight = Decibels::decibelsToGain(noteGainDB);
+	// The SFZ spec is silent about the pan curve, but a 3dB pan law seems
+	// common.  This sqrt() curve matches what Dimension LE does; Alchemy Free
+	// seems closer to sin(adjustedPan * pi/2).
+	double adjustedPan = (region->pan + 100.0) / 200.0;
+	noteGainLeft *= sqrt(1.0 - adjustedPan);
+	noteGainRight *= sqrt(adjustedPan);
 	sourceSamplePosition = 0.0;
 	ampeg.startNote(
 		&region->ampeg, floatVelocity, getSampleRate(), &region->ampeg_veltrack);
