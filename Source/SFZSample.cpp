@@ -7,10 +7,11 @@ bool SFZSample::load(AudioFormatManager* formatManager)
 	if (reader == NULL)
 		return false;
 	sampleRate = reader->sampleRate;
+	sampleLength = reader->lengthInSamples;
 	// Read some extra samples, which will be filled with zeros, so interpolation
 	// can be done without having to check for the edge all the time.
-	buffer = new AudioSampleBuffer(reader->numChannels, reader->lengthInSamples + 4);
-	reader->read(buffer, 0, reader->lengthInSamples + 4, 0, true, true);
+	buffer = new AudioSampleBuffer(reader->numChannels, sampleLength + 4);
+	reader->read(buffer, 0, sampleLength + 4, 0, true, true);
 	StringPairArray* metadata = &reader->metadataValues;
 	int numLoops = metadata->getValue("NumSampleLoops", "0").getIntValue();
 	if (numLoops > 0) {

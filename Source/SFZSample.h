@@ -17,7 +17,7 @@ class SFZSample {
 		String	getShortName();
 		void	dump();
 
-		unsigned long	loopStart, loopEnd;
+		unsigned long	sampleLength, loopStart, loopEnd;
 
 	protected:
 		File	file;

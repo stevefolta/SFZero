@@ -134,7 +134,7 @@ void SFZVoice::renderNextBlock(
 	const float* inL = buffer->getSampleData(0, 0);
 	const float* inR =
 		buffer->getNumChannels() > 1 ? buffer->getSampleData(1, 0) : NULL;
-	float sourceLength = buffer->getNumSamples();
+	float sourceLength = region->sample->sampleLength;
 
 	float* outL = outputBuffer.getSampleData(0, startSample);
 	float* outR =
