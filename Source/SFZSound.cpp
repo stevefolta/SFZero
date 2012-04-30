@@ -100,12 +100,13 @@ void SFZSound::loadSamples(AudioFormatManager* formatManager, double* progressVa
 }
 
 
-SFZRegion* SFZSound::getRegionFor(int note, int velocity)
+SFZRegion* SFZSound::getRegionFor(
+	int note, int velocity, SFZRegion::Trigger trigger)
 {
 	int numRegions = regions.size();
 	for (int i = 0; i < numRegions; ++i) {
 		SFZRegion* region = regions[i];
-		if (region->matches(note, velocity, SFZRegion::attack))
+		if (region->matches(note, velocity, trigger))
 			return region;
 		}
 

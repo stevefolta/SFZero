@@ -2,8 +2,8 @@
 #define SFZSound_h
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "SFZRegion.h"
 
-class SFZRegion;
 class SFZSample;
 
 
@@ -22,7 +22,8 @@ class SFZSound : public SynthesiserSound {
 
 		void	loadSamples(AudioFormatManager* formatManager, double* progressVar = NULL);
 
-		SFZRegion*	getRegionFor(int note, int velocity);
+		SFZRegion*	getRegionFor(
+			int note, int velocity, SFZRegion::Trigger trigger = SFZRegion::attack);
 
 		String	getErrorsString();
 

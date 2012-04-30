@@ -9,7 +9,7 @@ static const float globalGain = -1.0;
 
 
 SFZVoice::SFZVoice()
-	: region(NULL)
+	: trigger(SFZRegion::attack), region(NULL)
 {
 	ampeg.setExponentialDecay(true);
 }
@@ -39,7 +39,9 @@ void SFZVoice::startNote(
 		}
 
 	int velocity = (int) (floatVelocity * 127.0);
-	region = sound->getRegionFor(midiNoteNumber, velocity);
+	region =
+		sound->getRegionFor(
+			midiNoteNumber, velocity, (SFZRegion::Trigger) trigger);
 	if (region == NULL || region->sample == NULL || region->sample->getBuffer() == NULL) {
 		killNote();
 		return;
@@ -222,6 +224,12 @@ int SFZVoice::getOffBy()
 }
 
 
+void SFZVoice::setTrigger(int newTrigger)
+{
+	trigger = newTrigger;
+}
+
+
 
 void SFZVoice::calcPitchRatio()
 {
@@ -251,6 +259,7 @@ void SFZVoice::calcPitchRatio()
 void SFZVoice::killNote()
 {
 	region = NULL;
+	trigger = SFZRegion::attack;
 	clearCurrentNote();
 }
 

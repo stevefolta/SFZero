@@ -10,8 +10,12 @@ class SFZSynth : public Synthesiser {
 
 		void	noteOn(
 			const int midiChannel, const int midiNoteNumber, const float velocity);
+		void	noteOff(
+			const int midiChannel, const int midiNoteNumber,
+			const bool allowTailOff);
 
 	protected:
+		unsigned char	noteVelocities[128];
 	};
 
 #endif 	// !SFZSynth_h

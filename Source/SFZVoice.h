@@ -30,7 +30,10 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 		int	getGroup();
 		int	getOffBy();
 
+		void	setTrigger(int newTrigger); 	// for next startNote().
+
 	protected:
+		int       	trigger;
 		SFZRegion*	region;
 		int       	curMidiNote, curPitchWheel;
 		double    	pitchRatio;
