@@ -2,6 +2,7 @@
 #include "SFZeroAudioProcessor.h"
 #include "SFZSound.h"
 #include "SFZDebug.h"
+#include <time.h>
 
 enum {
 	hMargin = 12,
@@ -37,6 +38,7 @@ SFZeroEditor::SFZeroEditor(SFZeroAudioProcessor* ownerFilter)
 	addAndMakeVisible(&pathLabel);
 	pathLabel.setFont(labelFont);
 	pathLabel.setColour(Label::textColourId, Colours::grey);
+	pathLabel.addClickListener(this);
 
 	addAndMakeVisible(&infoLabel);
 	infoLabel.setFont(labelFont);
@@ -49,6 +51,8 @@ SFZeroEditor::SFZeroEditor(SFZeroAudioProcessor* ownerFilter)
 	File sfzFile = ownerFilter->getSfzFile();
 	if (sfzFile != File::nonexistent)
 		updateFile(&sfzFile);
+	else
+		showVersion();
 	SFZSound* sound = ownerFilter->getSound();
 	if (sound)
 		infoLabel.setText(sound->getErrorsString(), false);
@@ -86,6 +90,12 @@ void SFZeroEditor::labelClicked(Label* clickedLabel)
 {
 	if (clickedLabel == &fileLabel)
 		chooseFile();
+	else if (clickedLabel == &pathLabel) {
+		if (showing == showingVersion)
+			showPath();
+		else
+			showVersion();
+		}
 }
 
 
@@ -142,7 +152,27 @@ void SFZeroEditor::updateFile(File* file)
 {
 	fileLabel.setText(file->getFileName(), false);
 	fileLabel.setColour(Label::textColourId, Colours::black);
-	pathLabel.setText(file->getParentDirectory().getFullPathName(), false);
+	showPath();
+}
+
+
+void SFZeroEditor::showVersion()
+{
+	struct tm tm;
+	strptime(__DATE__, "%b %d %Y", &tm);
+	char str[64];
+	sprintf(str, "SFZero beta %d.%d.%d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+	pathLabel.setText(str, false);
+	showing = showingVersion;
+}
+
+
+void SFZeroEditor::showPath()
+{
+	SFZeroAudioProcessor* processor = getProcessor();
+	File file = processor->getSfzFile();
+	pathLabel.setText(file.getParentDirectory().getFullPathName(), false);
+	showing = showingPath;
 }
 
 

@@ -20,9 +20,15 @@ class SFZeroEditor  :
 		void	timerCallback();
 
 	protected:
+		enum {
+			showingVersion,
+			showingPath,
+			};
+
 		ClickableLabel	fileLabel;
-		Label 	pathLabel;
+		ClickableLabel	pathLabel;
 		Label 	infoLabel;
+		int	showing;
 		MidiKeyboardComponent	midiKeyboard;
 
 		SFZeroAudioProcessor* getProcessor() const {
@@ -32,6 +38,8 @@ class SFZeroEditor  :
 		void	chooseFile();
 		void	setFile(File* newFile);
 		void	updateFile(File* file);
+		void	showVersion();
+		void	showPath();
 	};
 
 
