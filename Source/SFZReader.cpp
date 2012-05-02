@@ -135,6 +135,14 @@ void SFZReader::read(const char* text, unsigned int length)
 					if (opcode == "default_path")
 						p = readPathInto(&defaultPath, p, end);
 					else {
+						const char* valueStart = p;
+						while (p < end) {
+							c = *p;
+							if (c == ' ' || c == '\t' || c == '\n' || c == '\r')
+								break;
+							p++;
+							}
+						String value(valueStart, p - valueStart);
 						String fauxOpcode =
 							String(opcode.start, opcode.length()) + " (in <control>)";
 						sound->addUnsupportedOpcode(fauxOpcode);
