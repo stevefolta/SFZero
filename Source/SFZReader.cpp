@@ -117,6 +117,17 @@ void SFZReader::read(const char* text, unsigned int length)
 					error("Illegal tag");
 				}
 
+			// Comment.
+			else if (c == '/') {
+				// Skip to end of line.
+				while (p < end) {
+					c = *p;
+					if (c == '\r' || c == '\n')
+						break;
+					p += 1;
+					}
+				}
+
 			// Parameter.
 			else {
 				// Get the parameter name.
