@@ -45,6 +45,7 @@ SFZeroEditor::SFZeroEditor(SFZeroAudioProcessor* ownerFilter)
 	infoLabel.setJustificationType(Justification::topLeft);
 
 	addAndMakeVisible(&midiKeyboard);
+	midiKeyboard.setOctaveForMiddleC(4);
 
 	startTimer(200);
 
