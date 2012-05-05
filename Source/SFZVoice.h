@@ -30,7 +30,8 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 		int	getGroup();
 		int	getOffBy();
 
-		void	setTrigger(int newTrigger); 	// for next startNote().
+		// Set the region to be used by the next startNote().
+		void	setRegion(SFZRegion* nextRegion);
 
 	protected:
 		int       	trigger;

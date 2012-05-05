@@ -61,8 +61,8 @@ void SFZSynth::noteOff(
 			SFZVoice* voice = dynamic_cast<SFZVoice*>(findFreeVoice(sound, false));
 			if (voice) {
 				// Synthesiser is too locked-down (ivars are private rt protected), so
-				// we have to use a "setTrigger()" mechanism.
-				voice->setTrigger(SFZRegion::release);
+				// we have to use a "setRegion()" mechanism.
+				voice->setRegion(region);
 				startVoice(
 					voice, sound,
 					midiChannel, midiNoteNumber,
