@@ -56,14 +56,20 @@ void SFZSynth::noteOn(
 		}
 
 	// Play *all* matching regions.
+	SFZRegion::Trigger trigger =
+		(anyNotesPlaying ? SFZRegion::legato : SFZRegion::first);
 	if (sound) {
 		int numRegions = sound->getNumRegions();
 		for (i = 0; i < numRegions; ++i) {
 			SFZRegion* region = sound->regionAt(i);
-			if (region->matches(midiNoteNumber, midiVelocity, SFZRegion::attack)) {
-				startVoice(
-					findFreeVoice(sound, isNoteStealingEnabled()),
-					sound, midiChannel, midiNoteNumber, velocity);
+			if (region->matches(midiNoteNumber, midiVelocity, trigger)) {
+				SFZVoice* voice =
+					dynamic_cast<SFZVoice*>(
+						findFreeVoice(sound, isNoteStealingEnabled()));
+				if (voice) {
+					voice->setRegion(region);
+					startVoice(voice, sound, midiChannel, midiNoteNumber, velocity);
+					}
 				}
 			}
 		}

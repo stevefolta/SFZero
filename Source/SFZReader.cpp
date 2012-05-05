@@ -196,15 +196,8 @@ void SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->lovel = value.getIntValue();
 					else if (opcode == "hivel")
 						buildingRegion->hivel = value.getIntValue();
-					else if (opcode == "trigger") {
+					else if (opcode == "trigger")
 						buildingRegion->trigger = (SFZRegion::Trigger) triggerValue(value);
-						if (buildingRegion->trigger != SFZRegion::attack &&
-						    buildingRegion->trigger != SFZRegion::release) {
-							String fauxOpcode =
-								String(opcode.start, opcode.length()) + "=" + value;
-							sound->addUnsupportedOpcode(fauxOpcode);
-							}
-						}
 					else if (opcode == "group")
 						buildingRegion->group = (unsigned long) value.getLargeIntValue();
 					else if (opcode == "off_by")

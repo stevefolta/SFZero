@@ -34,7 +34,8 @@ class SFZRegion {
 			return
 				note >= lokey && note <= hikey &&
 				velocity >= lovel && velocity <= hivel &&
-				trigger == this->trigger;
+				(trigger == this->trigger ||
+				 (this->trigger == attack && (trigger == first || trigger == legato)));
 			}
 
 		SFZSample* sample;
