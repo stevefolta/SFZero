@@ -66,11 +66,11 @@ void SFZVoice::startNote(
 	double adjustedPan = (region->pan + 100.0) / 200.0;
 	noteGainLeft *= sqrt(1.0 - adjustedPan);
 	noteGainRight *= sqrt(adjustedPan);
-	sourceSamplePosition = 0.0;
 	ampeg.startNote(
 		&region->ampeg, floatVelocity, getSampleRate(), &region->ampeg_veltrack);
 
 	// Loop.
+	sourceSamplePosition = 0.0;
 	loopStart = loopEnd = 0;
 	SFZRegion::LoopMode loopMode = region->loop_mode;
 	if (loopMode == SFZRegion::sample_loop) {
