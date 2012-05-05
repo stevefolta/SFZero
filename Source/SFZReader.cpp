@@ -202,12 +202,15 @@ void SFZReader::read(const char* text, unsigned int length)
 						buildingRegion->group = (unsigned long) value.getLargeIntValue();
 					else if (opcode == "off_by")
 						buildingRegion->off_by = (unsigned long) value.getLargeIntValue();
-/***
 					else if (opcode == "offset")
 						buildingRegion->offset = (unsigned long) value.getLargeIntValue();
-					else if (opcode == "end")
-						buildingRegion->end = (unsigned long) value.getLargeIntValue();
-***/
+					else if (opcode == "end") {
+						int64 end = (unsigned long) value.getLargeIntValue();
+						if (end < 0)
+							buildingRegion->negative_end = true;
+						else
+							buildingRegion->end = end;
+						}
 					else if (opcode == "loop_mode") {
 						if (value == "no_loop" || value == "one_shot")
 							buildingRegion->loop_mode = (SFZRegion::LoopMode) loopModeValue(value);

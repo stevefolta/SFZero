@@ -45,6 +45,10 @@ void SFZVoice::startNote(
 		killNote();
 		return;
 		}
+	if (region->negative_end) {
+		killNote();
+		return;
+		}
 
 	// Pitch.
 	curMidiNote = midiNoteNumber;
@@ -69,8 +73,13 @@ void SFZVoice::startNote(
 	ampeg.startNote(
 		&region->ampeg, floatVelocity, getSampleRate(), &region->ampeg_veltrack);
 
+	// Offset/end.
+	sourceSamplePosition = region->offset;
+	sampleEnd = region->sample->sampleLength;
+	if (region->end > 0 && region->end < sampleEnd)
+		sampleEnd = region->end + 1;
+
 	// Loop.
-	sourceSamplePosition = 0.0;
 	loopStart = loopEnd = 0;
 	SFZRegion::LoopMode loopMode = region->loop_mode;
 	if (loopMode == SFZRegion::sample_loop) {
@@ -141,7 +150,6 @@ void SFZVoice::renderNextBlock(
 	const float* inL = buffer->getSampleData(0, 0);
 	const float* inR =
 		buffer->getNumChannels() > 1 ? buffer->getSampleData(1, 0) : NULL;
-	float sourceLength = region->sample->sampleLength;
 
 	float* outL = outputBuffer.getSampleData(0, startSample);
 	float* outR =
@@ -157,6 +165,7 @@ void SFZVoice::renderNextBlock(
 	bool ampSegmentIsExponential = ampeg.segmentIsExponential;
 	float loopStart = this->loopStart;
 	float loopEnd = this->loopEnd;
+	float sampleEnd = this->sampleEnd;
 
 	while (--numSamples >= 0) {
 		int pos = (int) sourceSamplePosition;
@@ -202,7 +211,7 @@ void SFZVoice::renderNextBlock(
 			ampSegmentIsExponential = ampeg.segmentIsExponential;
 			}
 
-		if (sourceSamplePosition > sourceLength || ampeg.isDone()) {
+		if (sourceSamplePosition >= sampleEnd || ampeg.isDone()) {
 			killNote();
 			break;
 			}

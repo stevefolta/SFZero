@@ -47,6 +47,7 @@ class SFZRegion {
 
 		unsigned long offset;
 		unsigned long end;
+		bool negative_end;
 		LoopMode loop_mode;
 		unsigned long loop_start, loop_end;
 		int transpose;
