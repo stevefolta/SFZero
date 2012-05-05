@@ -162,10 +162,13 @@ void SFZVoice::renderNextBlock(
 		int pos = (int) sourceSamplePosition;
 		float alpha = (float) (sourceSamplePosition - pos);
 		float invAlpha = 1.0f - alpha;
+		int nextPos = pos + 1;
+		if (loopStart < loopEnd && nextPos > loopEnd)
+			nextPos = loopStart;
 
 		// Simple linear interpolation.
-		float l = (inL[pos] * invAlpha + inL[pos + 1] * alpha);
-		float r = inR ? (inR[pos] * invAlpha + inR[pos + 1] * alpha) : l;
+		float l = (inL[pos] * invAlpha + inL[nextPos] * alpha);
+		float r = inR ? (inR[pos] * invAlpha + inR[nextPos] * alpha) : l;
 
 		float gainLeft = noteGainLeft * ampegGain;
 		float gainRight = noteGainRight * ampegGain;
@@ -182,7 +185,7 @@ void SFZVoice::renderNextBlock(
 
 		// Next sample.
 		sourceSamplePosition += pitchRatio;
-		if (loopStart < loopEnd && sourceSamplePosition >= loopEnd)
+		if (loopStart < loopEnd && sourceSamplePosition > loopEnd)
 			sourceSamplePosition = loopStart;
 
 		// Update EG.
