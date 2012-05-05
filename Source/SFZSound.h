@@ -24,6 +24,8 @@ class SFZSound : public SynthesiserSound {
 
 		SFZRegion*	getRegionFor(
 			int note, int velocity, SFZRegion::Trigger trigger = SFZRegion::attack);
+		int	getNumRegions();
+		SFZRegion*	regionAt(int index);
 
 		String	getErrorsString();
 

@@ -20,6 +20,7 @@ void SFZSynth::noteOn(
 	int midiVelocity = (int) (velocity * 127);
 
 	// First, stop any currently-playing sounds in the group.
+	//*** Currently, this only pays attention to the first matching region.
 	int group = 0;
 	SFZSound* sound = dynamic_cast<SFZSound*>(getSound(0));
 	if (sound) {
@@ -37,7 +38,35 @@ void SFZSynth::noteOn(
 			}
 		}
 
-	Synthesiser::noteOn(midiChannel, midiNoteNumber, velocity);
+	// Are any notes playing?  (Needed for first/legato trigger handling.)
+	// Also stop any voices still playing this note.
+	bool anyNotesPlaying = false;
+	for (i = voices.size(); --i >= 0;) {
+		SFZVoice* voice = dynamic_cast<SFZVoice*>(voices.getUnchecked(i));
+		if (voice == NULL)
+			continue;
+		if (voice->isPlayingChannel(midiChannel)) {
+			if (voice->getCurrentlyPlayingNote() == midiNoteNumber)
+				voice->stopNote(true);
+			else {
+				anyNotesPlaying = true;
+				break;
+				}
+			}
+		}
+
+	// Play *all* matching regions.
+	if (sound) {
+		int numRegions = sound->getNumRegions();
+		for (i = 0; i < numRegions; ++i) {
+			SFZRegion* region = sound->regionAt(i);
+			if (region->matches(midiNoteNumber, midiVelocity, SFZRegion::attack)) {
+				startVoice(
+					findFreeVoice(sound, isNoteStealingEnabled()),
+					sound, midiChannel, midiNoteNumber, velocity);
+				}
+			}
+		}
 
 	noteVelocities[midiNoteNumber] = midiVelocity;
 }

@@ -114,6 +114,18 @@ SFZRegion* SFZSound::getRegionFor(
 }
 
 
+int SFZSound::getNumRegions()
+{
+	return regions.size();
+}
+
+
+SFZRegion* SFZSound::regionAt(int index)
+{
+	return regions[index];
+}
+
+
 String SFZSound::getErrorsString()
 {
 	String result;
