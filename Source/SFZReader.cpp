@@ -212,7 +212,11 @@ void SFZReader::read(const char* text, unsigned int length)
 							buildingRegion->end = end;
 						}
 					else if (opcode == "loop_mode") {
-						if (value == "no_loop" || value == "one_shot")
+						bool modeIsSupported =
+							value == "no_loop" ||
+							value == "one_shot" ||
+							value == "loop_continuous";
+						if (modeIsSupported)
 							buildingRegion->loop_mode = (SFZRegion::LoopMode) loopModeValue(value);
 						else {
 							String fauxOpcode =
