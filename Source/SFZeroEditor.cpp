@@ -7,9 +7,8 @@
 enum {
 	hMargin = 12,
 	vMargin = 12,
-	buttonHeight = 25,
 	labelHeight = 25,
-	progressBarHeight = 40,
+	progressBarHeight = 30,
 	keyboardHeight = 70,
 	};
 
@@ -18,7 +17,8 @@ SFZeroEditor::SFZeroEditor(SFZeroAudioProcessor* ownerFilter)
 	: AudioProcessorEditor(ownerFilter),
 		fileLabel(String::empty, "File... (click here to choose)"),
 		pathLabel(String::empty),
-		midiKeyboard(ownerFilter->keyboardState, MidiKeyboardComponent::horizontalKeyboard)
+		midiKeyboard(ownerFilter->keyboardState, MidiKeyboardComponent::horizontalKeyboard),
+		progressBar(NULL)
 {
 	setSize(500, 300);
 
@@ -50,18 +50,18 @@ SFZeroEditor::SFZeroEditor(SFZeroAudioProcessor* ownerFilter)
 	startTimer(200);
 
 	File sfzFile = ownerFilter->getSfzFile();
-	if (sfzFile != File::nonexistent)
+	if (sfzFile != File::nonexistent) {
 		updateFile(&sfzFile);
+		updateErrors();
+		}
 	else
 		showVersion();
-	SFZSound* sound = ownerFilter->getSound();
-	if (sound)
-		infoLabel.setText(sound->getErrorsString(), false);
 }
 
 
 SFZeroEditor::~SFZeroEditor()
 {
+	delete progressBar;
 }
 
 
@@ -78,8 +78,8 @@ void SFZeroEditor::resized()
 	fileLabel.setBounds(
 		hMargin, vMargin, marginedWidth, labelHeight);
 	pathLabel.setBounds(
-		hMargin, vMargin + buttonHeight, marginedWidth, labelHeight);
-	int infoTop = vMargin + buttonHeight + labelHeight;
+		hMargin, vMargin + labelHeight, marginedWidth, labelHeight);
+	int infoTop = vMargin + 2 * labelHeight;
 	int keyboardTop = getHeight() - keyboardHeight - vMargin;
 	int infoLabelHeight = keyboardTop - infoTop - 4;
 	infoLabel.setBounds(hMargin, infoTop, marginedWidth, infoLabelHeight);
@@ -105,6 +105,13 @@ void SFZeroEditor::timerCallback()
 #ifdef JUCE_DEBUG
 	getProcessor()->relayLogMessages();
 #endif
+
+	if (showing == showingProgress) {
+		if (getProcessor()->loadProgress >= 1.0) {
+			showPath();
+			updateErrors();
+			}
+		}
 }
 
 
@@ -123,29 +130,11 @@ void SFZeroEditor::chooseFile()
 
 void SFZeroEditor::setFile(File* newFile)
 {
-	double progress;
-	pathLabel.setVisible(false);
-	fileLabel.setVisible(false);
-	infoLabel.setVisible(false);
-	ProgressBar progressBar(progress);
-	addAndMakeVisible(&progressBar);
-	int marginedWidth = getWidth() - 2 * hMargin;
-	progressBar.setBounds(
-		hMargin, vMargin, marginedWidth, progressBarHeight);
-
 	SFZeroAudioProcessor* processor = getProcessor();
-	processor->setSfzFile(newFile, &progress);
-
-	SFZSound* sound = processor->getSound();
-	if (sound)
-		infoLabel.setText(sound->getErrorsString(), false);
-
-	removeChildComponent(&progressBar);
-	pathLabel.setVisible(true);
-	fileLabel.setVisible(true);
-	infoLabel.setVisible(true);
+	processor->setSfzFileThreaded(newFile);
 
 	updateFile(newFile);
+	showProgress();
 }
 
 
@@ -157,6 +146,15 @@ void SFZeroEditor::updateFile(File* file)
 }
 
 
+void SFZeroEditor::updateErrors()
+{
+	SFZeroAudioProcessor* processor = getProcessor();
+	SFZSound* sound = processor->getSound();
+	if (sound)
+		infoLabel.setText(sound->getErrorsString(), false);
+}
+
+
 void SFZeroEditor::showVersion()
 {
 	struct tm tm;
@@ -164,6 +162,7 @@ void SFZeroEditor::showVersion()
 	char str[64];
 	sprintf(str, "SFZero beta %d.%d.%d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
 	pathLabel.setText(str, false);
+	hideProgress();
 	showing = showingVersion;
 }
 
@@ -173,7 +172,36 @@ void SFZeroEditor::showPath()
 	SFZeroAudioProcessor* processor = getProcessor();
 	File file = processor->getSfzFile();
 	pathLabel.setText(file.getParentDirectory().getFullPathName(), false);
+	hideProgress();
 	showing = showingPath;
+}
+
+
+void SFZeroEditor::showProgress()
+{
+	SFZeroAudioProcessor* processor = getProcessor();
+	pathLabel.setVisible(false);
+	infoLabel.setVisible(false);
+	progressBar = new ProgressBar(processor->loadProgress);
+	addAndMakeVisible(progressBar);
+	int marginedWidth = getWidth() - 2 * hMargin;
+	progressBar->setBounds(
+		hMargin, vMargin + labelHeight, marginedWidth, progressBarHeight);
+	showing = showingProgress;
+}
+
+
+void SFZeroEditor::hideProgress()
+{
+	if (progressBar == NULL)
+		return;
+
+	removeChildComponent(progressBar);
+	delete progressBar;
+	progressBar = NULL;
+
+	pathLabel.setVisible(true);
+	infoLabel.setVisible(true);
 }
 
 

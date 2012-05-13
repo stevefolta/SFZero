@@ -30,7 +30,8 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 		const String getParameterName(int index);
 		const String getParameterText(int index);
 
-		void	setSfzFile(File* newSfzFile, double* progressVar = NULL);
+		void	setSfzFile(File* newSfzFile);
+		void	setSfzFileThreaded(File* newSfzFile);
 		File	getSfzFile() { return sfzFile; }
 
 		const String getInputChannelName(int channelIndex) const;
@@ -51,6 +52,7 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 		void setStateInformation(const void* data, int sizeInBytes);
 
 		MidiKeyboardState	keyboardState;
+		double loadProgress;
 
 		SFZSound*	getSound();
 
@@ -59,11 +61,22 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 #endif
 
 	protected:
+		class LoadThread : public Thread {
+			public:
+				LoadThread(SFZeroAudioProcessor* processor);
+				void	run();
+
+			protected:
+				SFZeroAudioProcessor* processor;
+			};
+		friend class LoadThread;
+
 		File sfzFile;
 		SFZSynth synth;
 		AudioFormatManager formatManager;
+		LoadThread	loadThread;
 
-		void	loadSound(double* progressVar = NULL);
+		void	loadSound();
 
 	private:
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SFZeroAudioProcessor);

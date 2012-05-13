@@ -6,6 +6,7 @@
 
 
 SFZeroAudioProcessor::SFZeroAudioProcessor()
+	: loadProgress(0.0), loadThread(this)
 {
 #if JUCE_DEBUG
 	setupLogging(
@@ -54,10 +55,18 @@ const String SFZeroAudioProcessor::getParameterText(int index)
 }
 
 
-void SFZeroAudioProcessor::setSfzFile(File* newSfzFile, double* progressVar)
+void SFZeroAudioProcessor::setSfzFile(File* newSfzFile)
 {
 	sfzFile = *newSfzFile;
-	loadSound(progressVar);
+	loadSound();
+}
+
+
+void SFZeroAudioProcessor::setSfzFileThreaded(File* newSfzFile)
+{
+	loadThread.stopThread(2000);
+	sfzFile = *newSfzFile;
+	loadThread.startThread();
 }
 
 
@@ -195,8 +204,9 @@ void SFZeroAudioProcessor::relayLogMessages()
 
 
 
-void SFZeroAudioProcessor::loadSound(double* progressVar)
+void SFZeroAudioProcessor::loadSound()
 {
+	loadProgress = 0.0;
 	synth.clearSounds();
 
 	if (!sfzFile.existsAsFile()) {
@@ -205,9 +215,21 @@ void SFZeroAudioProcessor::loadSound(double* progressVar)
 		}
 
 	SFZSound* sound = new SFZSound(sfzFile);
-	sound->loadSamples(&formatManager, progressVar);
+	sound->loadSamples(&formatManager, &loadProgress);
 
 	synth.addSound(sound);
+}
+
+
+SFZeroAudioProcessor::LoadThread::LoadThread(SFZeroAudioProcessor* processorIn)
+	: Thread("SFZLoad"), processor(processorIn)
+{
+}
+
+
+void SFZeroAudioProcessor::LoadThread::run()
+{
+	processor->loadSound();
 }
 
 

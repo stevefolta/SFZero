@@ -23,6 +23,7 @@ class SFZeroEditor  :
 		enum {
 			showingVersion,
 			showingPath,
+			showingProgress,
 			};
 
 		ClickableLabel	fileLabel;
@@ -30,6 +31,7 @@ class SFZeroEditor  :
 		Label 	infoLabel;
 		int	showing;
 		MidiKeyboardComponent	midiKeyboard;
+		ProgressBar*	progressBar;
 
 		SFZeroAudioProcessor* getProcessor() const {
 			return static_cast<SFZeroAudioProcessor*> (getAudioProcessor());
@@ -38,8 +40,11 @@ class SFZeroEditor  :
 		void	chooseFile();
 		void	setFile(File* newFile);
 		void	updateFile(File* file);
+		void	updateErrors();
 		void	showVersion();
 		void	showPath();
+		void	showProgress();
+		void	hideProgress();
 	};
 
 
