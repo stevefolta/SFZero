@@ -84,9 +84,9 @@ void SFZVoice::startNote(
 	SFZRegion::LoopMode loopMode = region->loop_mode;
 	if (loopMode == SFZRegion::sample_loop) {
 		if (region->sample->loopStart < region->sample->loopEnd)
-			loopMode = SFZRegion::no_loop;
-		else
 			loopMode = SFZRegion::loop_continuous;
+		else
+			loopMode = SFZRegion::no_loop;
 		}
 	if (loopMode != SFZRegion::no_loop && loopMode != SFZRegion::one_shot) {
 		if (region->loop_start < region->loop_end) {
