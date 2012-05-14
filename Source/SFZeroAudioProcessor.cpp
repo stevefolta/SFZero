@@ -204,7 +204,7 @@ void SFZeroAudioProcessor::relayLogMessages()
 
 
 
-void SFZeroAudioProcessor::loadSound()
+void SFZeroAudioProcessor::loadSound(Thread* thread)
 {
 	loadProgress = 0.0;
 	synth.clearSounds();
@@ -215,7 +215,7 @@ void SFZeroAudioProcessor::loadSound()
 		}
 
 	SFZSound* sound = new SFZSound(sfzFile);
-	sound->loadSamples(&formatManager, &loadProgress);
+	sound->loadSamples(&formatManager, &loadProgress, thread);
 
 	synth.addSound(sound);
 }
@@ -229,7 +229,7 @@ SFZeroAudioProcessor::LoadThread::LoadThread(SFZeroAudioProcessor* processorIn)
 
 void SFZeroAudioProcessor::LoadThread::run()
 {
-	processor->loadSound();
+	processor->loadSound(this);
 }
 
 

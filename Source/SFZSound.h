@@ -20,7 +20,9 @@ class SFZSound : public SynthesiserSound {
 		void	addError(const String& message);
 		void	addUnsupportedOpcode(const String& opcode);
 
-		void	loadSamples(AudioFormatManager* formatManager, double* progressVar = NULL);
+		void	loadSamples(
+			AudioFormatManager* formatManager,
+			double* progressVar = NULL, Thread* thread = NULL);
 
 		SFZRegion*	getRegionFor(
 			int note, int velocity, SFZRegion::Trigger trigger = SFZRegion::attack);

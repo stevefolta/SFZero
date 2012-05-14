@@ -76,7 +76,7 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 		AudioFormatManager formatManager;
 		LoadThread	loadThread;
 
-		void	loadSound();
+		void	loadSound(Thread* thread = NULL);
 
 	private:
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SFZeroAudioProcessor);

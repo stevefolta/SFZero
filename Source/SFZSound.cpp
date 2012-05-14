@@ -78,7 +78,9 @@ void SFZSound::addUnsupportedOpcode(const String& opcode)
 }
 
 
-void SFZSound::loadSamples(AudioFormatManager* formatManager, double* progressVar)
+void SFZSound::loadSamples(
+	AudioFormatManager* formatManager,
+	double* progressVar, Thread* thread)
 {
 	if (progressVar)
 		*progressVar = 0.0;
@@ -93,6 +95,8 @@ void SFZSound::loadSamples(AudioFormatManager* formatManager, double* progressVa
 		numSamplesLoaded += 1.0;
 		if (progressVar)
 			*progressVar = numSamplesLoaded / numSamples;
+		if (thread && thread->threadShouldExit())
+			return;
 		}
 
 	if (progressVar)
