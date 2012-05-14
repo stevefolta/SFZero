@@ -216,6 +216,10 @@ void SFZeroAudioProcessor::loadSound(Thread* thread)
 
 	SFZSound* sound = new SFZSound(sfzFile);
 	sound->loadSamples(&formatManager, &loadProgress, thread);
+	if (thread && thread->threadShouldExit()) {
+		delete sound;
+		return;
+		}
 
 	synth.addSound(sound);
 }
