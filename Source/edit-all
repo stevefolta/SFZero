@@ -11,5 +11,9 @@ $EDITOR 	\
 	SFZEG.{h,cpp} 	\
 	SFZSynth.{h,cpp} 	\
 	SFZDebug.{h,cpp} 	\
+	RIFF.{h,cpp} 	\
+	SF2.{h,cpp} 	\
+	SF2Generator.{h,cpp} 	\
+	WinTypes.h 	\
 
 
