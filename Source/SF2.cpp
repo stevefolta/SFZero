@@ -1,4 +1,5 @@
 #include "SF2.h"
+#include "RIFF.h"
 
 
 #define readAbyte(name, file) 	\
@@ -77,6 +78,62 @@ void SF2::igen::ReadFrom(InputStream* file)
 void SF2::shdr::ReadFrom(InputStream* file)
 {
 	#include "sf2-chunks/shdr.h"
+}
+
+
+SF2::Hydra::Hydra()
+	: phdrItems(NULL), pbagItems(NULL), pmodItems(NULL), pgenItems(NULL),
+		instItems(NULL), ibagItems(NULL), imodItems(NULL), igenItems(NULL),
+		shdrItems(NULL)
+{
+}
+
+
+SF2::Hydra::~Hydra()
+{
+	delete phdrItems;
+	delete pbagItems;
+	delete pmodItems;
+	delete pgenItems;
+	delete instItems;
+	delete ibagItems;
+	delete imodItems;
+	delete igenItems;
+	delete shdrItems;
+}
+
+
+void SF2::Hydra::ReadFrom(InputStream* file, int64 pdtaChunkEnd)
+{
+	int i, numItems;
+
+	#define HandleChunk(chunkName) 	\
+		if (FourCCEquals(chunk.id, #chunkName)) { 	\
+			numItems = chunk.size / SF2::chunkName::sizeInFile; 	\
+			chunkName##NumItems = numItems; 	\
+			chunkName##Items = new SF2::chunkName[numItems]; 	\
+			for (i = 0; i < numItems; ++i) 	\
+				chunkName##Items[i].ReadFrom(file); 	\
+			} 	\
+		else
+
+	while (file->getPosition() < pdtaChunkEnd) {
+		RIFFChunk chunk;
+		chunk.ReadFrom(file);
+
+		HandleChunk(phdr)
+		HandleChunk(pbag)
+		HandleChunk(pmod)
+		HandleChunk(pgen)
+		HandleChunk(inst)
+		HandleChunk(ibag)
+		HandleChunk(imod)
+		HandleChunk(igen)
+		HandleChunk(shdr)
+		{}
+
+		chunk.SeekAfter(file);
+		}
 }
 
 

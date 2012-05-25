@@ -78,6 +78,28 @@ namespace SF2 {
 		static const int	sizeInFile = 46;
 		};
 
+
+	struct Hydra {
+		phdr*	phdrItems;
+		pbag*	pbagItems;
+		pmod*	pmodItems;
+		pgen*	pgenItems;
+		inst*	instItems;
+		ibag*	ibagItems;
+		imod*	imodItems;
+		igen*	igenItems;
+		shdr*	shdrItems;
+
+		int	phdrNumItems, pbagNumItems, pmodNumItems, pgenNumItems;
+		int	instNumItems, ibagNumItems, imodNumItems, igenNumItems;
+		int	shdrNumItems;
+
+		Hydra();
+		~Hydra();
+
+		void	ReadFrom(InputStream* file, int64 pdtaChunkEnd);
+		};
+
 	};
 
 #undef SF2Field

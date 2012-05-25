@@ -28,6 +28,7 @@ class SFZRegion {
 
 		SFZRegion();
 		void	clear();
+		void	clearForSF2();
 		void	dump();
 
 		bool	matches(unsigned char note, unsigned char velocity, Trigger trigger) {

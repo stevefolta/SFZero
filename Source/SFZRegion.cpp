@@ -46,6 +46,13 @@ void SFZRegion::clear()
 }
 
 
+void SFZRegion::clearForSF2()
+{
+	clear();
+	pitch_keycenter = -1;
+}
+
+
 void SFZRegion::dump()
 {
 	printf("%d - %d, vel %d - %d", lokey, hikey, lovel, hivel);
