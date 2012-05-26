@@ -28,7 +28,7 @@ class LogFifo {
 
 	protected:
 		enum {
-			capacity = 8192,
+			capacity = 512 * 1024,
 			};
 		AbstractFifo	fifo;
 		char	buffer[capacity];

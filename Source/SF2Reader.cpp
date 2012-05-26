@@ -76,22 +76,23 @@ void SF2Reader::read()
 							SF2::ibag* ibag = &hydra.ibagItems[whichZone];
 
 							// Generators.
+							SFZRegion zoneRegion = instRegion;
 							int genEnd = ibag[1].instGenNdx;
 							for (int whichGen = ibag->instGenNdx; whichGen < genEnd; ++whichGen) {
 								SF2::igen* igen = &hydra.igenItems[whichGen];
 								if (igen->genOper == SF2Generator::sampleID) {
 									int whichSample = igen->genAmount.wordAmount;
 									SF2::shdr* shdr = &hydra.shdrItems[whichSample];
-									instRegion.offset += shdr->start;
-									instRegion.end += shdr->end;
-									instRegion.loop_start += shdr->startLoop;
-									instRegion.loop_end += shdr->endLoop;
-									if (instRegion.pitch_keycenter == -1)
-										instRegion.pitch_keycenter = shdr->originalPitch;
-									instRegion.tune += shdr->pitchCorrection;
+									zoneRegion.offset += shdr->start;
+									zoneRegion.end += shdr->end;
+									zoneRegion.loop_start += shdr->startLoop;
+									zoneRegion.loop_end += shdr->endLoop;
+									if (zoneRegion.pitch_keycenter == -1)
+										zoneRegion.pitch_keycenter = shdr->originalPitch;
+									zoneRegion.tune += shdr->pitchCorrection;
 
 									SFZRegion* newRegion = new SFZRegion();
-									*newRegion = instRegion;
+									*newRegion = zoneRegion;
 									preset->addRegion(newRegion);
 sprintf(msg, "Adding region keys %d-%d vel %d-%d.", newRegion->lokey, newRegion->hikey, newRegion->lovel, newRegion->hivel);
 /// DBG(msg);
