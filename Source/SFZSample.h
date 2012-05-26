@@ -8,6 +8,9 @@ class SFZSample {
 	public:
 		SFZSample(const File& fileIn)
 			: loopStart(0), loopEnd(0), file(fileIn), buffer(NULL) {}
+		SFZSample(AudioSampleBuffer* bufferIn)
+			: sampleLength(bufferIn->getNumSamples()), loopStart(0), loopEnd(0),
+			  buffer(bufferIn) {}
 		~SFZSample();
 
 		bool	load(AudioFormatManager* formatManager);

@@ -3,8 +3,10 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SF2.h"
+
 class SF2Sound;
 class SFZRegion;
+class SFZSample;
 
 
 class SF2Reader {
@@ -13,6 +15,7 @@ class SF2Reader {
 		~SF2Reader();
 
 		void	read();
+		SFZSample*	readSamples(double* progressVar = NULL, Thread* thread = NULL);
 
 	protected:
 		SF2Sound*	sound;

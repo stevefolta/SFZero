@@ -28,7 +28,10 @@ void SF2Sound::loadSamples(
 	AudioFormatManager* formatManager,
 	double* progressVar, Thread* thread)
 {
-	/***/
+	SF2Reader reader(this, file);
+	SFZSample* sample = reader.readSamples(progressVar, thread);
+	if (sample)
+		samples.set(String::empty, sample);
 }
 
 

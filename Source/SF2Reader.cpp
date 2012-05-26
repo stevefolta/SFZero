@@ -1,5 +1,6 @@
 #include "SF2Reader.h"
 #include "SF2Sound.h"
+#include "SFZSample.h"
 #include "RIFF.h"
 #include "SF2.h"
 #include "SF2Generator.h"
@@ -27,6 +28,7 @@ void SF2Reader::read()
 
 	// Read the hydra.
 	SF2::Hydra hydra;
+	file->setPosition(0);
 	RIFFChunk riffChunk;
 	riffChunk.ReadFrom(file);
 	while (file->getPosition() < riffChunk.End()) {
@@ -129,6 +131,77 @@ void SF2Reader::read()
 			sound->addError("SFZero doesn't support SF2's that use multiple sample rates.");
 		}
 	this->sampleRate = sampleRate;
+}
+
+
+SFZSample* SF2Reader::readSamples(double* progressVar, Thread* thread)
+{
+	static const unsigned long bufferSize = 32768;
+
+	if (file == NULL) {
+		sound->addError("Couldn't open file.");
+		return NULL;
+		}
+
+	// Find the "smpl" chunk.
+	file->setPosition(0);
+	RIFFChunk riffChunk;
+	riffChunk.ReadFrom(file);
+	bool found = false;
+	RIFFChunk chunk;
+	while (file->getPosition() < riffChunk.End()) {
+		chunk.ReadFrom(file);
+		if (FourCCEquals(chunk.id, "smpl")) {
+			found = true;
+			break;
+			}
+		chunk.SeekAfter(file);
+		}
+	if (!found) {
+		sound->addError("SF2 is missing its \"smpl\" chunk.");
+		return NULL;
+		}
+
+	// Allocate the AudioSampleBuffer.
+	unsigned long numSamples = chunk.size / sizeof(short);
+	AudioSampleBuffer* sampleBuffer = new AudioSampleBuffer(1, numSamples);
+
+	// Read and convert.
+	short* buffer = new short[numSamples];
+	unsigned long samplesLeft = numSamples;
+	float* out = sampleBuffer->getSampleData(0);
+	while (samplesLeft > 0) {
+		// Read the buffer.
+		unsigned long samplesToRead = bufferSize;
+		if (samplesToRead > samplesLeft)
+			samplesToRead = samplesLeft;
+		file->read(buffer, samplesToRead * sizeof(short));
+
+		// Convert from signed 16-bit to float.
+		unsigned long samplesToConvert = samplesToRead;
+		short* in = buffer;
+		for (; samplesToConvert > 0; --samplesToConvert) {
+			// If we ever need to compile for big-endian platforms, we'll need to
+			// byte-swap here.
+			*out++ = *in++ / 32767.0;
+			}
+
+		samplesLeft -= samplesToRead;
+
+		if (progressVar)
+			*progressVar = (float) (numSamples - samplesLeft) / numSamples;
+		if (thread && thread->threadShouldExit()) {
+			delete buffer;
+			delete sampleBuffer;
+			return NULL;
+			}
+		}
+	delete buffer;
+
+	if (progressVar)
+		*progressVar = 1.0;
+
+	return new SFZSample(sampleBuffer);
 }
 
 
