@@ -152,6 +152,29 @@ String SFZSound::getErrorsString()
 }
 
 
+int SFZSound::numSubsounds()
+{
+	return 1;
+}
+
+
+String SFZSound::subsoundName(int whichSubsound)
+{
+	return String::empty;
+}
+
+
+void SFZSound::useSubsound(int whichSubsound)
+{
+}
+
+
+int SFZSound::selectedSubsound()
+{
+	return 0;
+}
+
+
 void SFZSound::dump()
 {
 	int i;

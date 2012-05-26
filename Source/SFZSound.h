@@ -32,6 +32,11 @@ class SFZSound : public SynthesiserSound {
 
 		String	getErrorsString();
 
+		virtual int	numSubsounds();
+		virtual String	subsoundName(int whichSubsound);
+		virtual void	useSubsound(int whichSubsound);
+		virtual int 	selectedSubsound();
+
 		void	dump();
 
 	protected:

@@ -29,8 +29,14 @@ class SF2Sound : public SFZSound {
 			};
 		void	addPreset(Preset* preset);
 
+		int	numSubsounds();
+		String	subsoundName(int whichSubsound);
+		void	useSubsound(int whichSubsound);
+		int 	selectedSubsound();
+
 	protected:
 		OwnedArray<Preset>	presets;
+		int               	selectedPreset;
 	};
 
 

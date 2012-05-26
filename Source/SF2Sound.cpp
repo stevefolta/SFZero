@@ -20,6 +20,7 @@ void SF2Sound::loadRegions()
 {
 	SF2Reader reader(this, file);
 	reader.read();
+	useSubsound(0);
 }
 
 
@@ -35,5 +36,30 @@ void SF2Sound::addPreset(SF2Sound::Preset* preset)
 {
 	presets.add(preset);
 }
+
+
+int SF2Sound::numSubsounds()
+{
+	return presets.size();
+}
+
+
+String SF2Sound::subsoundName(int whichSubsound)
+{
+	return presets[whichSubsound]->name;
+}
+
+
+void SF2Sound::useSubsound(int whichSubsound)
+{
+	selectedPreset = whichSubsound;
+}
+
+
+int SF2Sound::selectedSubsound()
+{
+	return selectedPreset;
+}
+
 
 
