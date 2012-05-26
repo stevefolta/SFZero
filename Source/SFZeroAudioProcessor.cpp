@@ -217,7 +217,7 @@ void SFZeroAudioProcessor::loadSound(Thread* thread)
 
 	SFZSound* sound;
 	String extension = sfzFile.getFileExtension();
-	if (extension == "sf2" || extension == "SF2")
+	if (extension == ".sf2" || extension == ".SF2")
 		sound = new SF2Sound(sfzFile);
 	else
 		sound = new SFZSound(sfzFile);

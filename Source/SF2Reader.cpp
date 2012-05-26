@@ -4,6 +4,7 @@
 #include "RIFF.h"
 #include "SF2.h"
 #include "SF2Generator.h"
+#include "SFZDebug.h"
 
 
 SF2Reader::SF2Reader(SF2Sound* soundIn, const File& fileIn)
@@ -89,9 +90,11 @@ void SF2Reader::read()
 										instRegion.pitch_keycenter = shdr->originalPitch;
 									instRegion.tune += shdr->pitchCorrection;
 
-									SFZRegion* newRegion;
+									SFZRegion* newRegion = new SFZRegion();
 									*newRegion = instRegion;
 									preset->addRegion(newRegion);
+sprintf(msg, "Adding region keys %d-%d vel %d-%d.", newRegion->lokey, newRegion->hikey, newRegion->lovel, newRegion->hivel);
+/// DBG(msg);
 									}
 								else
 									addGeneratorToRegion(igen->genOper, &igen->genAmount, &instRegion);
@@ -143,7 +146,7 @@ SFZSample* SF2Reader::readSamples(double* progressVar, Thread* thread)
 		return NULL;
 		}
 
-	// Find the "smpl" chunk.
+	// Find the "sdta" chunk.
 	file->setPosition(0);
 	RIFFChunk riffChunk;
 	riffChunk.ReadFrom(file);
@@ -151,7 +154,7 @@ SFZSample* SF2Reader::readSamples(double* progressVar, Thread* thread)
 	RIFFChunk chunk;
 	while (file->getPosition() < riffChunk.End()) {
 		chunk.ReadFrom(file);
-		if (FourCCEquals(chunk.id, "smpl")) {
+		if (FourCCEquals(chunk.id, "sdta")) {
 			found = true;
 			break;
 			}

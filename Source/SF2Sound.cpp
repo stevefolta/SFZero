@@ -1,5 +1,6 @@
 #include "SF2Sound.h"
 #include "SF2Reader.h"
+#include "SFZDebug.h"
 
 
 SF2Sound::SF2Sound(const File& file)
@@ -30,8 +31,19 @@ void SF2Sound::loadSamples(
 {
 	SF2Reader reader(this, file);
 	SFZSample* sample = reader.readSamples(progressVar, thread);
-	if (sample)
+	if (sample) {
 		samples.set(String::empty, sample);
+
+		// All regions need to point to the sample.
+		for (int whichPreset = presets.size() - 1; whichPreset >= 0; --whichPreset) {
+			Preset* preset = presets[whichPreset];
+			for (int whichRegion = preset->regions.size() - 1; whichRegion >= 0; --whichRegion)
+				preset->regions[whichRegion]->sample = sample;
+			}
+		}
+
+	if (progressVar)
+		*progressVar = 1.0;
 }
 
 
@@ -56,6 +68,8 @@ String SF2Sound::subsoundName(int whichSubsound)
 void SF2Sound::useSubsound(int whichSubsound)
 {
 	selectedPreset = whichSubsound;
+	regions.clear();
+	regions.addArray(presets[whichSubsound]->regions);
 }
 
 

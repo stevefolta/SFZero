@@ -14,6 +14,8 @@ $EDITOR 	\
 	RIFF.{h,cpp} 	\
 	SF2.{h,cpp} 	\
 	SF2Generator.{h,cpp} 	\
+	SF2Sound.{h,cpp} 	\
+	SF2Reader.{h,cpp} 	\
 	WinTypes.h 	\
 
 

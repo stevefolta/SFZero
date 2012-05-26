@@ -120,7 +120,7 @@ void SFZeroEditor::chooseFile()
 	FileChooser chooser(
 		"Select an SFZ file...",
 		File::nonexistent,
-		"*.sfz;*.SFZ");
+		"*.sfz;*.SFZ;*.sf2;*.SF2");
 	if (chooser.browseForFileToOpen()) {
 		File sfzFile(chooser.getResult());
 		setFile(&sfzFile);
