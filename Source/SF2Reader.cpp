@@ -94,8 +94,6 @@ void SF2Reader::read()
 									SFZRegion* newRegion = new SFZRegion();
 									*newRegion = zoneRegion;
 									preset->addRegion(newRegion);
-sprintf(msg, "Adding region keys %d-%d vel %d-%d.", newRegion->lokey, newRegion->hikey, newRegion->lovel, newRegion->hivel);
-/// DBG(msg);
 									}
 								else
 									addGeneratorToRegion(igen->genOper, &igen->genAmount, &instRegion);
