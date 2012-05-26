@@ -1,6 +1,7 @@
 #include "SFZeroAudioProcessor.h"
 #include "SFZeroEditor.h"
 #include "SFZSound.h"
+#include "SF2Sound.h"
 #include "SFZVoice.h"
 #include "SFZDebug.h"
 
@@ -214,7 +215,12 @@ void SFZeroAudioProcessor::loadSound(Thread* thread)
 		return;
 		}
 
-	SFZSound* sound = new SFZSound(sfzFile);
+	SFZSound* sound;
+	String extension = sfzFile.getFileExtension();
+	if (extension == "sf2" || extension == "SF2")
+		sound = new SF2Sound(sfzFile);
+	else
+		sound = new SFZSound(sfzFile);
 	sound->loadRegions();
 	sound->loadSamples(&formatManager, &loadProgress, thread);
 	if (thread && thread->threadShouldExit()) {
