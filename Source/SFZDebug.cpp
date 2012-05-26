@@ -1,4 +1,7 @@
 #include "SFZDebug.h"
+#include <stdarg.h>
+
+#ifdef JUCE_DEBUG
 
 static LogFifo* fifo = NULL;
 
@@ -128,5 +131,19 @@ void relayFifoLogMessages()
 }
 
 
+void dbgprintf(const char* msg, ...)
+{
+	va_list args;
+	va_start(args, msg);
+
+	char output[256];
+	vsnprintf(output, 256, msg, args);
+	fifoLogMessage(output);
+
+	va_end(args);
+}
+
+
+#endif 	// JUCE_DEBUG
 
 

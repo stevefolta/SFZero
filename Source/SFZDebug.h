@@ -16,6 +16,8 @@
 #endif
 
 
+#ifdef JUCE_DEBUG
+
 class LogFifo {
 	public:
 		LogFifo();
@@ -38,5 +40,10 @@ extern void setupLogging(Logger* logger);
 extern void fifoLogMessage(const String& message);
 extern void relayFifoLogMessages();
 
-#endif
+extern void dbgprintf(const char* msg, ...);
+
+
+#endif 	// JUCE_DEBUG
+
+#endif 	// !SFZDebug_h
 
