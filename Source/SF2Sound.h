@@ -21,7 +21,7 @@ class SF2Sound : public SFZSound {
 
 			Preset(String nameIn, int presetIn)
 				: name(nameIn), preset(presetIn) {}
-			~Preset();
+			~Preset() {}
 
 			void	addRegion(SFZRegion* region) {
 				regions.add(region);
