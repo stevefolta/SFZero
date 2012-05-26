@@ -96,7 +96,7 @@ void SF2Reader::read()
 									preset->addRegion(newRegion);
 									}
 								else
-									addGeneratorToRegion(igen->genOper, &igen->genAmount, &instRegion);
+									addGeneratorToRegion(igen->genOper, &igen->genAmount, &zoneRegion);
 								}
 
 							// Modulators.
