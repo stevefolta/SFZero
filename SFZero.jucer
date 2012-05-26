@@ -30,6 +30,8 @@
   </EXPORTFORMATS>
   <MAINGROUP id="STGh0u" name="SFZero">
     <GROUP id="{1110531B-E755-9964-D428-0B0E27C2D745}" name="Source">
+      <FILE id="JxWRta" name="SF2Reader.cpp" compile="1" resource="0" file="Source/SF2Reader.cpp"/>
+      <FILE id="M1KpnL" name="SF2Sound.cpp" compile="1" resource="0" file="Source/SF2Sound.cpp"/>
       <FILE id="b65TB6" name="RIFF.cpp" compile="1" resource="0" file="Source/RIFF.cpp"/>
       <FILE id="khaEk8" name="SF2.cpp" compile="1" resource="0" file="Source/SF2.cpp"/>
       <FILE id="o6tYKl" name="SF2Generator.cpp" compile="1" resource="0"

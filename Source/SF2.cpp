@@ -137,4 +137,13 @@ void SF2::Hydra::ReadFrom(InputStream* file, int64 pdtaChunkEnd)
 }
 
 
+bool SF2::Hydra::IsComplete()
+{
+	return
+		phdrItems && pbagItems && pmodItems && pgenItems &&
+		instItems && ibagItems && imodItems && igenItems &&
+		shdrItems;
+}
+
+
 

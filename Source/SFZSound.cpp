@@ -8,8 +8,6 @@
 SFZSound::SFZSound(const File& fileIn)
 	: file(fileIn)
 {
-	SFZReader reader(this);
-	reader.read(file);
 }
 
 
@@ -75,6 +73,13 @@ void SFZSound::addError(const String& message)
 void SFZSound::addUnsupportedOpcode(const String& opcode)
 {
 	unusedOpcodes.set(opcode, opcode);
+}
+
+
+void SFZSound::loadRegions()
+{
+	SFZReader reader(this);
+	reader.read(file);
 }
 
 

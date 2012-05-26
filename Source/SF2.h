@@ -14,7 +14,7 @@ namespace SF2 {
 		};
 
 	union genAmountType {
-		rangesType	ranges;
+		rangesType	range;
 		short     	shortAmount;
 		word      	wordAmount;
 		};
@@ -98,6 +98,7 @@ namespace SF2 {
 		~Hydra();
 
 		void	ReadFrom(InputStream* file, int64 pdtaChunkEnd);
+		bool	IsComplete();
 		};
 
 	};

@@ -215,6 +215,7 @@ void SFZeroAudioProcessor::loadSound(Thread* thread)
 		}
 
 	SFZSound* sound = new SFZSound(sfzFile);
+	sound->loadRegions();
 	sound->loadSamples(&formatManager, &loadProgress, thread);
 	if (thread && thread->threadShouldExit()) {
 		delete sound;
