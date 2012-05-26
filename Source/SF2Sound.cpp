@@ -1,5 +1,6 @@
 #include "SF2Sound.h"
 #include "SF2Reader.h"
+#include "SFZSample.h"
 #include "SFZDebug.h"
 
 
@@ -22,6 +23,7 @@ void SF2Sound::loadRegions()
 	SF2Reader reader(this, file);
 	reader.read();
 	useSubsound(0);
+	sampleRate = reader.getSampleRate();
 }
 
 
@@ -30,7 +32,7 @@ void SF2Sound::loadSamples(
 	double* progressVar, Thread* thread)
 {
 	SF2Reader reader(this, file);
-	SFZSample* sample = reader.readSamples(progressVar, thread);
+	SFZSample* sample = reader.readSamples(sampleRate, progressVar, thread);
 	if (sample) {
 		samples.set(String::empty, sample);
 

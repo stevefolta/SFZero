@@ -15,7 +15,10 @@ class SF2Reader {
 		~SF2Reader();
 
 		void	read();
-		SFZSample*	readSamples(double* progressVar = NULL, Thread* thread = NULL);
+		SFZSample*	readSamples(
+			double sampleRate, double* progressVar = NULL, Thread* thread = NULL);
+
+		double	getSampleRate() { return sampleRate; }
 
 	protected:
 		SF2Sound*	sound;

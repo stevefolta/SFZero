@@ -8,9 +8,9 @@ class SFZSample {
 	public:
 		SFZSample(const File& fileIn)
 			: loopStart(0), loopEnd(0), file(fileIn), buffer(NULL) {}
-		SFZSample(AudioSampleBuffer* bufferIn)
+		SFZSample(AudioSampleBuffer* bufferIn, double sampleRateIn)
 			: sampleLength(bufferIn->getNumSamples()), loopStart(0), loopEnd(0),
-			  buffer(bufferIn) {}
+			  buffer(bufferIn), sampleRate(sampleRateIn) {}
 		~SFZSample();
 
 		bool	load(AudioFormatManager* formatManager);
@@ -21,6 +21,10 @@ class SFZSample {
 		void	dump();
 
 		unsigned long	sampleLength, loopStart, loopEnd;
+
+#ifdef JUCE_DEBUG
+		void	checkIfZeroed(const char* where);
+#endif
 
 	protected:
 		File	file;

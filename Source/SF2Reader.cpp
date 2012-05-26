@@ -124,7 +124,7 @@ void SF2Reader::read()
 		}
 
 	// Check the samples for the sample rate.
-	dword sampleRate;
+	dword sampleRate = 0;
 	for (int whichSample = 0; whichSample < hydra.shdrNumItems - 1; ++whichSample) {
 		SF2::shdr* shdr = &hydra.shdrItems[whichSample];
 		if (whichSample == 0)
@@ -136,7 +136,7 @@ void SF2Reader::read()
 }
 
 
-SFZSample* SF2Reader::readSamples(double* progressVar, Thread* thread)
+SFZSample* SF2Reader::readSamples(double sampleRate, double* progressVar, Thread* thread)
 {
 	static const unsigned long bufferSize = 32768;
 
@@ -169,7 +169,7 @@ SFZSample* SF2Reader::readSamples(double* progressVar, Thread* thread)
 	AudioSampleBuffer* sampleBuffer = new AudioSampleBuffer(1, numSamples);
 
 	// Read and convert.
-	short* buffer = new short[numSamples];
+	short* buffer = new short[bufferSize];
 	unsigned long samplesLeft = numSamples;
 	float* out = sampleBuffer->getSampleData(0);
 	while (samplesLeft > 0) {
@@ -203,7 +203,7 @@ SFZSample* SF2Reader::readSamples(double* progressVar, Thread* thread)
 	if (progressVar)
 		*progressVar = 1.0;
 
-	return new SFZSample(sampleBuffer);
+	return new SFZSample(sampleBuffer, sampleRate);
 }
 
 

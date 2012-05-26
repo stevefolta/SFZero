@@ -37,6 +37,7 @@ class SF2Sound : public SFZSound {
 	protected:
 		OwnedArray<Preset>	presets;
 		int               	selectedPreset;
+		double            	sampleRate;
 	};
 
 

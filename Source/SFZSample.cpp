@@ -1,4 +1,5 @@
 #include "SFZSample.h"
+#include "SFZDebug.h"
 
 
 bool SFZSample::load(AudioFormatManager* formatManager)
@@ -41,6 +42,31 @@ void SFZSample::dump()
 	file.getFullPathName().copyToUTF8(path, 256);
 	printf("%s\n", path);
 }
+
+
+#ifdef JUCE_DEBUG
+void SFZSample::checkIfZeroed(const char* where)
+{
+	if (buffer == NULL) {
+		dbgprintf("SFZSample::checkIfZeroed(%s): no buffer!", where);
+		return;
+		}
+
+	int samplesLeft = buffer->getNumSamples();
+	unsigned long nonzero = 0, zero = 0;
+	float* p = buffer->getSampleData(0);
+	for (; samplesLeft > 0; --samplesLeft) {
+		if (*p++ == 0.0)
+			zero += 1;
+		else
+			nonzero += 1;
+		}
+	if (nonzero > 0)
+		dbgprintf("Buffer not zeroed at %s (%lu vs. %lu).", where, nonzero, zero);
+	else
+		dbgprintf("Buffer zeroed at %s!  (%lu zeros)", where, zero);
+}
+#endif 	// JUCE_DEBUG
 
 
 
