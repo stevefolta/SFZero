@@ -220,10 +220,10 @@ void SF2Reader::addGeneratorToRegion(
 			region->end += amount->shortAmount;
 			break;
 		case SF2Generator::startloopAddrsOffset:
-			region->loop_start = amount->shortAmount;
+			region->loop_start += amount->shortAmount;
 			break;
 		case SF2Generator::endloopAddrsOffset:
-			region->loop_end = amount->shortAmount;
+			region->loop_end += amount->shortAmount;
 			break;
 		case SF2Generator::startAddrsCoarseOffset:
 			region->offset += amount->shortAmount * 32768;
