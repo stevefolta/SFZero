@@ -127,14 +127,17 @@ void SF2Reader::read()
 
 	// Check the samples for the sample rate.
 	dword sampleRate = 0;
+	bool multipleSampleRates = false;
 	for (int whichSample = 0; whichSample < hydra.shdrNumItems - 1; ++whichSample) {
 		SF2::shdr* shdr = &hydra.shdrItems[whichSample];
 		if (whichSample == 0)
 			sampleRate = shdr->sampleRate;
 		else if (shdr->sampleRate != sampleRate)
-			sound->addError("SFZero doesn't support SF2's that use multiple sample rates.");
+			multipleSampleRates = true;
 		}
 	this->sampleRate = sampleRate;
+	if (multipleSampleRates)
+		sound->addError("SFZero doesn't support SF2's that use multiple sample rates.");
 }
 
 
