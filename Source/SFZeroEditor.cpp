@@ -53,6 +53,9 @@ SFZeroEditor::SFZeroEditor(SFZeroAudioProcessor* ownerFilter)
 	if (sfzFile != File::nonexistent) {
 		updateFile(&sfzFile);
 		updateErrors();
+		SFZSound* sound = ownerFilter->getSound();
+		if (sound && sound->numSubsounds() > 1)
+			showSubsound();
 		}
 	else
 		showVersion();
@@ -92,7 +95,22 @@ void SFZeroEditor::labelClicked(Label* clickedLabel)
 	if (clickedLabel == &fileLabel)
 		chooseFile();
 	else if (clickedLabel == &pathLabel) {
-		if (showing == showingVersion)
+		if (showing == showingSubsound) {
+			SFZeroAudioProcessor* processor = getProcessor();
+			SFZSound* sound = processor->getSound();
+			if (sound) {
+				PopupMenu menu;
+				int numSubsounds = sound->numSubsounds();
+				for (int i = 0; i < numSubsounds; ++i)
+					menu.addItem(i + 1, sound->subsoundName(i));
+				int result = menu.show();
+				if (result != 0) {
+					sound->useSubsound(result - 1);
+					showSubsound();
+					}
+				}
+			}
+		else if (showing == showingVersion)
 			showPath();
 		else
 			showVersion();
@@ -107,8 +125,13 @@ void SFZeroEditor::timerCallback()
 #endif
 
 	if (showing == showingProgress) {
-		if (getProcessor()->loadProgress >= 1.0) {
-			showPath();
+		SFZeroAudioProcessor* processor = getProcessor();
+		if (processor->loadProgress >= 1.0) {
+			SFZSound* sound = processor->getSound();
+			if (sound && sound->numSubsounds() > 1)
+				showSubsound();
+			else
+				showPath();
 			updateErrors();
 			}
 		}
@@ -174,6 +197,19 @@ void SFZeroEditor::showPath()
 	pathLabel.setText(file.getParentDirectory().getFullPathName(), false);
 	hideProgress();
 	showing = showingPath;
+}
+
+
+void SFZeroEditor::showSubsound()
+{
+	SFZeroAudioProcessor* processor = getProcessor();
+	SFZSound* sound = processor->getSound();
+	if (sound == NULL)
+		return;
+
+	pathLabel.setText(sound->subsoundName(sound->selectedSubsound()), false);
+	hideProgress();
+	showing = showingSubsound;
 }
 
 

@@ -18,12 +18,24 @@ SF2Sound::~SF2Sound()
 }
 
 
+class PresetComparator {
+	public:
+		static int compareElements(const SF2Sound::Preset* first, const SF2Sound::Preset* second) {
+			return first->preset - second->preset;
+			}
+	};
+
 void SF2Sound::loadRegions()
 {
 	SF2Reader reader(this, file);
 	reader.read();
-	useSubsound(0);
 	sampleRate = reader.getSampleRate();
+
+	// Sort the presets.
+	PresetComparator comparator;
+	presets.sort(comparator);
+
+	useSubsound(0);
 }
 
 
@@ -63,7 +75,8 @@ int SF2Sound::numSubsounds()
 
 String SF2Sound::subsoundName(int whichSubsound)
 {
-	return presets[whichSubsound]->name;
+	Preset* preset = presets[whichSubsound];
+	return String(preset->preset) + ": " + preset->name;
 }
 
 

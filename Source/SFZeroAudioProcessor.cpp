@@ -170,6 +170,13 @@ void SFZeroAudioProcessor::getStateInformation(MemoryBlock& destData)
 {
 	DynamicObject state;
 	state.setProperty("sfzFilePath", sfzFile.getFullPathName());
+	SFZSound* sound = getSound();
+	if (sound) {
+		int subsound = sound->selectedSubsound();
+		if (subsound != 0)
+			state.setProperty("subsound", subsound);
+		}
+
 	MemoryOutputStream out(destData, false);
 	JSON::writeToStream(out, &state);
 }
@@ -184,6 +191,12 @@ void SFZeroAudioProcessor::setStateInformation(const void* data, int sizeInBytes
 		if (!sfzFilePath.isEmpty()) {
 			File file(sfzFilePath);
 			setSfzFile(&file);
+			SFZSound* sound = getSound();
+			if (sound) {
+				var subsoundVar = state["subsound"];
+				if (subsoundVar.isInt())
+					sound->useSubsound(int(subsoundVar));
+				}
 			}
 		}
 }

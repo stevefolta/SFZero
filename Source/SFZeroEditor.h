@@ -24,6 +24,7 @@ class SFZeroEditor  :
 			showingVersion,
 			showingPath,
 			showingProgress,
+			showingSubsound,
 			};
 
 		ClickableLabel	fileLabel;
@@ -45,6 +46,7 @@ class SFZeroEditor  :
 		void	showPath();
 		void	showProgress();
 		void	hideProgress();
+		void	showSubsound();
 	};
 
 
