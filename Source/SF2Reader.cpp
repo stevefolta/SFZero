@@ -87,6 +87,8 @@ void SF2Reader::read()
 									zoneRegion.end += shdr->end;
 									zoneRegion.loop_start += shdr->startLoop;
 									zoneRegion.loop_end += shdr->endLoop;
+									if (shdr->endLoop > 0)
+										zoneRegion.loop_end -= 1;
 									if (zoneRegion.pitch_keycenter == -1)
 										zoneRegion.pitch_keycenter = shdr->originalPitch;
 									zoneRegion.tune += shdr->pitchCorrection;
