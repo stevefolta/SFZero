@@ -18,7 +18,7 @@ SFZeroAudioProcessor::SFZeroAudioProcessor()
 	formatManager.registerFormat(new WavAudioFormat(), false);
 	formatManager.registerFormat(new OggVorbisAudioFormat(), false);
 
-	for (int i = 0; i < 32; ++i)
+	for (int i = 0; i < 96; ++i)
 		synth.addVoice(new SFZVoice());
 }
 
