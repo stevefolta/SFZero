@@ -71,12 +71,14 @@ void SF2Reader::read()
 					if (whichInst < hydra.instNumItems) {
 						SFZRegion instRegion = presetRegion;
 						SF2::inst* inst = &hydra.instItems[whichInst];
+						int firstZone = inst->instBagNdx;
 						int zoneEnd = inst[1].instBagNdx;
-						for (int whichZone = inst->instBagNdx; whichZone < zoneEnd; ++whichZone) {
+						for (int whichZone = firstZone; whichZone < zoneEnd; ++whichZone) {
 							SF2::ibag* ibag = &hydra.ibagItems[whichZone];
 
 							// Generators.
 							SFZRegion zoneRegion = instRegion;
+							bool hadSampleID = false;
 							int genEnd = ibag[1].instGenNdx;
 							for (int whichGen = ibag->instGenNdx; whichGen < genEnd; ++whichGen) {
 								SF2::igen* igen = &hydra.igenItems[whichGen];
@@ -96,10 +98,15 @@ void SF2Reader::read()
 									SFZRegion* newRegion = new SFZRegion();
 									*newRegion = zoneRegion;
 									preset->addRegion(newRegion);
+									hadSampleID = true;
 									}
 								else
 									addGeneratorToRegion(igen->genOper, &igen->genAmount, &zoneRegion);
 								}
+
+							// Handle instrument's global zone.
+							if (whichZone == firstZone && !hadSampleID)
+								instRegion = zoneRegion;
 
 							// Modulators.
 							int modEnd = ibag[1].instModNdx;
