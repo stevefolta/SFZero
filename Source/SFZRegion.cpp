@@ -50,6 +50,7 @@ void SFZRegion::clearForSF2()
 {
 	clear();
 	pitch_keycenter = -1;
+	loop_mode = no_loop;
 }
 
 
