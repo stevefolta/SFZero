@@ -115,7 +115,7 @@ void SFZVoice::stopNote(const bool allowTailOff)
 
 void SFZVoice::stopNoteForGroup()
 {
-	if (region->off_mode == SFZRegion::normal)
+	if (region->off_mode == SFZRegion::fast)
 		ampeg.fastRelease();
 	else
 		ampeg.noteOff();
