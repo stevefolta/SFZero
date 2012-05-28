@@ -97,6 +97,7 @@ void SF2Reader::read()
 
 									SFZRegion* newRegion = new SFZRegion();
 									*newRegion = zoneRegion;
+									newRegion->sample = sound->sampleFor(shdr->sampleRate);
 									preset->addRegion(newRegion);
 									hadSampleID = true;
 									}
@@ -131,24 +132,11 @@ void SF2Reader::read()
 				sound->addUnsupportedOpcode("any modulator");
 			}
 		}
-
-	// Check the samples for the sample rate.
-	dword sampleRate = 0;
-	bool multipleSampleRates = false;
-	for (int whichSample = 0; whichSample < hydra.shdrNumItems - 1; ++whichSample) {
-		SF2::shdr* shdr = &hydra.shdrItems[whichSample];
-		if (whichSample == 0)
-			sampleRate = shdr->sampleRate;
-		else if (shdr->sampleRate != sampleRate)
-			multipleSampleRates = true;
-		}
-	this->sampleRate = sampleRate;
-	if (multipleSampleRates)
-		sound->addError("SFZero doesn't support SF2's that use multiple sample rates.");
 }
 
 
-SFZSample* SF2Reader::readSamples(double sampleRate, double* progressVar, Thread* thread)
+AudioSampleBuffer* SF2Reader::readSamples(
+	double* progressVar, Thread* thread)
 {
 	static const unsigned long bufferSize = 32768;
 
@@ -225,7 +213,7 @@ SFZSample* SF2Reader::readSamples(double sampleRate, double* progressVar, Thread
 	if (progressVar)
 		*progressVar = 1.0;
 
-	return new SFZSample(sampleBuffer, sampleRate);
+	return sampleBuffer;
 }
 
 

@@ -15,15 +15,12 @@ class SF2Reader {
 		~SF2Reader();
 
 		void	read();
-		SFZSample*	readSamples(
-			double sampleRate, double* progressVar = NULL, Thread* thread = NULL);
-
-		double	getSampleRate() { return sampleRate; }
+		AudioSampleBuffer*	readSamples(
+			double* progressVar = NULL, Thread* thread = NULL);
 
 	protected:
 		SF2Sound*	sound;
 		FileInputStream*	file;
-		double	sampleRate;
 
 		void	addGeneratorToRegion(
 			word genOper, SF2::genAmountType* amount, SFZRegion* region);

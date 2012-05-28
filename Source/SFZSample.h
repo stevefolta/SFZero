@@ -8,9 +8,9 @@ class SFZSample {
 	public:
 		SFZSample(const File& fileIn)
 			: loopStart(0), loopEnd(0), file(fileIn), buffer(NULL) {}
-		SFZSample(AudioSampleBuffer* bufferIn, double sampleRateIn)
-			: sampleLength(bufferIn->getNumSamples()), loopStart(0), loopEnd(0),
-			  buffer(bufferIn), sampleRate(sampleRateIn) {}
+		SFZSample(double sampleRateIn)
+			: sampleLength(0), loopStart(0), loopEnd(0),
+			  buffer(NULL), sampleRate(sampleRateIn) {}
 		~SFZSample();
 
 		bool	load(AudioFormatManager* formatManager);
@@ -18,6 +18,8 @@ class SFZSample {
 		AudioSampleBuffer*	getBuffer() { return buffer; }
 		double	getSampleRate() { return sampleRate; }
 		String	getShortName();
+		void	setBuffer(AudioSampleBuffer* newBuffer);
+		AudioSampleBuffer*	detachBuffer();
 		void	dump();
 
 		unsigned long	sampleLength, loopStart, loopEnd;

@@ -15,6 +15,12 @@ SF2Sound::~SF2Sound()
 	// "presets" owns the regions, so clear them out of "regions" so ~SFZSound()
 	// doesn't try to delete them.
 	regions.clear();
+
+	// The samples all share a single buffer, so make sure they don't all delete it.
+	AudioSampleBuffer* buffer = NULL;
+	for (HashMap<unsigned long, SFZSample*>::Iterator i(samplesByRate); i.next();)
+		buffer = i.getValue()->detachBuffer();
+	delete buffer;
 }
 
 
@@ -29,7 +35,6 @@ void SF2Sound::loadRegions()
 {
 	SF2Reader reader(this, file);
 	reader.read();
-	sampleRate = reader.getSampleRate();
 
 	// Sort the presets.
 	PresetComparator comparator;
@@ -44,16 +49,11 @@ void SF2Sound::loadSamples(
 	double* progressVar, Thread* thread)
 {
 	SF2Reader reader(this, file);
-	SFZSample* sample = reader.readSamples(sampleRate, progressVar, thread);
-	if (sample) {
-		samples.set(String::empty, sample);
-
-		// All regions need to point to the sample.
-		for (int whichPreset = presets.size() - 1; whichPreset >= 0; --whichPreset) {
-			Preset* preset = presets[whichPreset];
-			for (int whichRegion = preset->regions.size() - 1; whichRegion >= 0; --whichRegion)
-				preset->regions[whichRegion]->sample = sample;
-			}
+	AudioSampleBuffer* buffer = reader.readSamples(progressVar, thread);
+	if (buffer) {
+		// All the SFZSamples will share the buffer.
+		for (HashMap<unsigned long, SFZSample*>::Iterator i(samplesByRate); i.next();)
+			i.getValue()->setBuffer(buffer);
 		}
 
 	if (progressVar)
@@ -91,6 +91,24 @@ void SF2Sound::useSubsound(int whichSubsound)
 int SF2Sound::selectedSubsound()
 {
 	return selectedPreset;
+}
+
+
+SFZSample* SF2Sound::sampleFor(unsigned long sampleRate)
+{
+	SFZSample* sample = samplesByRate[sampleRate];
+	if (sample == NULL) {
+		sample = new SFZSample(sampleRate);
+		samplesByRate.set(sampleRate, sample);
+		}
+	return sample;
+}
+
+
+void SF2Sound::setSamplesBuffer(AudioSampleBuffer* buffer)
+{
+	for (HashMap<unsigned long, SFZSample*>::Iterator i(samplesByRate); i.next();)
+		i.getValue()->setBuffer(buffer);
 }
 
 

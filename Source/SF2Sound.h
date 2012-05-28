@@ -34,10 +34,13 @@ class SF2Sound : public SFZSound {
 		void	useSubsound(int whichSubsound);
 		int 	selectedSubsound();
 
+		SFZSample*	sampleFor(unsigned long sampleRate);
+		void	setSamplesBuffer(AudioSampleBuffer* buffer);
+
 	protected:
 		OwnedArray<Preset>	presets;
+		HashMap<unsigned long, SFZSample*>	samplesByRate;
 		int               	selectedPreset;
-		double            	sampleRate;
 	};
 
 

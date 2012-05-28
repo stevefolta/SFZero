@@ -36,6 +36,21 @@ String SFZSample::getShortName()
 }
 
 
+void SFZSample::setBuffer(AudioSampleBuffer* newBuffer)
+{
+	buffer = newBuffer;
+	sampleLength = buffer->getNumSamples();
+}
+
+
+AudioSampleBuffer* SFZSample::detachBuffer()
+{
+	AudioSampleBuffer* result = buffer;
+	buffer = NULL;
+	return result;
+}
+
+
 void SFZSample::dump()
 {
 	char path[256];
