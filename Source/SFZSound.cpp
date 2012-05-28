@@ -72,7 +72,7 @@ void SFZSound::addError(const String& message)
 
 void SFZSound::addUnsupportedOpcode(const String& opcode)
 {
-	unusedOpcodes.set(opcode, opcode);
+	unsupportedOpcodes.set(opcode, opcode);
 }
 
 
@@ -142,10 +142,18 @@ String SFZSound::getErrorsString()
 	for (int i = 0; i < numErrors; ++i)
 		result += errors[i] + "\n";
 
-	if (unusedOpcodes.size() > 0) {
+	if (unsupportedOpcodes.size() > 0) {
 		result += "\nUnsupported opcodes:";
-		for (HashMap<String,String>::Iterator i(unusedOpcodes); i.next();)
-			result += " " + i.getKey();
+		bool shownOne = false;
+		for (HashMap<String,String>::Iterator i(unsupportedOpcodes); i.next();) {
+			if (!shownOne) {
+				result += " ";
+				shownOne = true;
+				}
+			else
+				result += ", ";
+			result += i.getKey();
+			}
 		result += "\n";
 		}
 	return result;
@@ -190,9 +198,9 @@ void SFZSound::dump()
 		printf("\n");
 		}
 
-	if (unusedOpcodes.size() > 0) {
+	if (unsupportedOpcodes.size() > 0) {
 		printf("Unused opcodes:\n");
-		for (HashMap<String,String>::Iterator i(unusedOpcodes); i.next();) {
+		for (HashMap<String,String>::Iterator i(unsupportedOpcodes); i.next();) {
 			char opcode[64];
 			i.getKey().copyToUTF8(opcode, 64);
 			printf("  %s\n", opcode);

@@ -44,7 +44,7 @@ class SFZSound : public SynthesiserSound {
 		Array<SFZRegion*>	regions;
 		HashMap<String, SFZSample*>	samples;
 		StringArray      	errors;
-		HashMap<String, String>	unusedOpcodes;
+		HashMap<String, String>	unsupportedOpcodes;
 	};
 
 
