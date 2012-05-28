@@ -100,9 +100,12 @@ void SFZeroEditor::labelClicked(Label* clickedLabel)
 			SFZSound* sound = processor->getSound();
 			if (sound) {
 				PopupMenu menu;
+				int selectedSubsound = sound->selectedSubsound();
 				int numSubsounds = sound->numSubsounds();
-				for (int i = 0; i < numSubsounds; ++i)
-					menu.addItem(i + 1, sound->subsoundName(i));
+				for (int i = 0; i < numSubsounds; ++i) {
+					menu.addItem(
+						i + 1, sound->subsoundName(i), true, (i == selectedSubsound));
+					}
 				int result = menu.show();
 				if (result != 0) {
 					sound->useSubsound(result - 1);
