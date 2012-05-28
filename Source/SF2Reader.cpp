@@ -171,6 +171,16 @@ SFZSample* SF2Reader::readSamples(double sampleRate, double* progressVar, Thread
 			}
 		chunk.SeekAfter(file);
 		}
+	int64 sdtaEnd = chunk.End();
+	found = false;
+	while (file->getPosition() < sdtaEnd) {
+		chunk.ReadFrom(file);
+		if (FourCCEquals(chunk.id, "smpl")) {
+			found = true;
+			break;
+			}
+		chunk.SeekAfter(file);
+		}
 	if (!found) {
 		sound->addError("SF2 is missing its \"smpl\" chunk.");
 		return NULL;
