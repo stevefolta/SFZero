@@ -272,16 +272,16 @@ void SF2Reader::addGeneratorToRegion(
 			region->loop_start += amount->shortAmount * 32768;
 			break;
 		case SF2Generator::initialAttenuation:
-			region->volume = -amount->shortAmount / 10.0;
+			region->volume += -amount->shortAmount / 10.0;
 			break;
 		case SF2Generator::endloopAddrsCoarseOffset:
 			region->loop_end += amount->shortAmount * 32768;
 			break;
 		case SF2Generator::coarseTune:
-			region->transpose = amount->shortAmount;
+			region->transpose += amount->shortAmount;
 			break;
 		case SF2Generator::fineTune:
-			region->tune = amount->shortAmount;
+			region->tune += amount->shortAmount;
 			break;
 		case SF2Generator::sampleModes:
 			{
