@@ -14,6 +14,8 @@ class SFZSynth : public Synthesiser {
 			const int midiChannel, const int midiNoteNumber,
 			const bool allowTailOff);
 
+		int	numVoicesUsed();
+
 	protected:
 		unsigned char	noteVelocities[128];
 	};

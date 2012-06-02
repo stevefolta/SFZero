@@ -108,4 +108,15 @@ void SFZSynth::noteOff(
 }
 
 
+int SFZSynth::numVoicesUsed()
+{
+	int numUsed = 0;
+	for (int i = voices.size(); --i >= 0;) {
+		if (voices.getUnchecked(i)->getCurrentlyPlayingNote() >= 0)
+			numUsed += 1;
+		}
+	return numUsed;
+}
+
+
 

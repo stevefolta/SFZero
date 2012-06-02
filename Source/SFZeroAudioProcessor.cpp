@@ -209,6 +209,12 @@ SFZSound* SFZeroAudioProcessor::getSound()
 }
 
 
+int SFZeroAudioProcessor::numVoicesUsed()
+{
+	return synth.numVoicesUsed();
+}
+
+
 #if JUCE_DEBUG
 void SFZeroAudioProcessor::relayLogMessages()
 {
