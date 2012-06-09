@@ -51,6 +51,54 @@ void SFZRegion::clearForSF2()
 	clear();
 	pitch_keycenter = -1;
 	loop_mode = no_loop;
+
+	// SF2 defaults in timecents.
+	ampeg.delay = -12000.0;
+	ampeg.attack = -12000.0;
+	ampeg.hold = -12000.0;
+	ampeg.decay = -12000.0;
+	ampeg.release = -12000.0;
+}
+
+
+void SFZRegion::clearForRelativeSF2()
+{
+	clear();
+	pitch_keytrack = 0;
+	amp_veltrack = 0.0;
+	ampeg.sustain = 0.0;
+}
+
+
+void SFZRegion::addForSF2(SFZRegion* other)
+{
+	offset += other->offset;
+	end += other->end;
+	loop_start += other->loop_start;
+	loop_end += other->loop_end;
+	transpose += other->transpose;
+	tune += other->tune;
+	pitch_keytrack += other->pitch_keytrack;
+	volume += other->volume;
+	pan += other->pan;
+
+	ampeg.delay += other->ampeg.delay;
+	ampeg.attack += other->ampeg.attack;
+	ampeg.hold += other->ampeg.hold;
+	ampeg.decay += other->ampeg.decay;
+	ampeg.sustain += other->ampeg.sustain;
+	ampeg.release += other->ampeg.release;
+}
+
+
+void SFZRegion::sf2ToSFZ()
+{
+	// EG times need to be converted from timecents to seconds.
+	ampeg.delay = timecents2Secs(ampeg.delay);
+	ampeg.attack = timecents2Secs(ampeg.attack);
+	ampeg.hold = timecents2Secs(ampeg.hold);
+	ampeg.decay = timecents2Secs(ampeg.decay);
+	ampeg.release = timecents2Secs(ampeg.release);
 }
 
 
@@ -63,6 +111,12 @@ void SFZRegion::dump()
 		printf(": %s", name);
 		}
 	printf("\n");
+}
+
+
+float SFZRegion::timecents2Secs(short timecents)
+{
+	return pow(2.0, timecents / 1200.0);
 }
 
 

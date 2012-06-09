@@ -29,6 +29,9 @@ class SFZRegion {
 		SFZRegion();
 		void	clear();
 		void	clearForSF2();
+		void	clearForRelativeSF2();
+		void	addForSF2(SFZRegion* other);
+		void	sf2ToSFZ();
 		void	dump();
 
 		bool	matches(unsigned char note, unsigned char velocity, Trigger trigger) {
@@ -60,6 +63,8 @@ class SFZRegion {
 		float amp_veltrack;
 
 		SFZEGParameters	ampeg, ampeg_veltrack;
+
+		static float	timecents2Secs(short timecents);
 	};
 
 

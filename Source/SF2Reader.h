@@ -24,7 +24,6 @@ class SF2Reader {
 
 		void	addGeneratorToRegion(
 			word genOper, SF2::genAmountType* amount, SFZRegion* region);
-		float	timecents2Secs(short timecents);
 	};
 
 #endif 	// !SF2Reader_h

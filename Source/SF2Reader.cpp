@@ -53,12 +53,12 @@ void SF2Reader::read()
 		sound->addPreset(preset);
 
 		// Zones.
-		//*** TODO: Handle global zone.
+		//*** TODO: Handle global zone (modulators only).
 		int zoneEnd = phdr[1].presetBagNdx;
 		for (int whichZone = phdr->presetBagNdx; whichZone < zoneEnd; ++whichZone) {
 			SF2::pbag* pbag = &hydra.pbagItems[whichZone];
 			SFZRegion presetRegion;
-			presetRegion.clearForSF2();
+			presetRegion.clearForRelativeSF2();
 
 			// Generators.
 			int genEnd = pbag[1].genNdx;
@@ -69,7 +69,8 @@ void SF2Reader::read()
 				if (pgen->genOper == SF2Generator::instrument) {
 					word whichInst = pgen->genAmount.wordAmount;
 					if (whichInst < hydra.instNumItems) {
-						SFZRegion instRegion = presetRegion;
+						SFZRegion instRegion;
+						instRegion.clearForSF2();
 						SF2::inst* inst = &hydra.instItems[whichInst];
 						int firstZone = inst->instBagNdx;
 						int zoneEnd = inst[1].instBagNdx;
@@ -97,6 +98,8 @@ void SF2Reader::read()
 
 									SFZRegion* newRegion = new SFZRegion();
 									*newRegion = zoneRegion;
+									newRegion->addForSF2(&presetRegion);
+									newRegion->sf2ToSFZ();
 									newRegion->sample = sound->sampleFor(shdr->sampleRate);
 									preset->addRegion(newRegion);
 									hadSampleID = true;
@@ -243,22 +246,22 @@ void SF2Reader::addGeneratorToRegion(
 			region->pan  = amount->shortAmount * (2.0 / 10.0);
 			break;
 		case SF2Generator::delayVolEnv:
-			region->ampeg.delay = timecents2Secs(amount->shortAmount);
+			region->ampeg.delay = amount->shortAmount;
 			break;
 		case SF2Generator::attackVolEnv:
-			region->ampeg.attack = timecents2Secs(amount->shortAmount);
+			region->ampeg.attack = amount->shortAmount;
 			break;
 		case SF2Generator::holdVolEnv:
-			region->ampeg.hold = timecents2Secs(amount->shortAmount);
+			region->ampeg.hold = amount->shortAmount;
 			break;
 		case SF2Generator::decayVolEnv:
-			region->ampeg.decay = timecents2Secs(amount->shortAmount);
+			region->ampeg.decay = amount->shortAmount;
 			break;
 		case SF2Generator::sustainVolEnv:
 			region->ampeg.sustain = 100.0 - amount->shortAmount / 10.0;
 			break;
 		case SF2Generator::releaseVolEnv:
-			region->ampeg.release = timecents2Secs(amount->shortAmount);
+			region->ampeg.release = amount->shortAmount;
 			break;
 		case SF2Generator::keyRange:
 			region->lokey = amount->range.lo;
@@ -348,12 +351,6 @@ void SF2Reader::addGeneratorToRegion(
 			}
 			break;
 		}
-}
-
-
-float SF2Reader::timecents2Secs(short timecents)
-{
-	return pow(2.0, timecents / 1200.0);
 }
 
 
