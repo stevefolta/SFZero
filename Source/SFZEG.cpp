@@ -141,6 +141,17 @@ void SFZEG::startDecay()
 			float mysterySlope = -9.226 / samplesUntilNextSegment;
 			slope = exp(mysterySlope);
 			segmentIsExponential = true;
+			if (parameters.sustain > 0.0) {
+				// Again, this is following LinuxSampler's example, which is similar to
+				// SF2-style decay, where "decay" specifies the time it would take to
+				// get to zero, not to the sustain level.  The SFZ spec is not that
+				// specific about what "decay" means, so perhaps it's really supposed
+				// to specify the time to reach the sustain level.
+				samplesUntilNextSegment =
+					(long) ((log(parameters.sustain) / level) / mysterySlope);
+				if (samplesUntilNextSegment <= 0)
+					startSustain();
+				}
 			}
 		else {
 			slope = (parameters.sustain / 100.0 - 1.0) / samplesUntilNextSegment;
