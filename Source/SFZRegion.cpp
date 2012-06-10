@@ -1,5 +1,6 @@
 #include "SFZRegion.h"
 #include "SFZSample.h"
+#include "SFZDebug.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -99,6 +100,19 @@ void SFZRegion::sf2ToSFZ()
 	ampeg.hold = timecents2Secs(ampeg.hold);
 	ampeg.decay = timecents2Secs(ampeg.decay);
 	ampeg.release = timecents2Secs(ampeg.release);
+
+	// Pin very short EG segments.  Timecents don't get to zero, and our EG is
+	// happier with zero values.
+	if (ampeg.delay < 0.01)
+		ampeg.delay = 0.0;
+	if (ampeg.attack < 0.01)
+		ampeg.attack = 0.0;
+	if (ampeg.hold < 0.01)
+		ampeg.hold = 0.0;
+	if (ampeg.decay < 0.01)
+		ampeg.decay = 0.0;
+	if (ampeg.release < 0.01)
+		ampeg.release = 0.0;
 }
 
 
