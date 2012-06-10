@@ -86,6 +86,8 @@ void SF2Reader::read()
 								if (igen->genOper == SF2Generator::sampleID) {
 									int whichSample = igen->genAmount.wordAmount;
 									SF2::shdr* shdr = &hydra.shdrItems[whichSample];
+									zoneRegion.addForSF2(&presetRegion);
+									zoneRegion.sf2ToSFZ();
 									zoneRegion.offset += shdr->start;
 									zoneRegion.end += shdr->end;
 									zoneRegion.loop_start += shdr->startLoop;
@@ -98,8 +100,6 @@ void SF2Reader::read()
 
 									SFZRegion* newRegion = new SFZRegion();
 									*newRegion = zoneRegion;
-									newRegion->addForSF2(&presetRegion);
-									newRegion->sf2ToSFZ();
 									newRegion->sample = sound->sampleFor(shdr->sampleRate);
 									preset->addRegion(newRegion);
 									hadSampleID = true;
@@ -243,7 +243,7 @@ void SF2Reader::addGeneratorToRegion(
 			region->end += amount->shortAmount * 32768;
 			break;
 		case SF2Generator::pan:
-			region->pan  = amount->shortAmount * (2.0 / 10.0);
+			region->pan = amount->shortAmount * (2.0 / 10.0);
 			break;
 		case SF2Generator::delayVolEnv:
 			region->ampeg.delay = amount->shortAmount;

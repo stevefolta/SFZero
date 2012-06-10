@@ -7,7 +7,7 @@
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginTailLength="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="SFZeroAU" pluginAUViewClass="SFZeroAU_V1"
-              pluginRTASCategory="" jucerVersion="3.0.0" defines="">
+              pluginRTASCategory="" jucerVersion="3.0.0" defines="" aaxIdentifier="com.yourcompany.SFZero">
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX" objCExtraSuffix="yKK8uA" juceFolder="../../local/src/juce/modules"
                vstFolder="~/SDKs/vstsdk2.4">
