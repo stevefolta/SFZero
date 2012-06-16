@@ -188,6 +188,7 @@ void SFZeroEditor::showVersion()
 	char str[64];
 	sprintf(str, "SFZero beta %d.%d.%d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
 	pathLabel.setText(str, false);
+	pathLabel.setColour(Label::textColourId, Colours::grey);
 	hideProgress();
 	showing = showingVersion;
 }
@@ -198,6 +199,7 @@ void SFZeroEditor::showPath()
 	SFZeroAudioProcessor* processor = getProcessor();
 	File file = processor->getSfzFile();
 	pathLabel.setText(file.getParentDirectory().getFullPathName(), false);
+	pathLabel.setColour(Label::textColourId, Colours::grey);
 	hideProgress();
 	showing = showingPath;
 }
@@ -211,6 +213,7 @@ void SFZeroEditor::showSubsound()
 		return;
 
 	pathLabel.setText(sound->subsoundName(sound->selectedSubsound()), false);
+	pathLabel.setColour(Label::textColourId, Colours::black);
 	hideProgress();
 	showing = showingSubsound;
 }
