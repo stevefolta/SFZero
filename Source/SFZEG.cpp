@@ -116,8 +116,10 @@ void SFZEG::startAttack()
 
 void SFZEG::startHold()
 {
-	if (parameters.hold <= 0)
+	if (parameters.hold <= 0) {
+		level = 1.0;
 		startDecay();
+		}
 	else {
 		segment = Hold;
 		samplesUntilNextSegment = parameters.hold * sampleRate;
@@ -148,7 +150,7 @@ void SFZEG::startDecay()
 				// specific about what "decay" means, so perhaps it's really supposed
 				// to specify the time to reach the sustain level.
 				samplesUntilNextSegment =
-					(long) ((log(parameters.sustain) / level) / mysterySlope);
+					(long) (log((parameters.sustain / 100.0) / level) / mysterySlope);
 				if (samplesUntilNextSegment <= 0)
 					startSustain();
 				}
