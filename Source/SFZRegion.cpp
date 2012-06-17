@@ -58,6 +58,7 @@ void SFZRegion::clearForSF2()
 	ampeg.attack = -12000.0;
 	ampeg.hold = -12000.0;
 	ampeg.decay = -12000.0;
+	ampeg.sustain = 0.0;
 	ampeg.release = -12000.0;
 }
 
@@ -99,6 +100,9 @@ void SFZRegion::sf2ToSFZ()
 	ampeg.attack = timecents2Secs(ampeg.attack);
 	ampeg.hold = timecents2Secs(ampeg.hold);
 	ampeg.decay = timecents2Secs(ampeg.decay);
+	if (ampeg.sustain < 0.0)
+		ampeg.sustain = 0.0;
+	ampeg.sustain = 100.0 * Decibels::decibelsToGain(-ampeg.sustain / 10.0);
 	ampeg.release = timecents2Secs(ampeg.release);
 
 	// Pin very short EG segments.  Timecents don't get to zero, and our EG is

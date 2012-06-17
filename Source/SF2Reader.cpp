@@ -258,7 +258,7 @@ void SF2Reader::addGeneratorToRegion(
 			region->ampeg.decay = amount->shortAmount;
 			break;
 		case SF2Generator::sustainVolEnv:
-			region->ampeg.sustain = 100.0 - amount->shortAmount / 10.0;
+			region->ampeg.sustain = amount->shortAmount;
 			break;
 		case SF2Generator::releaseVolEnv:
 			region->ampeg.release = amount->shortAmount;
