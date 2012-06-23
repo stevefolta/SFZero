@@ -98,6 +98,13 @@ void SF2Reader::read()
 										zoneRegion.pitch_keycenter = shdr->originalPitch;
 									zoneRegion.tune += shdr->pitchCorrection;
 
+									// Pin initialAttenuation to max +6dB.
+									if (zoneRegion.volume > 6.0) {
+										zoneRegion.volume = 6.0;
+										sound->addUnsupportedOpcode(
+											"extreme gain in initialAttenuation");
+										}
+
 									SFZRegion* newRegion = new SFZRegion();
 									*newRegion = zoneRegion;
 									newRegion->sample = sound->sampleFor(shdr->sampleRate);
