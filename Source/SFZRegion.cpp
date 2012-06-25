@@ -117,6 +117,12 @@ void SFZRegion::sf2ToSFZ()
 		ampeg.decay = 0.0;
 	if (ampeg.release < 0.01)
 		ampeg.release = 0.0;
+
+	// Pin values to their ranges.
+	if (pan < -100.0)
+		pan = -100.0;
+	else if (pan > 100.0)
+		pan = 100.0;
 }
 
 
