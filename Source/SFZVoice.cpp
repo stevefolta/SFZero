@@ -110,6 +110,10 @@ void SFZVoice::stopNote(const bool allowTailOff)
 
 	if (region->loop_mode != SFZRegion::one_shot)
 		ampeg.noteOff();
+	if (region->loop_mode == SFZRegion::loop_sustain) {
+		// Continue playing, but stop looping.
+		loopEnd = loopStart;
+		}
 }
 
 
