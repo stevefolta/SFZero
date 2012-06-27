@@ -16,11 +16,12 @@ class SF2Sound : public SFZSound {
 
 		struct Preset {
 			String	name;
+			int    	bank;
 			int   	preset;
 			OwnedArray<SFZRegion>	regions;
 
-			Preset(String nameIn, int presetIn)
-				: name(nameIn), preset(presetIn) {}
+			Preset(String nameIn, int bankIn, int presetIn)
+				: name(nameIn), bank(bankIn), preset(presetIn) {}
 			~Preset() {}
 
 			void	addRegion(SFZRegion* region) {

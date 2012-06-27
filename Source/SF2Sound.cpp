@@ -27,6 +27,9 @@ SF2Sound::~SF2Sound()
 class PresetComparator {
 	public:
 		static int compareElements(const SF2Sound::Preset* first, const SF2Sound::Preset* second) {
+			int cmp = first->bank - second->bank;
+			if (cmp != 0)
+				return cmp;
 			return first->preset - second->preset;
 			}
 	};
@@ -76,7 +79,15 @@ int SF2Sound::numSubsounds()
 String SF2Sound::subsoundName(int whichSubsound)
 {
 	Preset* preset = presets[whichSubsound];
-	return String(preset->preset) + ": " + preset->name;
+	String result;
+	if (preset->bank != 0) {
+		result += preset->bank;
+		result += "/";
+		}
+	result += preset->preset;
+	result += ": ";
+	result += preset->name;
+	return result;
 }
 
 

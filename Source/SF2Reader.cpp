@@ -49,7 +49,8 @@ void SF2Reader::read()
 	// Read each preset.
 	for (int whichPreset = 0; whichPreset < hydra.phdrNumItems - 1; ++whichPreset) {
 		SF2::phdr* phdr = &hydra.phdrItems[whichPreset];
-		SF2Sound::Preset* preset = new SF2Sound::Preset(phdr->presetName, phdr->preset);
+		SF2Sound::Preset* preset =
+			new SF2Sound::Preset(phdr->presetName, phdr->bank, phdr->preset);
 		sound->addPreset(preset);
 
 		// Zones.
