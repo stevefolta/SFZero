@@ -20,12 +20,14 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 			const int currentPitchWheelPosition);
     void	stopNote(const bool allowTailOff);
 		void	stopNoteForGroup();
+		void	stopNoteQuick();
     void	pitchWheelMoved(const int newValue);
     void	controllerMoved(
 			const int controllerNumber,
 			const int newValue);
     void	renderNextBlock(
 			AudioSampleBuffer& outputBuffer, int startSample, int numSamples);
+		bool	isPlayingNoteDown();
 
 		int	getGroup();
 		int	getOffBy();

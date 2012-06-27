@@ -18,6 +18,7 @@ class SFZEG {
 		void	noteOff();
 		void	fastRelease();
 		bool	isDone() { return segment == Done; }
+		bool	isReleasing() { return segment == Release; }
 
 		float	level;
 		float	slope;

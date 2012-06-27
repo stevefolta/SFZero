@@ -46,11 +46,11 @@ void SFZSynth::noteOn(
 		if (voice == NULL)
 			continue;
 		if (voice->isPlayingChannel(midiChannel)) {
-			if (voice->getCurrentlyPlayingNote() == midiNoteNumber)
-				voice->stopNote(true);
-			else {
-				anyNotesPlaying = true;
-				break;
+			if (voice->isPlayingNoteDown()) {
+				if (voice->getCurrentlyPlayingNote() == midiNoteNumber)
+					voice->stopNoteQuick();
+				else
+					anyNotesPlaying = true;
 				}
 			}
 		}

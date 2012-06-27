@@ -126,6 +126,12 @@ void SFZVoice::stopNoteForGroup()
 }
 
 
+void SFZVoice::stopNoteQuick()
+{
+	ampeg.fastRelease();
+}
+
+
 void SFZVoice::pitchWheelMoved(const int newValue)
 {
 	if (region == NULL)
@@ -224,6 +230,12 @@ void SFZVoice::renderNextBlock(
 	this->sourceSamplePosition = sourceSamplePosition;
 	ampeg.level = ampegGain;
 	ampeg.samplesUntilNextSegment = samplesUntilNextAmpSegment;
+}
+
+
+bool SFZVoice::isPlayingNoteDown()
+{
+	return (region && region->trigger != SFZRegion::release);
 }
 
 
