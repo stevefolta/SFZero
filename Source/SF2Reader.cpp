@@ -72,6 +72,15 @@ void SF2Reader::read()
 					if (whichInst < hydra.instNumItems) {
 						SFZRegion instRegion;
 						instRegion.clearForSF2();
+						// Preset generators are supposed to be "relative" modifications of
+						// the instrument settings, but that makes no sense for ranges.
+						// For those, we'll have the instrument's generator take
+						// precedence, though that may not be correct.
+						instRegion.lokey = presetRegion.lokey;
+						instRegion.hikey = presetRegion.hikey;
+						instRegion.lovel = presetRegion.lovel;
+						instRegion.hivel = presetRegion.hivel;
+
 						SF2::inst* inst = &hydra.instItems[whichInst];
 						int firstZone = inst->instBagNdx;
 						int zoneEnd = inst[1].instBagNdx;
