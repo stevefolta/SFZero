@@ -47,8 +47,10 @@ void SFZSynth::noteOn(
 			continue;
 		if (voice->isPlayingChannel(midiChannel)) {
 			if (voice->isPlayingNoteDown()) {
-				if (voice->getCurrentlyPlayingNote() == midiNoteNumber)
-					voice->stopNoteQuick();
+				if (voice->getCurrentlyPlayingNote() == midiNoteNumber) {
+					if (!voice->isPlayingOneShot())
+						voice->stopNoteQuick();
+					}
 				else
 					anyNotesPlaying = true;
 				}

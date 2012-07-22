@@ -239,6 +239,12 @@ bool SFZVoice::isPlayingNoteDown()
 }
 
 
+bool SFZVoice::isPlayingOneShot()
+{
+	return (region && region->loop_mode == SFZRegion::one_shot);
+}
+
+
 int SFZVoice::getGroup()
 {
 	return (region ? region->group : 0);

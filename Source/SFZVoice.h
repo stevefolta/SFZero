@@ -28,6 +28,7 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
     void	renderNextBlock(
 			AudioSampleBuffer& outputBuffer, int startSample, int numSamples);
 		bool	isPlayingNoteDown();
+		bool	isPlayingOneShot();
 
 		int	getGroup();
 		int	getOffBy();
