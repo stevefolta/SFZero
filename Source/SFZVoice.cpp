@@ -39,6 +39,7 @@ void SFZVoice::startNote(
 		}
 
 	int velocity = (int) (floatVelocity * 127.0);
+	curVelocity = velocity;
 	if (region == NULL)
 		region = sound->getRegionFor(midiNoteNumber, velocity);
 	if (region == NULL || region->sample == NULL || region->sample->getBuffer() == NULL) {
@@ -98,6 +99,7 @@ void SFZVoice::startNote(
 			loopEnd = region->sample->loopEnd;
 			}
 		}
+	numLoops = 0;
 }
 
 
@@ -204,8 +206,10 @@ void SFZVoice::renderNextBlock(
 
 		// Next sample.
 		sourceSamplePosition += pitchRatio;
-		if (loopStart < loopEnd && sourceSamplePosition > loopEnd)
+		if (loopStart < loopEnd && sourceSamplePosition > loopEnd) {
 			sourceSamplePosition = loopStart;
+			numLoops += 1;
+			}
 
 		// Update EG.
 		if (ampSegmentIsExponential)
@@ -260,6 +264,26 @@ int SFZVoice::getOffBy()
 void SFZVoice::setRegion(SFZRegion* nextRegion)
 {
 	region = nextRegion;
+}
+
+
+String SFZVoice::infoString()
+{
+	const char* egSegmentNames[] = {
+		"Delay", "Attack", "Hold", "Decay", "Sustain", "Release", "Done"
+		};
+	#define numEGSegments (sizeof(egSegmentNames) / sizeof(egSegmentNames[0]))
+	const char* egSegmentName = "-Invalid-";
+	int egSegmentIndex = ampeg.segmentIndex();
+	if (egSegmentIndex >= 0 && egSegmentIndex < numEGSegments)
+		egSegmentName = egSegmentNames[egSegmentIndex];
+
+	char str[128];
+	snprintf(
+		str, 128,
+		"note: %d, vel: %d, eg: %s, loops: %lu",
+		curMidiNote, curVelocity, egSegmentName, numLoops);
+	return String(str);
 }
 
 

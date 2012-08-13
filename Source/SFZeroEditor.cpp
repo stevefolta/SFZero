@@ -17,6 +17,7 @@ SFZeroEditor::SFZeroEditor(SFZeroAudioProcessor* ownerFilter)
 	: AudioProcessorEditor(ownerFilter),
 		fileLabel(String::empty, "File... (click here to choose)"),
 		pathLabel(String::empty),
+		showingInfo(showingSoundInfo),
 		midiKeyboard(ownerFilter->keyboardState, MidiKeyboardComponent::horizontalKeyboard),
 		progressBar(NULL)
 {
@@ -43,6 +44,7 @@ SFZeroEditor::SFZeroEditor(SFZeroAudioProcessor* ownerFilter)
 	addAndMakeVisible(&infoLabel);
 	infoLabel.setFont(labelFont);
 	infoLabel.setJustificationType(Justification::topLeft);
+	infoLabel.addClickListener(this);
 
 	addAndMakeVisible(&midiKeyboard);
 	midiKeyboard.setOctaveForMiddleC(4);
@@ -52,7 +54,7 @@ SFZeroEditor::SFZeroEditor(SFZeroAudioProcessor* ownerFilter)
 	File sfzFile = ownerFilter->getSfzFile();
 	if (sfzFile != File::nonexistent) {
 		updateFile(&sfzFile);
-		updateErrors();
+		showSoundInfo();
 		SFZSound* sound = ownerFilter->getSound();
 		if (sound && sound->numSubsounds() > 1)
 			showSubsound();
@@ -94,6 +96,7 @@ void SFZeroEditor::labelClicked(Label* clickedLabel)
 {
 	if (clickedLabel == &fileLabel)
 		chooseFile();
+
 	else if (clickedLabel == &pathLabel) {
 		if (showing == showingSubsound) {
 			SFZeroAudioProcessor* processor = getProcessor();
@@ -118,6 +121,13 @@ void SFZeroEditor::labelClicked(Label* clickedLabel)
 		else
 			showVersion();
 		}
+
+	else if (clickedLabel == &infoLabel) {
+		if (showingInfo == showingSoundInfo)
+			showVoiceInfo();
+		else
+			showSoundInfo();
+		}
 }
 
 
@@ -135,9 +145,12 @@ void SFZeroEditor::timerCallback()
 				showSubsound();
 			else
 				showPath();
-			updateErrors();
+			showSoundInfo();
 			}
 		}
+
+	if (showingInfo == showingVoiceInfo)
+		showVoiceInfo();
 }
 
 
@@ -172,12 +185,21 @@ void SFZeroEditor::updateFile(File* file)
 }
 
 
-void SFZeroEditor::updateErrors()
+void SFZeroEditor::showSoundInfo()
 {
 	SFZeroAudioProcessor* processor = getProcessor();
 	SFZSound* sound = processor->getSound();
 	if (sound)
 		infoLabel.setText(sound->getErrorsString(), false);
+	showingInfo = showingSoundInfo;
+}
+
+
+void SFZeroEditor::showVoiceInfo()
+{
+	SFZeroAudioProcessor* processor = getProcessor();
+	infoLabel.setText(processor->voiceInfoString(), false);
+	showingInfo = showingVoiceInfo;
 }
 
 

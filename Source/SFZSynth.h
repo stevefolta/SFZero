@@ -15,6 +15,7 @@ class SFZSynth : public Synthesiser {
 			const bool allowTailOff);
 
 		int	numVoicesUsed();
+		String   	voiceInfoString();
 
 	protected:
 		unsigned char	noteVelocities[128];

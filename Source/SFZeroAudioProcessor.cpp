@@ -215,6 +215,12 @@ int SFZeroAudioProcessor::numVoicesUsed()
 }
 
 
+String SFZeroAudioProcessor::voiceInfoString()
+{
+	return synth.voiceInfoString();
+}
+
+
 #if JUCE_DEBUG
 void SFZeroAudioProcessor::relayLogMessages()
 {

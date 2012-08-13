@@ -121,4 +121,26 @@ int SFZSynth::numVoicesUsed()
 }
 
 
+String SFZSynth::voiceInfoString()
+{
+	enum {
+		maxShownVoices = 20,
+		};
+
+	StringArray lines;
+	int numUsed = 0, numShown = 0;
+	for (int i = voices.size(); --i >= 0;) {
+		SFZVoice* voice = dynamic_cast<SFZVoice*>(voices.getUnchecked(i));
+		if (voice->getCurrentlyPlayingNote() < 0)
+			continue;
+		numUsed += 1;
+		if (numShown >= maxShownVoices)
+			continue;
+		lines.add(voice->infoString());
+		}
+	lines.insert(0, "voices used: " + String(numUsed));
+	return lines.joinIntoString("\n");
+}
+
+
 

@@ -36,6 +36,8 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 		// Set the region to be used by the next startNote().
 		void	setRegion(SFZRegion* nextRegion);
 
+		String	infoString();
+
 	protected:
 		int       	trigger;
 		SFZRegion*	region;
@@ -46,6 +48,10 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 		SFZEG     	ampeg;
 		unsigned long	sampleEnd;
 		unsigned long	loopStart, loopEnd;
+
+		// Info only.
+		unsigned long	numLoops;
+		int	curVelocity;
 
 		void	calcPitchRatio();
 		void	killNote();

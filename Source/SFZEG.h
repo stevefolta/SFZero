@@ -19,6 +19,7 @@ class SFZEG {
 		void	fastRelease();
 		bool	isDone() { return segment == Done; }
 		bool	isReleasing() { return segment == Release; }
+		int 	segmentIndex() { return (int) segment; }
 
 		float	level;
 		float	slope;

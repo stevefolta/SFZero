@@ -20,6 +20,7 @@ class SFZeroEditor  :
 		void	timerCallback();
 
 	protected:
+		// pathLabel options.
 		enum {
 			showingVersion,
 			showingPath,
@@ -27,10 +28,16 @@ class SFZeroEditor  :
 			showingSubsound,
 			};
 
+		// infoLabel options.
+		enum {
+			showingSoundInfo,
+			showingVoiceInfo,
+			};
+
 		ClickableLabel	fileLabel;
 		ClickableLabel	pathLabel;
-		Label 	infoLabel;
-		int	showing;
+		ClickableLabel 	infoLabel;
+		int	showing, showingInfo;
 		MidiKeyboardComponent	midiKeyboard;
 		ProgressBar*	progressBar;
 
@@ -41,7 +48,8 @@ class SFZeroEditor  :
 		void	chooseFile();
 		void	setFile(File* newFile);
 		void	updateFile(File* file);
-		void	updateErrors();
+		void	showSoundInfo();
+		void	showVoiceInfo();
 		void	showVersion();
 		void	showPath();
 		void	showProgress();

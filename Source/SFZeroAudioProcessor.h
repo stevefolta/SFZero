@@ -56,6 +56,7 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 
 		SFZSound*	getSound();
 		int      	numVoicesUsed();
+		String   	voiceInfoString();
 
 #if JUCE_DEBUG
 		void	relayLogMessages();
