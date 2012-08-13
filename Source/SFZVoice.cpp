@@ -270,7 +270,7 @@ void SFZVoice::setRegion(SFZRegion* nextRegion)
 String SFZVoice::infoString()
 {
 	const char* egSegmentNames[] = {
-		"Delay", "Attack", "Hold", "Decay", "Sustain", "Release", "Done"
+		"delay", "attack", "hold", "decay", "sustain", "release", "done"
 		};
 	#define numEGSegments (sizeof(egSegmentNames) / sizeof(egSegmentNames[0]))
 	const char* egSegmentName = "-Invalid-";
@@ -281,8 +281,8 @@ String SFZVoice::infoString()
 	char str[128];
 	snprintf(
 		str, 128,
-		"note: %d, vel: %d, eg: %s, loops: %lu",
-		curMidiNote, curVelocity, egSegmentName, numLoops);
+		"note: %d, vel: %d, pan: %g, eg: %s, loops: %lu",
+		curMidiNote, curVelocity, region->pan, egSegmentName, numLoops);
 	return String(str);
 }
 
