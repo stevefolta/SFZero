@@ -9,7 +9,7 @@ enum {
 	vMargin = 12,
 	labelHeight = 25,
 	progressBarHeight = 30,
-	keyboardHeight = 70,
+	keyboardHeight = 54,
 	};
 
 
