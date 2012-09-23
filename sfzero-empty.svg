@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="sfzero-empty.svg"
+   inkscape:export-filename="/home/steve/sfzero-screenshots/sfzero-empty.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -92,7 +95,7 @@
        id="g3850">
       <path
          transform="translate(-2.5253916,574.37362)"
-         d="m 312.13714,136.55701 a 7.323606,7.323606 0 1 1 -14.64721,0 7.323606,7.323606 0 1 1 14.64721,0 z"
+         d="m 312.13714,136.55701 c 0,4.04471 -3.27889,7.3236 -7.3236,7.3236 -4.04472,0 -7.32361,-3.27889 -7.32361,-7.3236 0,-4.04472 3.27889,-7.32361 7.32361,-7.32361 4.04471,0 7.3236,3.27889 7.3236,7.32361 z"
          sodipodi:ry="7.323606"
          sodipodi:rx="7.323606"
          sodipodi:cy="136.55701"

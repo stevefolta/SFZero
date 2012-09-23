@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="sfzero-sfz.svg">
+   sodipodi:docname="sfzero-sfz.svg"
+   inkscape:export-filename="/home/steve/sfzero-screenshots/sfzero-sfz.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -46,7 +49,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -120,7 +123,7 @@
        sodipodi:cy="136.55701"
        sodipodi:rx="7.323606"
        sodipodi:ry="7.323606"
-       d="m 312.13714,136.55701 a 7.323606,7.323606 0 1 1 -14.64721,0 7.323606,7.323606 0 1 1 14.64721,0 z"
+       d="m 312.13714,136.55701 c 0,4.04471 -3.27889,7.3236 -7.3236,7.3236 -4.04472,0 -7.32361,-3.27889 -7.32361,-7.3236 0,-4.04472 3.27889,-7.32361 7.32361,-7.32361 4.04471,0 7.3236,3.27889 7.3236,7.32361 z"
        transform="translate(-2.5253916,595.80517)" />
     <text
        xml:space="preserve"
