@@ -1,0 +1,73 @@
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+
+<head>
+<title> SFZero </title>
+<link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+
+<h2> SFZero </h2>
+<div class="subtitle"> An SFZ (and SF2) player plugin for Mac </div>
+
+
+<h3> Getting SFZero </h3>
+
+<p class="closer"> Click on this link to download the latest version: </p>
+
+<div class="download-link"> <a href="https://github.com/downloads/stevefolta/SFZero/SFZero-beta-2012.09.09.zip"> SFZero-beta-2012.09.09.zip </a> </div>
+
+<p>
+Unzip that, and copy the "SFZero.component" file to "<i>home</i>/Library/Audio/Plug-Ins/Components".
+</p>
+
+<p>
+Unfortunately, Apple has decided to hide the "Library" folder in Lion and Mountain Lion. The easiest way to get to it is to hold down the Option key and then choose "Library" from the Finder's "Go" menu. You can also make it permanently visible if you're not afraid of the command line: open up the Terminal and type <code>chflags nohidden ~/Library/</code>.
+</p>
+
+<p>
+Alternately, you could put SFZero.component in "/Macintosh HD/Library/Audio/Plug-Ins/Components". That's actually probably a better place for it, since anyone who logs in as another user on your computer will also be able to use it. But the Finder will make you type in your password to put it there. I don't know whether that "Library" folder is also hidden by default.
+</p>
+
+
+<h3> Using SFZero </h3>
+
+<p class="closer"> When you first load SFZero into your DAW, it'll look something like this: </p>
+
+<img src="sfzero-empty.png" />
+
+<div class="legend"> (1) Click on the text here to choose your SFZ or SF2 file. </div>
+<div class="legend"> (2) This line shows which version of SFZero you have. </div>
+
+<p> If you've loaded an SFZ file, or an SF2 with only one "preset", it'll look like this: </p>
+
+<img src="sfzero-sfz.png" />
+
+<div class="legend"> (1) Shows the name of the file.  Click on it to load a different file. </div>
+<div class="legend"> (2) Shows the path of the file.  Click on it if you'd rather see the version of SFZero. </div>
+<div class="legend"> (3) Shows any SFZ or SF2 features that SFZero doesn't handle.  Click on this area (even if it's empty) to see information about currently-playing voices instead. </div>
+
+<p> If you've loaded an SF2 file with multiple presets, it'll look like this: </p>
+
+<img src="sfzero-sf2.png" />
+
+<div class="legend"> (1) Shows the name of the file.  Click on it to load a different file. </div>
+<div class="legend"> (2) Shows which preset is chosen.  Click here to bring up a popup menu to choose another preset. </div>
+<div class="legend"> (3) Shows any SF2 features that SFZero doesn't handle.  Click on this area (even if it's empty) to see information about currently-playing voices instead. </div>
+
+
+<h3> Source Code </h3>
+
+<p class="closer">
+SFZero is open source.  The source is hosted on GitHub <a href="https://github.com/stevefolta/SFZero">here</a>.  The source is under an MIT-style license, but it's built on top of the <a href="http://www.rawmaterialsoftware.com/juce.php">Juce</a> library, which is GPL, so the resulting binary is GPL as well.
+</p>
+
+<p>
+I'd love to have someone do Windows and/or VST builds!
+</p>
+
+</body>
+
+</html>
+

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="863"
+   height="504"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="362.39681"
+     inkscape:cy="267.68521"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1800"
+     inkscape:window-height="960"
+     inkscape:window-x="60"
+     inkscape:window-y="60"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-548.36218)">
+    <image
+       y="548.93359"
+       x="-0.071425363"
+       id="image3047"
+       xlink:href="file:///home/steve/sfzero-screenshots/screenshots/sfzero-empty.png"
+       height="504"
+       width="863"
+       sodipodi:insensitive="true" />
+    <g
+       id="g3855"
+       transform="translate(-1.0101628,0)">
+      <path
+         transform="translate(-1.5152288,547.8571)"
+         d="m 312.13714,136.55701 c 0,4.04471 -3.27889,7.3236 -7.3236,7.3236 -4.04472,0 -7.32361,-3.27889 -7.32361,-7.3236 0,-4.04472 3.27889,-7.32361 7.32361,-7.32361 4.04471,0 7.3236,3.27889 7.3236,7.32361 z"
+         sodipodi:ry="7.323606"
+         sodipodi:rx="7.323606"
+         sodipodi:cy="136.55701"
+         sodipodi:cx="304.81354"
+         id="path3050"
+         style="fill:none;stroke:#0000ff;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text3820"
+         y="688.20221"
+         x="300.52039"
+         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
+         xml:space="preserve"><tspan
+           y="688.20221"
+           x="300.52039"
+           id="tspan3822"
+           sodipodi:role="line">1</tspan></text>
+    </g>
+    <g
+       id="g3850">
+      <path
+         transform="translate(-2.5253916,574.37362)"
+         d="m 312.13714,136.55701 a 7.323606,7.323606 0 1 1 -14.64721,0 7.323606,7.323606 0 1 1 14.64721,0 z"
+         sodipodi:ry="7.323606"
+         sodipodi:rx="7.323606"
+         sodipodi:cy="136.55701"
+         sodipodi:cx="304.81354"
+         id="path3050-2"
+         style="fill:none;stroke:#0000ff;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         sodipodi:type="arc" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text3820-9"
+         y="714.71869"
+         x="299.51022"
+         style="font-size:10px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
+         xml:space="preserve"><tspan
+           y="714.71869"
+           x="299.51022"
+           id="tspan3822-9"
+           sodipodi:role="line">2</tspan></text>
+    </g>
+  </g>
+</svg>
