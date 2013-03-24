@@ -113,7 +113,7 @@ void setupLogging(Logger* logger)
 {
 	if (fifo == NULL)
 		fifo = new LogFifo();
-	Logger::setCurrentLogger(logger, true);
+	Logger::setCurrentLogger(logger);
 }
 
 

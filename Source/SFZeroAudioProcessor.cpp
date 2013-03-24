@@ -109,6 +109,12 @@ bool SFZeroAudioProcessor::producesMidi() const
 #endif
 }
 
+bool SFZeroAudioProcessor::silenceInProducesSilenceOut() const
+{
+	return true;
+}
+
+
 int SFZeroAudioProcessor::getNumPrograms()
 {
     return 0;

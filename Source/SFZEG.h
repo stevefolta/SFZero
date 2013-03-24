@@ -6,8 +6,6 @@
 
 class SFZEG {
 	public:
-		static const float bottomLevel = 0.001;
-
 		SFZEG();
 
 		void	setExponentialDecay(bool newExponentialDecay);
