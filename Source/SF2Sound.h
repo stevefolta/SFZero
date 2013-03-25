@@ -40,7 +40,7 @@ class SF2Sound : public SFZSound {
 
 	protected:
 		OwnedArray<Preset>	presets;
-		HashMap<unsigned long, SFZSample*>	samplesByRate;
+		HashMap<int64, SFZSample*>	samplesByRate;
 		int               	selectedPreset;
 	};
 

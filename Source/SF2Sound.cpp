@@ -18,7 +18,7 @@ SF2Sound::~SF2Sound()
 
 	// The samples all share a single buffer, so make sure they don't all delete it.
 	AudioSampleBuffer* buffer = NULL;
-	for (HashMap<unsigned long, SFZSample*>::Iterator i(samplesByRate); i.next();)
+	for (HashMap<int64, SFZSample*>::Iterator i(samplesByRate); i.next();)
 		buffer = i.getValue()->detachBuffer();
 	delete buffer;
 }
@@ -55,7 +55,7 @@ void SF2Sound::loadSamples(
 	AudioSampleBuffer* buffer = reader.readSamples(progressVar, thread);
 	if (buffer) {
 		// All the SFZSamples will share the buffer.
-		for (HashMap<unsigned long, SFZSample*>::Iterator i(samplesByRate); i.next();)
+		for (HashMap<int64, SFZSample*>::Iterator i(samplesByRate); i.next();)
 			i.getValue()->setBuffer(buffer);
 		}
 
@@ -118,7 +118,7 @@ SFZSample* SF2Sound::sampleFor(unsigned long sampleRate)
 
 void SF2Sound::setSamplesBuffer(AudioSampleBuffer* buffer)
 {
-	for (HashMap<unsigned long, SFZSample*>::Iterator i(samplesByRate); i.next();)
+	for (HashMap<int64, SFZSample*>::Iterator i(samplesByRate); i.next();)
 		i.getValue()->setBuffer(buffer);
 }
 

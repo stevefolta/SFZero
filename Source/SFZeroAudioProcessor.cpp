@@ -115,6 +115,14 @@ bool SFZeroAudioProcessor::silenceInProducesSilenceOut() const
 }
 
 
+double SFZeroAudioProcessor::getTailLengthSeconds() const
+{
+  //*** What is correct here?  Should we iterate through all the voices to get
+  // the longest current release time?
+  return 0;
+}
+
+
 int SFZeroAudioProcessor::getNumPrograms()
 {
     return 0;
