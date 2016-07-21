@@ -69,7 +69,7 @@ void SFZSample::checkIfZeroed(const char* where)
 
 	int samplesLeft = buffer->getNumSamples();
 	unsigned long nonzero = 0, zero = 0;
-	float* p = buffer->getSampleData(0);
+	float* p = buffer->getWritePointer(0);
 	for (; samplesLeft > 0; --samplesLeft) {
 		if (*p++ == 0.0)
 			zero += 1;

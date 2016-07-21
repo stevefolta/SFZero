@@ -18,7 +18,7 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 			const float velocity,
 			SynthesiserSound* sound,
 			const int currentPitchWheelPosition);
-    void	stopNote(const bool allowTailOff);
+    void	stopNote(float velocity, const bool allowTailOff);
 		void	stopNoteForGroup();
 		void	stopNoteQuick();
     void	pitchWheelMoved(const int newValue);

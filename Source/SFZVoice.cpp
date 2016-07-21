@@ -103,7 +103,7 @@ void SFZVoice::startNote(
 }
 
 
-void SFZVoice::stopNote(const bool allowTailOff)
+void SFZVoice::stopNote(float velocity, const bool allowTailOff)
 {
 	if (!allowTailOff || region == NULL) {
 		killNote();
@@ -159,14 +159,14 @@ void SFZVoice::renderNextBlock(
 		return;
 
 	AudioSampleBuffer* buffer = region->sample->getBuffer();
-	const float* inL = buffer->getSampleData(0, 0);
+	const float* inL = buffer->getReadPointer(0, 0);
 	const float* inR =
-		buffer->getNumChannels() > 1 ? buffer->getSampleData(1, 0) : NULL;
+		buffer->getNumChannels() > 1 ? buffer->getReadPointer(1, 0) : NULL;
 
-	float* outL = outputBuffer.getSampleData(0, startSample);
+	float* outL = outputBuffer.getWritePointer(0, startSample);
 	float* outR =
 		outputBuffer.getNumChannels() > 1 ?
-		outputBuffer.getSampleData(1, startSample) : NULL;
+		outputBuffer.getWritePointer(1, startSample) : NULL;
 
 	// Cache some values, to give them at least some chance of ending up in
 	// registers.

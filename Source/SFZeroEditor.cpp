@@ -179,7 +179,7 @@ void SFZeroEditor::setFile(File* newFile)
 
 void SFZeroEditor::updateFile(File* file)
 {
-	fileLabel.setText(file->getFileName(), false);
+	fileLabel.setText(file->getFileName(), dontSendNotification);
 	fileLabel.setColour(Label::textColourId, Colours::black);
 	showPath();
 }
@@ -190,7 +190,7 @@ void SFZeroEditor::showSoundInfo()
 	SFZeroAudioProcessor* processor = getProcessor();
 	SFZSound* sound = processor->getSound();
 	if (sound)
-		infoLabel.setText(sound->getErrorsString(), false);
+		infoLabel.setText(sound->getErrorsString(), dontSendNotification);
 	showingInfo = showingSoundInfo;
 }
 
@@ -198,7 +198,7 @@ void SFZeroEditor::showSoundInfo()
 void SFZeroEditor::showVoiceInfo()
 {
 	SFZeroAudioProcessor* processor = getProcessor();
-	infoLabel.setText(processor->voiceInfoString(), false);
+	infoLabel.setText(processor->voiceInfoString(), dontSendNotification);
 	showingInfo = showingVoiceInfo;
 }
 
@@ -209,7 +209,7 @@ void SFZeroEditor::showVersion()
 	strptime(__DATE__, "%b %d %Y", &tm);
 	char str[64];
 	sprintf(str, "SFZero beta %d.%d.%d", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
-	pathLabel.setText(str, false);
+	pathLabel.setText(str, dontSendNotification);
 	pathLabel.setColour(Label::textColourId, Colours::grey);
 	hideProgress();
 	showing = showingVersion;
@@ -220,7 +220,8 @@ void SFZeroEditor::showPath()
 {
 	SFZeroAudioProcessor* processor = getProcessor();
 	File file = processor->getSfzFile();
-	pathLabel.setText(file.getParentDirectory().getFullPathName(), false);
+	pathLabel.setText(
+		file.getParentDirectory().getFullPathName(), dontSendNotification);
 	pathLabel.setColour(Label::textColourId, Colours::grey);
 	hideProgress();
 	showing = showingPath;
@@ -234,7 +235,8 @@ void SFZeroEditor::showSubsound()
 	if (sound == NULL)
 		return;
 
-	pathLabel.setText(sound->subsoundName(sound->selectedSubsound()), false);
+	pathLabel.setText(
+		sound->subsoundName(sound->selectedSubsound()), dontSendNotification);
 	pathLabel.setColour(Label::textColourId, Colours::black);
 	hideProgress();
 	showing = showingSubsound;

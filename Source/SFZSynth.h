@@ -8,11 +8,10 @@ class SFZSynth : public Synthesiser {
 	public:
 		SFZSynth();
 
-		void	noteOn(
-			const int midiChannel, const int midiNoteNumber, const float velocity);
+		void	noteOn(int midiChannel, int midiNoteNumber, float velocity);
 		void	noteOff(
-			const int midiChannel, const int midiNoteNumber,
-			const bool allowTailOff);
+			int midiChannel, int midiNoteNumber,
+			float velocity, bool allowTailOff);
 
 		int	numVoicesUsed();
 		String   	voiceInfoString();

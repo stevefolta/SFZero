@@ -10,8 +10,7 @@ SFZSynth::SFZSynth()
 }
 
 
-void SFZSynth::noteOn(
-	const int midiChannel, const int midiNoteNumber, const float velocity)
+void SFZSynth::noteOn(int midiChannel, int midiNoteNumber, float velocity)
 {
 	int i;
 
@@ -67,7 +66,8 @@ void SFZSynth::noteOn(
 			if (region->matches(midiNoteNumber, midiVelocity, trigger)) {
 				SFZVoice* voice =
 					dynamic_cast<SFZVoice*>(
-						findFreeVoice(sound, isNoteStealingEnabled()));
+						findFreeVoice(
+							sound, midiNoteNumber, midiChannel, isNoteStealingEnabled()));
 				if (voice) {
 					voice->setRegion(region);
 					startVoice(voice, sound, midiChannel, midiNoteNumber, velocity);
@@ -81,12 +81,12 @@ void SFZSynth::noteOn(
 
 
 void SFZSynth::noteOff(
-	const int midiChannel, const int midiNoteNumber,
-	const bool allowTailOff)
+	int midiChannel, int midiNoteNumber,
+	float velocity, bool allowTailOff)
 {
 	const ScopedLock locker(lock);
 
-	Synthesiser::noteOff(midiChannel, midiNoteNumber, allowTailOff);
+	Synthesiser::noteOff(midiChannel, midiNoteNumber, velocity, allowTailOff);
 
 	// Start release region.
 	SFZSound* sound = dynamic_cast<SFZSound*>(getSound(0));
@@ -95,7 +95,9 @@ void SFZSynth::noteOff(
 			sound->getRegionFor(
 				midiNoteNumber, noteVelocities[midiNoteNumber], SFZRegion::release);
 		if (region) {
-			SFZVoice* voice = dynamic_cast<SFZVoice*>(findFreeVoice(sound, false));
+			SFZVoice* voice =
+				dynamic_cast<SFZVoice*>(
+					findFreeVoice(sound, midiNoteNumber, midiChannel, false));
 			if (voice) {
 				// Synthesiser is too locked-down (ivars are private rt protected), so
 				// we have to use a "setRegion()" mechanism.
