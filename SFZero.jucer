@@ -1,35 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="ImcWop" name="SFZero" projectType="audioplug" version="1.0.0"
-              bundleIdentifier="net.folta.steve.SFZero" buildVST="0" buildRTAS="0"
-              buildAU="1" pluginName="SFZero" pluginDesc="SFZero" pluginManufacturer="Steve Folta"
-              pluginManufacturerCode="SFlt" pluginCode="SFZ0" pluginChannelConfigs="{1, 1}, {2, 2}"
+<JUCERPROJECT id="ImcWop" name="SFZero-dev" projectType="audioplug" version="1.1.0"
+              bundleIdentifier="net.folta.steve.SFZero-dev" buildVST="0" buildRTAS="0"
+              buildAU="1" pluginName="SFZero-dev" pluginDesc="SFZero-dev" pluginManufacturer="Steve Folta"
+              pluginManufacturerCode="SFlt" pluginCode="SFZd" pluginChannelConfigs="{1, 1}, {2, 2}"
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginTailLength="0" pluginEditorRequiresKeys="0"
-              pluginAUExportPrefix="SFZeroAU" pluginAUViewClass="SFZeroAU_V1"
-              pluginRTASCategory="" jucerVersion="3.0.0" defines="" aaxIdentifier="com.yourcompany.SFZero"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics">
+              pluginAUExportPrefix="SFZeroDevAU" pluginAUViewClass="SFZeroAU_V1"
+              pluginRTASCategory="" jucerVersion="4.2.3" defines="" aaxIdentifier="com.yourcompany.SFZero-dev"
+              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" buildVST3="0"
+              buildAUv3="0" buildAAX="0" pluginIsMidiEffectPlugin="0" includeBinaryInAppConfig="1">
   <EXPORTFORMATS>
-    <XCODE_MAC targetFolder="Builds/MacOSX" objCExtraSuffix="yKK8uA" juceFolder="../../local/src/juce/modules"
-               vstFolder="~/SDKs/vstsdk2.4" postbuildCommand="&#10;# This script takes the build product and copies it to the AU, VST, and RTAS folders, depending on &#10;# which plugin types you've built&#10;&#10;original=$CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME&#10;&#10;# this looks inside the binary to detect which platforms are needed.. &#10;copyAU=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'AudioUnit' | wc -l&#96;&#10;copyVST=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'VSTPlugin' | wc -l&#96;&#10;copyRTAS=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'CProcess' | wc -l&#96;&#10;copyAAX=&#96;nm -g &quot;$CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH&quot; | grep -i 'GetEffectDescriptions' | wc -l&#96;&#10;&#10;if [ $copyAU -gt 0 ]; then&#10;  echo &quot;Copying to AudioUnit folder...&quot;&#10;  AU=~/Library/Audio/Plug-Ins/Components/$PRODUCT_NAME.component&#10;  if [ -d &quot;$AU&quot; ]; then &#10;    rm -r &quot;$AU&quot;&#10;  fi&#10;&#10;  cp -r &quot;$original&quot; &quot;$AU&quot;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$AU/Contents/PkgInfo&quot;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$AU/Contents/$INFOPLIST_FILE&quot;&#10;fi&#10;&#10;if [ $copyVST -gt 0 ]; then&#10;  echo &quot;Copying to VST folder...&quot;&#10;  VST=~/Library/Audio/Plug-Ins/VST/$PRODUCT_NAME.vst&#10;  if [ -d &quot;$VST&quot; ]; then &#10;    rm -r &quot;$VST&quot;&#10;  fi&#10;&#10;  cp -r &quot;$original&quot; &quot;$VST&quot;&#10;  sed -i &quot;&quot; -e 's/TDMwPTul/BNDLPTul/g' &quot;$VST/Contents/PkgInfo&quot;&#10;  sed -i &quot;&quot; -e 's/TDMw/BNDL/g' &quot;$VST/Contents/$INFOPLIST_FILE&quot;&#10;fi&#10;&#10;if [ $copyRTAS -gt 0 ]; then&#10;  echo &quot;Copying to RTAS folder...&quot;&#10;  RTAS=/Library/Application\ Support/Digidesign/Plug-Ins/$PRODUCT_NAME.dpm&#10;  if [ -d &quot;$RTAS&quot; ]; then&#10;    rm -r &quot;$RTAS&quot;&#10;  fi&#10;&#10;  cp -r &quot;$original&quot; &quot;$RTAS&quot;&#10;fi&#10;&#10;if [ $copyAAX -gt 0 ]; then&#10;  echo &quot;Copying to AAX folder...&quot;&#10;&#10;  if [ -d &quot;/Applications/ProTools_3PDev/Plug-Ins&quot; ]; then&#10;    AAX1=&quot;/Applications/ProTools_3PDev/Plug-Ins/$PRODUCT_NAME.aaxplugin&quot;&#10;&#10;    if [ -d &quot;$AAX1&quot; ]; then&#10;      rm -r &quot;$AAX1&quot;&#10;    fi&#10;&#10;    cp -r &quot;$original&quot; &quot;$AAX1&quot;&#10;  fi&#10;&#10;  if [ -d &quot;/Library/Application Support/Avid/Audio/Plug-Ins&quot; ]; then&#10;    AAX2=&quot;/Library/Application Support/Avid/Audio/Plug-Ins/$PRODUCT_NAME.aaxplugin&quot;&#10;&#10;    if [ -d &quot;$AAX2&quot; ]; then&#10;      rm -r &quot;$AAX2&quot;&#10;    fi&#10;&#10;    cp -r &quot;$original&quot; &quot;$AAX2&quot;&#10;  fi&#10;fi&#10;">
+    <XCODE_MAC targetFolder="Builds/MacOSX" objCExtraSuffix="yKK8uA" vstFolder="~/SDKs/vstsdk2.4"
+               postbuildCommand="">
       <CONFIGURATIONS>
-        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SFZero"
-                       osxSDK="default" osxCompatibility="default" osxArchitecture="default"/>
-        <CONFIGURATION name="Release" isDebug="0" optimisation="2" targetName="SFZero"
-                       osxSDK="default" osxCompatibility="default" osxArchitecture="default"/>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SFZero-dev"
+                       osxSDK="default" osxCompatibility="default" osxArchitecture="32BitUniversal"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="2" targetName="SFZero-dev"
+                       osxSDK="default" osxCompatibility="default" osxArchitecture="32BitUniversal"/>
       </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../JUCE/modules/"/>
+      </MODULEPATHS>
     </XCODE_MAC>
-    <LINUX_MAKE targetFolder="Builds/Linux" juceFolder="/home/steve/local/src/juce/modules"
-                vstFolder="~/SDKs/vstsdk2.4">
+    <LINUX_MAKE targetFolder="Builds/Linux" vstFolder="~/SDKs/vstsdk2.4">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
                        targetName="SFZero"/>
         <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="2"
                        targetName="SFZero"/>
       </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_gui_extra" path="/home/steve/local/src/juce/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="/home/steve/local/src/juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="/home/steve/local/src/juce/modules"/>
+        <MODULEPATH id="juce_events" path="/home/steve/local/src/juce/modules"/>
+        <MODULEPATH id="juce_data_structures" path="/home/steve/local/src/juce/modules"/>
+        <MODULEPATH id="juce_core" path="/home/steve/local/src/juce/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="/home/steve/local/src/juce/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="/home/steve/local/src/juce/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="/home/steve/local/src/juce/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="/home/steve/local/src/juce/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="/home/steve/local/src/juce/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="/home/steve/local/src/juce/modules"/>
+      </MODULEPATHS>
     </LINUX_MAKE>
   </EXPORTFORMATS>
-  <MAINGROUP id="STGh0u" name="SFZero">
+  <MAINGROUP id="STGh0u" name="SFZero-dev">
     <GROUP id="{1110531B-E755-9964-D428-0B0E27C2D745}" name="Source">
       <FILE id="JxWRta" name="SF2Reader.cpp" compile="1" resource="0" file="Source/SF2Reader.cpp"/>
       <FILE id="M1KpnL" name="SF2Sound.cpp" compile="1" resource="0" file="Source/SF2Sound.cpp"/>
@@ -62,19 +90,18 @@
     </GROUP>
   </MAINGROUP>
   <MODULES>
-    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_gui_audio" showAllCode="1" useLocalCopy="1"/>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
-    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
   <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_USE_OGGVORBIS="enabled"/>
 </JUCERPROJECT>
