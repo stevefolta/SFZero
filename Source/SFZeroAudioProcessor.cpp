@@ -182,17 +182,19 @@ AudioProcessorEditor* SFZeroAudioProcessor::createEditor()
 
 void SFZeroAudioProcessor::getStateInformation(MemoryBlock& destData)
 {
-	DynamicObject state;
-	state.setProperty("sfzFilePath", sfzFile.getFullPathName());
+	// There's something weird about JUCE's DynamicObjects that doesn't allow
+	// them to be used as stack-allocated variables.
+	DynamicObject::Ptr state = new DynamicObject();
+	state->setProperty("sfzFilePath", sfzFile.getFullPathName());
 	SFZSound* sound = getSound();
 	if (sound) {
 		int subsound = sound->selectedSubsound();
 		if (subsound != 0)
-			state.setProperty("subsound", subsound);
+			state->setProperty("subsound", subsound);
 		}
 
 	MemoryOutputStream out(destData, false);
-	JSON::writeToStream(out, &state);
+	JSON::writeToStream(out, var(state));
 }
 
 void SFZeroAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
