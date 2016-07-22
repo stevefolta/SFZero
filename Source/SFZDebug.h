@@ -3,15 +3,14 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-// Juce's standard DBG is all wrong; it only writes to stdout.  So replace it
-// with one that'll write to the real log.
+// Juce's standard DBG is all wrong; it only writes to stdout.  So instead, use
+// one that'll write to the real log.
 
-#undef DBG
 #if JUCE_DEBUG
-	#define DBG(msg)	fifoLogMessage(msg)
-	#define SHOW(item)	DBG( #item " = " + String(item) )
+	#define SFZDBG(msg)	fifoLogMessage(msg)
+	#define SHOW(item)	SFZDBG( #item " = " + String(item) )
 #else
-	#define	DBG(msg)
+	#define	SFZDBG(msg)
 	#define	SHOW(msg)
 #endif
 
