@@ -32,6 +32,7 @@
         <MODULEPATH id="juce_audio_formats" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_devices" path="../JUCE/modules"/>
         <MODULEPATH id="juce_audio_basics" path="../JUCE/modules/"/>
+        <MODULEPATH id="SFZero" path="module"/>
       </MODULEPATHS>
     </XCODE_MAC>
     <LINUX_MAKE targetFolder="Builds/Linux" vstFolder="~/SDKs/vstsdk2.4">
@@ -54,28 +55,12 @@
         <MODULEPATH id="juce_audio_formats" path="/home/steve/local/src/juce/modules"/>
         <MODULEPATH id="juce_audio_devices" path="/home/steve/local/src/juce/modules"/>
         <MODULEPATH id="juce_audio_basics" path="/home/steve/local/src/juce/modules"/>
+        <MODULEPATH id="SFZero" path="module"/>
       </MODULEPATHS>
     </LINUX_MAKE>
   </EXPORTFORMATS>
   <MAINGROUP id="STGh0u" name="SFZero-dev">
     <GROUP id="{1110531B-E755-9964-D428-0B0E27C2D745}" name="Source">
-      <FILE id="JxWRta" name="SF2Reader.cpp" compile="1" resource="0" file="Source/SF2Reader.cpp"/>
-      <FILE id="M1KpnL" name="SF2Sound.cpp" compile="1" resource="0" file="Source/SF2Sound.cpp"/>
-      <FILE id="b65TB6" name="RIFF.cpp" compile="1" resource="0" file="Source/RIFF.cpp"/>
-      <FILE id="khaEk8" name="SF2.cpp" compile="1" resource="0" file="Source/SF2.cpp"/>
-      <FILE id="o6tYKl" name="SF2Generator.cpp" compile="1" resource="0"
-            file="Source/SF2Generator.cpp"/>
-      <FILE id="IxtPqU" name="SFZDebug.cpp" compile="1" resource="0" file="Source/SFZDebug.cpp"/>
-      <FILE id="BqWnQj" name="SFZSynth.cpp" compile="1" resource="0" file="Source/SFZSynth.cpp"/>
-      <FILE id="sS7JgC" name="SFZEG.cpp" compile="1" resource="0" file="Source/SFZEG.cpp"/>
-      <FILE id="iUWz27" name="SFZVoice.cpp" compile="1" resource="0" file="Source/SFZVoice.cpp"/>
-      <FILE id="NiGfnB" name="SFZSample.cpp" compile="1" resource="0" file="Source/SFZSample.cpp"/>
-      <FILE id="NBnZcx" name="SFZReader.cpp" compile="1" resource="0" file="Source/SFZReader.cpp"/>
-      <FILE id="RqdEoe" name="SFZReader.h" compile="0" resource="0" file="Source/SFZReader.h"/>
-      <FILE id="ud8UW7" name="SFZSound.cpp" compile="1" resource="0" file="Source/SFZSound.cpp"/>
-      <FILE id="IGMqX5" name="SFZSound.h" compile="0" resource="0" file="Source/SFZSound.h"/>
-      <FILE id="WD6w8Y" name="SFZRegion.cpp" compile="1" resource="0" file="Source/SFZRegion.cpp"/>
-      <FILE id="AqMmDI" name="SFZRegion.h" compile="0" resource="0" file="Source/SFZRegion.h"/>
       <FILE id="onAAbD" name="ClickableLabel.cpp" compile="1" resource="0"
             file="Source/ClickableLabel.cpp"/>
       <FILE id="lQwIPH" name="ClickableLabel.h" compile="0" resource="0"
@@ -102,6 +87,7 @@
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="SFZero" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
   <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_USE_OGGVORBIS="enabled"/>
 </JUCERPROJECT>

@@ -155,12 +155,12 @@ void SFZVoice::controllerMoved(
 
 
 void SFZVoice::renderNextBlock(
-	AudioSampleBuffer& outputBuffer, int startSample, int numSamples)
+	juce::AudioSampleBuffer& outputBuffer, int startSample, int numSamples)
 {
 	if (region == NULL)
 		return;
 
-	AudioSampleBuffer* buffer = region->sample->getBuffer();
+	juce::AudioSampleBuffer* buffer = region->sample->getBuffer();
 	const float* inL = buffer->getReadPointer(0, 0);
 	const float* inR =
 		buffer->getNumChannels() > 1 ? buffer->getReadPointer(1, 0) : NULL;
@@ -269,7 +269,7 @@ void SFZVoice::setRegion(SFZRegion* nextRegion)
 }
 
 
-String SFZVoice::infoString()
+juce::String SFZVoice::infoString()
 {
 	const char* egSegmentNames[] = {
 		"delay", "attack", "hold", "decay", "sustain", "release", "done"
@@ -285,7 +285,7 @@ String SFZVoice::infoString()
 		str, 128,
 		"note: %d, vel: %d, pan: %g, eg: %s, loops: %lu",
 		curMidiNote, curVelocity, region->pan, egSegmentName, numLoops);
-	return String(str);
+	return juce::String(str);
 }
 
 

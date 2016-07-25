@@ -1,0 +1,26 @@
+#!/bin/bash
+
+MODULE=module/SFZero/SFZero
+PLUGIN=Source
+
+$EDITOR 	\
+	$PLUGIN/SFZeroEditor.{h,cpp} 	\
+	$PLUGIN/SFZeroAudioProcessor.{h,cpp} 	\
+	$PLUGIN/ClickableLabel.{h,cpp} 	\
+	$MODULE/SFZSound.{h,cpp} 	\
+	$MODULE/SFZRegion.{h,cpp} 	\
+	$MODULE/SFZSample.{h,cpp} 	\
+	$MODULE/SFZReader.{h,cpp} 	\
+	$MODULE/SFZVoice.{h,cpp} 	\
+	$MODULE/SFZEG.{h,cpp} 	\
+	$MODULE/SFZSynth.{h,cpp} 	\
+	$MODULE/SFZDebug.{h,cpp} 	\
+	$MODULE/RIFF.{h,cpp} 	\
+	$MODULE/SF2.{h,cpp} 	\
+	$MODULE/SF2Generator.{h,cpp} 	\
+	$MODULE/SF2Sound.{h,cpp} 	\
+	$MODULE/SF2Reader.{h,cpp} 	\
+	$MODULE/WinTypes.h 	\
+	$MODULE/StringSlice.h 	\
+
+

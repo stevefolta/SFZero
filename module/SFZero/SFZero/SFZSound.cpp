@@ -7,7 +7,7 @@
 using namespace SFZero;
 
 
-SFZSound::SFZSound(const File& fileIn)
+SFZSound::SFZSound(const juce::File& fileIn)
 	: file(fileIn)
 {
 }
@@ -49,11 +49,11 @@ SFZSample* SFZSound::addSample(String path, String defaultPath)
 {
 	path = path.replaceCharacter('\\', '/');
 	defaultPath = defaultPath.replaceCharacter('\\', '/');
-	File sampleFile;
+	juce::File sampleFile;
 	if (defaultPath.isEmpty())
 		sampleFile = file.getSiblingFile(path);
 	else {
-		File defaultDir = file.getSiblingFile(defaultPath);
+		juce::File defaultDir = file.getSiblingFile(defaultPath);
 		sampleFile = defaultDir.getChildFile(path);
 		}
 	String samplePath = sampleFile.getFullPathName();

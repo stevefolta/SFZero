@@ -6,7 +6,7 @@
 
 namespace SFZero {
 
-class SFZSynth : public Synthesiser {
+class SFZSynth : public juce::Synthesiser {
 	public:
 		SFZSynth();
 
@@ -16,7 +16,7 @@ class SFZSynth : public Synthesiser {
 			float velocity, bool allowTailOff);
 
 		int	numVoicesUsed();
-		String   	voiceInfoString();
+		juce::String   	voiceInfoString();
 
 	protected:
 		unsigned char	noteVelocities[128];

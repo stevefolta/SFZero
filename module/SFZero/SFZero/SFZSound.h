@@ -10,44 +10,44 @@ namespace SFZero {
 class SFZSample;
 
 
-class SFZSound : public SynthesiserSound {
+class SFZSound : public juce::SynthesiserSound {
 	public:
-		SFZSound(const File& file);
+		SFZSound(const juce::File& file);
 		~SFZSound();
 
 		bool	appliesToNote(const int midiNoteNumber);
 		bool	appliesToChannel(const int midiChannel);
 
 		void	addRegion(SFZRegion* region); 	// Takes ownership of the region.
-		SFZSample*	addSample(String path, String defaultPath = String::empty);
-		void	addError(const String& message);
-		void	addUnsupportedOpcode(const String& opcode);
+		SFZSample*	addSample(juce::String path, juce::String defaultPath = juce::String::empty);
+		void	addError(const juce::String& message);
+		void	addUnsupportedOpcode(const juce::String& opcode);
 
 		virtual void	loadRegions();
 		virtual void	loadSamples(
-			AudioFormatManager* formatManager,
-			double* progressVar = NULL, Thread* thread = NULL);
+			juce::AudioFormatManager* formatManager,
+			double* progressVar = NULL, juce::Thread* thread = NULL);
 
 		SFZRegion*	getRegionFor(
 			int note, int velocity, SFZRegion::Trigger trigger = SFZRegion::attack);
 		int	getNumRegions();
 		SFZRegion*	regionAt(int index);
 
-		String	getErrorsString();
+		juce::String	getErrorsString();
 
 		virtual int	numSubsounds();
-		virtual String	subsoundName(int whichSubsound);
+		virtual juce::String	subsoundName(int whichSubsound);
 		virtual void	useSubsound(int whichSubsound);
 		virtual int 	selectedSubsound();
 
 		void	dump();
 
 	protected:
-		File 	file;
-		Array<SFZRegion*>	regions;
-		HashMap<String, SFZSample*>	samples;
-		StringArray      	errors;
-		HashMap<String, String>	unsupportedOpcodes;
+		juce::File 	file;
+		juce::Array<SFZRegion*>	regions;
+		juce::HashMap<juce::String, SFZSample*>	samples;
+		juce::StringArray      	errors;
+		juce::HashMap<juce::String, juce::String>	unsupportedOpcodes;
 	};
 
 }

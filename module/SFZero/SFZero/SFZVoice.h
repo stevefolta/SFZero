@@ -9,16 +9,16 @@ namespace SFZero {
 class SFZRegion;
 
 
-class JUCE_API SFZVoice : public SynthesiserVoice {
+class JUCE_API SFZVoice : public juce::SynthesiserVoice {
 	public:
 		SFZVoice();
 		~SFZVoice();
 
-    bool	canPlaySound(SynthesiserSound* sound);
+    bool	canPlaySound(juce::SynthesiserSound* sound);
     void	startNote(
 			const int midiNoteNumber,
 			const float velocity,
-			SynthesiserSound* sound,
+			juce::SynthesiserSound* sound,
 			const int currentPitchWheelPosition);
     void	stopNote(float velocity, const bool allowTailOff);
 		void	stopNoteForGroup();
@@ -28,7 +28,7 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 			const int controllerNumber,
 			const int newValue);
     void	renderNextBlock(
-			AudioSampleBuffer& outputBuffer, int startSample, int numSamples);
+			juce::AudioSampleBuffer& outputBuffer, int startSample, int numSamples);
 		bool	isPlayingNoteDown();
 		bool	isPlayingOneShot();
 
@@ -38,7 +38,7 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 		// Set the region to be used by the next startNote().
 		void	setRegion(SFZRegion* nextRegion);
 
-		String	infoString();
+		juce::String	infoString();
 
 	protected:
 		int       	trigger;
