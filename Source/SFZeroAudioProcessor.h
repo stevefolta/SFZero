@@ -4,8 +4,9 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SFZSynth.h"
 
-class SFZSound;
-class FifoLogger;
+namespace SFZero {
+	class SFZSound;
+	}
 
 
 class SFZeroAudioProcessor  : public AudioProcessor {
@@ -57,7 +58,7 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 		MidiKeyboardState	keyboardState;
 		double loadProgress;
 
-		SFZSound*	getSound();
+		SFZero::SFZSound*	getSound();
 		int      	numVoicesUsed();
 		String   	voiceInfoString();
 
@@ -77,7 +78,7 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 		friend class LoadThread;
 
 		File sfzFile;
-		SFZSynth synth;
+		SFZero::SFZSynth synth;
 		AudioFormatManager formatManager;
 		LoadThread	loadThread;
 

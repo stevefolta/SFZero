@@ -4,6 +4,8 @@
 #include "SFZReader.h"
 #include "SFZDebug.h"
 
+using namespace SFZero;
+
 
 SFZSound::SFZSound(const File& fileIn)
 	: file(fileIn)

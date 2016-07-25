@@ -5,6 +5,8 @@
 #include "SFZVoice.h"
 #include "SFZDebug.h"
 
+using namespace SFZero;
+
 
 SFZeroAudioProcessor::SFZeroAudioProcessor()
 	: loadProgress(0.0), loadThread(this)

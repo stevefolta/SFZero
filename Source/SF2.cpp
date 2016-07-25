@@ -1,6 +1,8 @@
 #include "SF2.h"
 #include "RIFF.h"
 
+using namespace SFZero;
+
 
 #define readAbyte(name, file) 	\
 	name = (byte) file->readByte();

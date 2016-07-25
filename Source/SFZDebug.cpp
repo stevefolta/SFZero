@@ -1,6 +1,8 @@
 #include "SFZDebug.h"
 #include <stdarg.h>
 
+using namespace SFZero;
+
 #ifdef JUCE_DEBUG
 
 static LogFifo* fifo = NULL;
@@ -109,7 +111,7 @@ bool LogFifo::hasMessage()
 
 
 
-void setupLogging(Logger* logger)
+void SFZero::setupLogging(Logger* logger)
 {
 	if (fifo == NULL)
 		fifo = new LogFifo();
@@ -117,21 +119,21 @@ void setupLogging(Logger* logger)
 }
 
 
-void fifoLogMessage(const String& message)
+void SFZero::fifoLogMessage(const String& message)
 {
 	if (fifo)
 		fifo->logMessage(message);
 }
 
 
-void relayFifoLogMessages()
+void SFZero::relayFifoLogMessages()
 {
 	if (fifo)
 		fifo->relayMessages();
 }
 
 
-void dbgprintf(const char* msg, ...)
+void SFZero::dbgprintf(const char* msg, ...)
 {
 	va_list args;
 	va_start(args, msg);

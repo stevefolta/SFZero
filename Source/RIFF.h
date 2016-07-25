@@ -5,6 +5,8 @@
 #include "WinTypes.h"
 
 
+namespace SFZero {
+
 struct RIFFChunk {
 	enum Type {
 		RIFF,
@@ -25,6 +27,8 @@ struct RIFFChunk {
 	String	ReadString(InputStream* file);
 	};
 
+
+}
 
 #endif 	// !RIFF_h
 

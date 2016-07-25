@@ -4,6 +4,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "WinTypes.h"
 
+namespace SFZero {
+
 #define SF2Field(type, name) 	\
 	type	name;
 
@@ -105,6 +107,7 @@ namespace SF2 {
 
 #undef SF2Field
 
+}
 
 #endif 	// !SF2_h
 

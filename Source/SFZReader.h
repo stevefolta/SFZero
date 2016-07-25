@@ -3,6 +3,8 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+namespace SFZero {
+
 class SFZRegion;
 class SFZSound;
 
@@ -28,6 +30,7 @@ class SFZReader {
 		void	error(const String& message);
 	};
 
+}
 
 #endif 	// !SFZReader_h
 

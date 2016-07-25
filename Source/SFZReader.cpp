@@ -4,6 +4,8 @@
 #include "StringSlice.h"
 #include "SFZDebug.h"
 
+using namespace SFZero;
+
 
 SFZReader::SFZReader(SFZSound* soundIn)
 	: sound(soundIn), line(1)

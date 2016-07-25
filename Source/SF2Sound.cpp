@@ -3,6 +3,8 @@
 #include "SFZSample.h"
 #include "SFZDebug.h"
 
+using namespace SFZero;
+
 
 SF2Sound::SF2Sound(const File& file)
 	: SFZSound(file)

@@ -4,6 +4,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SF2.h"
 
+namespace SFZero {
+
 class SF2Sound;
 class SFZRegion;
 class SFZSample;
@@ -25,6 +27,8 @@ class SF2Reader {
 		void	addGeneratorToRegion(
 			word genOper, SF2::genAmountType* amount, SFZRegion* region);
 	};
+
+}
 
 #endif 	// !SF2Reader_h
 

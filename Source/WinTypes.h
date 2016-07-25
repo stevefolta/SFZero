@@ -1,6 +1,8 @@
 #ifndef WinTypes_h
 #define WinTypes_h
 
+namespace SFZero {
+
 typedef char fourcc[4];
 typedef unsigned char byte;
 typedef unsigned long dword;
@@ -18,6 +20,7 @@ typedef char char20[20];
 #define FourCCArgs(value) 	\
 	(value)[0], (value)[1], (value)[2], (value)[3]
 
+}
 
 #endif 	// !WinTypes_h
 

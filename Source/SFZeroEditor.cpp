@@ -4,6 +4,9 @@
 #include "SFZDebug.h"
 #include <time.h>
 
+using namespace SFZero;
+
+
 enum {
 	hMargin = 12,
 	vMargin = 12,

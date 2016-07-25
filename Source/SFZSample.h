@@ -4,6 +4,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 
+namespace SFZero {
+
 class SFZSample {
 	public:
 		SFZSample(const File& fileIn)
@@ -34,6 +36,7 @@ class SFZSample {
 		double	sampleRate;
 	};
 
+}
 
 #endif 	// !SFZSample_h
 

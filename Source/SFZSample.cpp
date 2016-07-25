@@ -1,6 +1,8 @@
 #include "SFZSample.h"
 #include "SFZDebug.h"
 
+using namespace SFZero;
+
 
 bool SFZSample::load(AudioFormatManager* formatManager)
 {

@@ -17,6 +17,8 @@
 
 #ifdef JUCE_DEBUG
 
+namespace SFZero {
+
 class LogFifo {
 	public:
 		LogFifo();
@@ -41,6 +43,7 @@ extern void relayFifoLogMessages();
 
 extern void dbgprintf(const char* msg, ...);
 
+}
 
 #endif 	// JUCE_DEBUG
 

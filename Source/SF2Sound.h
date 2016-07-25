@@ -4,6 +4,8 @@
 #include "SFZSound.h"
 
 
+namespace SFZero {
+
 class SF2Sound : public SFZSound {
 	public:
 		SF2Sound(const File& file);
@@ -44,6 +46,7 @@ class SF2Sound : public SFZSound {
 		int               	selectedPreset;
 	};
 
+}
 
 #endif 	// !SF2Sound_h
 

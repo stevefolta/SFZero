@@ -4,6 +4,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SFZEG.h"
 
+namespace SFZero {
+
 class SFZRegion;
 
 
@@ -58,6 +60,7 @@ class JUCE_API SFZVoice : public SynthesiserVoice {
 		double	noteHz(double note, const double freqOfA = 440.0);
 	};
 
+}
 
 #endif 	// SFZVoice_h
 

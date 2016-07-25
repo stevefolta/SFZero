@@ -6,6 +6,8 @@
 #include "SF2Generator.h"
 #include "SFZDebug.h"
 
+using namespace SFZero;
+
 
 SF2Reader::SF2Reader(SF2Sound* soundIn, const File& fileIn)
 	: sound(soundIn)

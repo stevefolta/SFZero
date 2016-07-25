@@ -4,6 +4,9 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SFZRegion.h"
 
+
+namespace SFZero {
+
 class SFZSample;
 
 
@@ -47,6 +50,7 @@ class SFZSound : public SynthesiserSound {
 		HashMap<String, String>	unsupportedOpcodes;
 	};
 
+}
 
 
 #endif 	// SFZSound_h

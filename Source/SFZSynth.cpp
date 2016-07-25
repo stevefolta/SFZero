@@ -3,6 +3,8 @@
 #include "SFZSound.h"
 #include "SFZDebug.h"
 
+using namespace SFZero;
+
 
 SFZSynth::SFZSynth()
 	: Synthesiser()

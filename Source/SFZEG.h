@@ -4,6 +4,8 @@
 #include "SFZRegion.h"
 
 
+namespace SFZero {
+
 class SFZEG {
 	public:
 		SFZEG();
@@ -41,6 +43,7 @@ class SFZEG {
 		void	startRelease();
 	};
 
+}
 
 #endif 	// !SFZEG_h
 

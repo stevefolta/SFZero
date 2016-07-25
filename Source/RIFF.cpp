@@ -1,5 +1,7 @@
 #include "RIFF.h"
 
+using namespace SFZero;
+
 
 void RIFFChunk::ReadFrom(InputStream* file)
 {

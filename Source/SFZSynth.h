@@ -4,6 +4,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 
+namespace SFZero {
+
 class SFZSynth : public Synthesiser {
 	public:
 		SFZSynth();
@@ -19,6 +21,8 @@ class SFZSynth : public Synthesiser {
 	protected:
 		unsigned char	noteVelocities[128];
 	};
+
+}
 
 #endif 	// !SFZSynth_h
 

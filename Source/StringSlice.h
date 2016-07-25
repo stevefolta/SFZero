@@ -5,6 +5,7 @@
 
 // Because Juce's String class always copies.
 
+namespace SFZero {
 
 class StringSlice {
 	public:
@@ -26,6 +27,7 @@ class StringSlice {
 		const char*	end;
 	};
 
+}
 
 #endif 	// !StringSlice_h
 

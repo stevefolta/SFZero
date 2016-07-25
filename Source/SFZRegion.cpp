@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdio.h>
 
+using namespace SFZero;
+
 
 void SFZEGParameters::clear()
 {

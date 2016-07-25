@@ -5,6 +5,8 @@
 #include "SFZDebug.h"
 #include <math.h>
 
+using namespace SFZero;
+
 static const float globalGain = -1.0;
 
 

@@ -1,6 +1,8 @@
 #ifndef SFZRegion_h
 #define SFZRegion_h
 
+namespace SFZero {
+
 class SFZSample;
 
 
@@ -67,6 +69,7 @@ class SFZRegion {
 		static float	timecents2Secs(short timecents);
 	};
 
+}
 
 #endif 	// !SFZRegion_h
 
