@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 MODULE=module/SFZero/SFZero
 PLUGIN=Source
