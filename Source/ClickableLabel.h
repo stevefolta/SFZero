@@ -11,13 +11,13 @@
 #ifndef __CLICKABLELABEL_H_F4AC0009__
 #define __CLICKABLELABEL_H_F4AC0009__
 
-#include "../JuceLibraryCode/JuceHeader.h"
+#include <JuceHeader.h>
 
-class ClickableLabel : public Label {
+class ClickableLabel : public juce::Label {
 	public:
 		ClickableLabel(
-			const String& componentName = String::empty,
-			const String& labelText = String::empty);
+			const juce::String& componentName = {},
+			const juce::String& labelText = {});
 
 		class JUCE_API ClickListener {
 			public:
@@ -30,9 +30,9 @@ class ClickableLabel : public Label {
 		void	removeClickListener(ClickListener* listener);
 
 	protected:
-		ListenerList<ClickListener> clickListeners;
+		juce::ListenerList<ClickListener> clickListeners;
 
-		void	mouseUp(const MouseEvent& e);
+		void	mouseUp(const juce::MouseEvent& e) override;
 	};
 
 

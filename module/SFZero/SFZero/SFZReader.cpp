@@ -4,8 +4,7 @@
 #include "StringSlice.h"
 #include "SFZDebug.h"
 
-using namespace SFZero;
-
+namespace SFZero {
 
 SFZReader::SFZReader(SFZSound* soundIn)
 	: sound(soundIn), line(1)
@@ -18,16 +17,16 @@ SFZReader::~SFZReader()
 }
 
 
-void SFZReader::read(const File& file)
+void SFZReader::read(const juce::File& file)
 {
-	MemoryBlock contents;
+	juce::MemoryBlock contents;
 	bool ok = file.loadFileAsData(contents);
 	if (!ok) {
 		sound->addError("Couldn't read \"" + file.getFullPathName() + "\"");
 		return;
 		}
 
-	read((const char*) contents.getData(), contents.getSize());
+	read((const char*) contents.getData(), (unsigned int)contents.getSize());
 }
 
 
@@ -35,13 +34,13 @@ void SFZReader::read(const char* text, unsigned int length)
 {
 	const char* p = text;
 	const char* end = text + length;
-	char c;
+	char c = 0;
 
 	SFZRegion curGroup;
 	SFZRegion curRegion;
 	SFZRegion* buildingRegion = NULL;
 	bool inControl = false;
-	String defaultPath;
+	juce::String defaultPath;
 
 	while (p < end) {
 		// We're at the start of a line; skip any whitespace.
@@ -155,14 +154,14 @@ void SFZReader::read(const char* text, unsigned int length)
 								break;
 							p++;
 							}
-						String value(valueStart, p - valueStart);
-						String fauxOpcode =
-							String(opcode.start, opcode.length()) + " (in <control>)";
+						juce::String value(valueStart, p - valueStart);
+						juce::String fauxOpcode = juce::String(opcode.start, opcode.length()) + " (in <control>)";
 						sound->addUnsupportedOpcode(fauxOpcode);
 						}
 					}
-				else if (opcode == "sample") {
-					String path;
+				else if (opcode == "sample")
+				{
+					juce::String path;
 					p = readPathInto(&path, p, end);
 					if (!path.isEmpty()) {
 						if (buildingRegion)
@@ -173,7 +172,8 @@ void SFZReader::read(const char* text, unsigned int length)
 					else
 						error("Empty sample path");
 					}
-				else {
+				else
+				{
 					const char* valueStart = p;
 					while (p < end) {
 						c = *p;
@@ -181,23 +181,23 @@ void SFZReader::read(const char* text, unsigned int length)
 							break;
 						p++;
 						}
-					String value(valueStart, p - valueStart);
+					juce::String value(valueStart, p - valueStart);
 					if (buildingRegion == NULL)
 						error("Setting a parameter outside a region or group");
 					else if (opcode == "lokey")
-						buildingRegion->lokey = keyValue(value);
+						buildingRegion->lokey = (unsigned char)keyValue(value);
 					else if (opcode == "hikey")
-						buildingRegion->hikey = keyValue(value);
+						buildingRegion->hikey = (unsigned char)keyValue(value);
 					else if (opcode == "key") {
 						buildingRegion->hikey =
 						buildingRegion->lokey =
 						buildingRegion->pitch_keycenter =
-							keyValue(value);
+							(unsigned char)keyValue(value);
 						}
 					else if (opcode == "lovel")
-						buildingRegion->lovel = value.getIntValue();
+						buildingRegion->lovel = (unsigned char)value.getIntValue();
 					else if (opcode == "hivel")
-						buildingRegion->hivel = value.getIntValue();
+						buildingRegion->hivel = (unsigned char)value.getIntValue();
 					else if (opcode == "trigger")
 						buildingRegion->trigger = (SFZRegion::Trigger) triggerValue(value);
 					else if (opcode == "group")
@@ -207,11 +207,11 @@ void SFZReader::read(const char* text, unsigned int length)
 					else if (opcode == "offset")
 						buildingRegion->offset = (unsigned long) value.getLargeIntValue();
 					else if (opcode == "end") {
-						int64 end = (unsigned long) value.getLargeIntValue();
-						if (end < 0)
+						int64_t endV = (unsigned long) value.getLargeIntValue();
+						if (endV < 0)
 							buildingRegion->negative_end = true;
 						else
-							buildingRegion->end = end;
+							buildingRegion->end = (unsigned long)endV;
 						}
 					else if (opcode == "loop_mode") {
 						bool modeIsSupported =
@@ -221,8 +221,7 @@ void SFZReader::read(const char* text, unsigned int length)
 						if (modeIsSupported)
 							buildingRegion->loop_mode = (SFZRegion::LoopMode) loopModeValue(value);
 						else {
-							String fauxOpcode =
-								String(opcode.start, opcode.length()) + "=" + value;
+							juce::String fauxOpcode = juce::String(opcode.start, opcode.length()) + "=" + value;
 							sound->addUnsupportedOpcode(fauxOpcode);
 							}
 						}
@@ -277,7 +276,7 @@ void SFZReader::read(const char* text, unsigned int length)
 					else if (opcode == "default_path")
 						error("\"default_path\" outside of <control> tag");
 					else
-						sound->addUnsupportedOpcode(String(opcode.start, opcode.length()));
+						sound->addUnsupportedOpcode(juce::String(opcode.start, opcode.length()));
 					}
 				}
 
@@ -314,8 +313,7 @@ const char* SFZReader::handleLineEnd(const char* p)
 }
 
 
-const char* SFZReader::readPathInto(
-	String* pathOut, const char* pIn, const char* endIn)
+const char* SFZReader::readPathInto(juce::String* pathOut, const char* pIn, const char* endIn)
 {
 	// Paths are kind of funny to parse because they can contain whitespace.
 	const char* p = pIn;
@@ -347,19 +345,19 @@ const char* SFZReader::readPathInto(
 		// Can't do this:
 		//  	String path(CharPointer_UTF8(pathStart), CharPointer_UTF8(p));
 		// It won't compile for some unfathomable reason.
-		CharPointer_UTF8 end(p);
-		String path(CharPointer_UTF8(pathStart), end);
+		juce::CharPointer_UTF8 endL(p);
+		juce::String path(juce::CharPointer_UTF8(pathStart), endL);
 		*pathOut = path;
 		}
 	else
-		*pathOut = String::empty;
+		*pathOut = juce::String ();
 	return p;
 }
 
 
-int SFZReader::keyValue(const String& str)
+int SFZReader::keyValue(const juce::String& str)
 {
-	char c = str[0];
+	char c = (char)str[0];
 	if (c >= '0' && c <= '9')
 		return str.getIntValue();
 
@@ -372,7 +370,7 @@ int SFZReader::keyValue(const String& str)
 	else if (c >= 'a' && c <= 'g')
 		note = notes[c - 'a'];
 	int octaveStart = 1;
-	c = str[1];
+	c = (unsigned char)str[1];
 	if (c == 'b' || c == '#') {
 		octaveStart += 1;
 		if (c == 'b')
@@ -387,7 +385,7 @@ int SFZReader::keyValue(const String& str)
 }
 
 
-int SFZReader::triggerValue(const String& str)
+int SFZReader::triggerValue(const juce::String& str)
 {
 	if (str == "release")
 		return SFZRegion::release;
@@ -399,7 +397,7 @@ int SFZReader::triggerValue(const String& str)
 }
 
 
-int SFZReader::loopModeValue(const String& str)
+int SFZReader::loopModeValue(const juce::String& str)
 {
 	if (str == "no_loop")
 		return SFZRegion::no_loop;
@@ -421,12 +419,11 @@ void SFZReader::finishRegion(SFZRegion* region)
 }
 
 
-void SFZReader::error(const String& message)
+void SFZReader::error(const juce::String& message)
 {
-	String fullMessage = message;
-	fullMessage += " (line " + String(line) + ").";
+	juce::String fullMessage = message;
+	fullMessage += " (line " + juce::String(line) + ").";
 	sound->addError(fullMessage);
 }
 
-
-
+}

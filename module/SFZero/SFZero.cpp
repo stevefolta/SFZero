@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "SFZero/RIFF.cpp"
 #include "SFZero/SF2.cpp"
 #include "SFZero/SF2Generator.cpp"
@@ -11,4 +13,3 @@
 #include "SFZero/SFZSound.cpp"
 #include "SFZero/SFZSynth.cpp"
 #include "SFZero/SFZVoice.cpp"
-

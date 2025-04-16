@@ -4,8 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 
-using namespace SFZero;
-
+namespace SFZero {
 
 void SFZEGParameters::clear()
 {
@@ -98,14 +97,14 @@ void SFZRegion::addForSF2(SFZRegion* other)
 void SFZRegion::sf2ToSFZ()
 {
 	// EG times need to be converted from timecents to seconds.
-	ampeg.delay = timecents2Secs(ampeg.delay);
-	ampeg.attack = timecents2Secs(ampeg.attack);
-	ampeg.hold = timecents2Secs(ampeg.hold);
-	ampeg.decay = timecents2Secs(ampeg.decay);
+	ampeg.delay = timecents2Secs(short (ampeg.delay));
+	ampeg.attack = timecents2Secs(short (ampeg.attack));
+	ampeg.hold = timecents2Secs(short (ampeg.hold));
+	ampeg.decay = timecents2Secs(short (ampeg.decay));
 	if (ampeg.sustain < 0.0)
 		ampeg.sustain = 0.0;
-	ampeg.sustain = 100.0 * Decibels::decibelsToGain(-ampeg.sustain / 10.0);
-	ampeg.release = timecents2Secs(ampeg.release);
+	ampeg.sustain = 100.0f * juce::Decibels::decibelsToGain(-ampeg.sustain / 10.0f);
+	ampeg.release = timecents2Secs(short (ampeg.release));
 
 	// Pin very short EG segments.  Timecents don't get to zero, and our EG is
 	// happier with zero values.
@@ -142,8 +141,7 @@ void SFZRegion::dump()
 
 float SFZRegion::timecents2Secs(short timecents)
 {
-	return pow(2.0, timecents / 1200.0);
+	return pow(2.0f, timecents / 1200.0f);
 }
 
-
-
+}

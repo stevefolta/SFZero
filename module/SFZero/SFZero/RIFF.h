@@ -17,14 +17,14 @@ struct RIFFChunk {
 	fourcc	id;
 	dword 	size;
 	Type  	type;
-	int64  	start;
+	int64_t	start;
 
-	void	ReadFrom(InputStream* file);
-	void	Seek(InputStream* file);
-	void	SeekAfter(InputStream* file);
-	int64	End() { return start + size; }
+	void	ReadFrom(juce::InputStream* file);
+	void	Seek(juce::InputStream* file);
+	void	SeekAfter(juce::InputStream* file);
+	int64_t	End() { return start + size; }
 
-	String	ReadString(InputStream* file);
+	juce::String	ReadString(juce::InputStream* file);
 	};
 
 

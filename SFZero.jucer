@@ -7,17 +7,21 @@
               pluginIsSynth="1" pluginWantsMidiIn="1" pluginProducesMidiOut="0"
               pluginSilenceInIsSilenceOut="0" pluginTailLength="0" pluginEditorRequiresKeys="0"
               pluginAUExportPrefix="SFZeroDevAU" pluginAUViewClass="SFZeroAU_V1"
-              pluginRTASCategory="" jucerVersion="4.2.3" defines="" aaxIdentifier="com.yourcompany.SFZero-dev"
-              pluginAAXCategory="AAX_ePlugInCategory_Dynamics" buildVST3="0"
-              buildAUv3="0" buildAAX="0" pluginIsMidiEffectPlugin="0" includeBinaryInAppConfig="1">
+              pluginRTASCategory="" defines="JUCE_MODAL_LOOPS_PERMITTED=1"
+              aaxIdentifier="com.yourcompany.SFZero-dev" pluginAAXCategory="2"
+              buildVST3="1" buildAUv3="0" buildAAX="0" pluginIsMidiEffectPlugin="0"
+              includeBinaryInAppConfig="1" pluginFormats="buildAU,buildStandalone,buildVST3"
+              pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              jucerFormatVersion="1" addUsingNamespaceToJuceHeader="0" buildStandalone="1"
+              enableIAA="0">
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX" objCExtraSuffix="yKK8uA" vstFolder="~/SDKs/vstsdk2.4"
                postbuildCommand="">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="SFZero-dev"
-                       osxSDK="default" osxCompatibility="default" osxArchitecture="32BitUniversal"/>
+                       osxSDK="default" osxCompatibility="default"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="2" targetName="SFZero-dev"
-                       osxSDK="default" osxCompatibility="default" osxArchitecture="32BitUniversal"/>
+                       osxSDK="default" osxCompatibility="default"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_gui_extra" path="../JUCE/modules"/>
@@ -89,5 +93,5 @@
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
     <MODULE id="SFZero" showAllCode="1" useLocalCopy="0"/>
   </MODULES>
-  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_USE_OGGVORBIS="enabled"/>
+  <JUCEOPTIONS JUCE_QUICKTIME="disabled" JUCE_USE_OGGVORBIS="1"/>
 </JUCERPROJECT>

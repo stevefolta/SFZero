@@ -13,7 +13,7 @@ class StringSlice {
 			: start(startIn), end(endIn) {}
 
 		unsigned int length() {
-			return end - start;
+			return (unsigned int)(end - start);
 			}
 
 		bool operator==(const char* other) {

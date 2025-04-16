@@ -4,7 +4,7 @@
 #include "SFZReader.h"
 #include "SFZDebug.h"
 
-using namespace SFZero;
+namespace SFZero {
 
 
 SFZSound::SFZSound(const juce::File& fileIn)
@@ -16,24 +16,25 @@ SFZSound::SFZSound(const juce::File& fileIn)
 SFZSound::~SFZSound()
 {
 	int numRegions = regions.size();
-	for (int i = 0; i < numRegions; ++i) {
+	for (int i = 0; i < numRegions; ++i)
+	{
 		delete regions[i];
 		regions.set(i, NULL);
-		}
+	}
 
-	for (HashMap<String,SFZSample*>::Iterator i(samples); i.next();)
+	for (juce::HashMap<juce::String,SFZSample*>::Iterator i(samples); i.next();)
 		delete i.getValue();
 }
 
 
-bool SFZSound::appliesToNote(const int midiNoteNumber)
+bool SFZSound::appliesToNote(const int /*midiNoteNumber*/)
 {
 	// Just say yes; we can't truly know unless we're told the velocity as well.
 	return true;
 }
 
 
-bool SFZSound::appliesToChannel(const int midiChannel)
+bool SFZSound::appliesToChannel(const int /*midiChannel*/)
 {
 	return true;
 }
@@ -45,7 +46,7 @@ void SFZSound::addRegion(SFZRegion* region)
 }
 
 
-SFZSample* SFZSound::addSample(String path, String defaultPath)
+SFZSample* SFZSound::addSample(juce::String path, juce::String defaultPath)
 {
 	path = path.replaceCharacter('\\', '/');
 	defaultPath = defaultPath.replaceCharacter('\\', '/');
@@ -56,7 +57,7 @@ SFZSample* SFZSound::addSample(String path, String defaultPath)
 		juce::File defaultDir = file.getSiblingFile(defaultPath);
 		sampleFile = defaultDir.getChildFile(path);
 		}
-	String samplePath = sampleFile.getFullPathName();
+	juce::String samplePath = sampleFile.getFullPathName();
 	SFZSample* sample = samples[samplePath];
 	if (sample == NULL) {
 		sample = new SFZSample(sampleFile);
@@ -66,13 +67,13 @@ SFZSample* SFZSound::addSample(String path, String defaultPath)
 }
 
 
-void SFZSound::addError(const String& message)
+void SFZSound::addError(const juce::String& message)
 {
 	errors.add(message);
 }
 
 
-void SFZSound::addUnsupportedOpcode(const String& opcode)
+void SFZSound::addUnsupportedOpcode(const juce::String& opcode)
 {
 	unsupportedOpcodes.set(opcode, opcode);
 }
@@ -85,15 +86,13 @@ void SFZSound::loadRegions()
 }
 
 
-void SFZSound::loadSamples(
-	AudioFormatManager* formatManager,
-	double* progressVar, Thread* thread)
+void SFZSound::loadSamples (juce::AudioFormatManager* formatManager, double* progressVar, juce::Thread* thread)
 {
 	if (progressVar)
 		*progressVar = 0.0;
 
 	double numSamplesLoaded = 1.0, numSamples = samples.size();
-	for (HashMap<String,SFZSample*>::Iterator i(samples); i.next();) {
+	for (juce::HashMap<juce::String,SFZSample*>::Iterator i(samples); i.next();) {
 		SFZSample* sample = i.getValue();
 		bool ok = sample->load(formatManager);
 		if (!ok)
@@ -117,7 +116,7 @@ SFZRegion* SFZSound::getRegionFor(
 	int numRegions = regions.size();
 	for (int i = 0; i < numRegions; ++i) {
 		SFZRegion* region = regions[i];
-		if (region->matches(note, velocity, trigger))
+		if (region->matches((unsigned char)note, (unsigned char)velocity, trigger))
 			return region;
 		}
 
@@ -137,9 +136,9 @@ SFZRegion* SFZSound::regionAt(int index)
 }
 
 
-String SFZSound::getErrorsString()
+juce::String SFZSound::getErrorsString()
 {
-	String result;
+	juce::String result;
 	int numErrors = errors.size();
 	for (int i = 0; i < numErrors; ++i)
 		result += errors[i] + "\n";
@@ -147,7 +146,7 @@ String SFZSound::getErrorsString()
 	if (unsupportedOpcodes.size() > 0) {
 		result += "\nUnsupported opcodes:";
 		bool shownOne = false;
-		for (HashMap<String,String>::Iterator i(unsupportedOpcodes); i.next();) {
+		for (juce::HashMap<juce::String,juce::String>::Iterator i(unsupportedOpcodes); i.next();) {
 			if (!shownOne) {
 				result += " ";
 				shownOne = true;
@@ -168,13 +167,13 @@ int SFZSound::numSubsounds()
 }
 
 
-String SFZSound::subsoundName(int whichSubsound)
+juce::String SFZSound::subsoundName(int /*whichSubsound*/)
 {
-	return String::empty;
+	return {};
 }
 
 
-void SFZSound::useSubsound(int whichSubsound)
+void SFZSound::useSubsound(int /*whichSubsound*/)
 {
 }
 
@@ -200,15 +199,17 @@ void SFZSound::dump()
 		printf("\n");
 		}
 
-	if (unsupportedOpcodes.size() > 0) {
+	if (unsupportedOpcodes.size() > 0)
+	{
 		printf("Unused opcodes:\n");
-		for (HashMap<String,String>::Iterator i(unsupportedOpcodes); i.next();) {
+		for (juce::HashMap<juce::String, juce::String>::Iterator itr(unsupportedOpcodes); itr.next();)
+		{
 			char opcode[64];
-			i.getKey().copyToUTF8(opcode, 64);
+			itr.getKey().copyToUTF8(opcode, 64);
 			printf("  %s\n", opcode);
-			}
-		printf("\n");
 		}
+		printf("\n");
+	}
 
 	printf("Regions:\n");
 	int numRegions = regions.size();
@@ -217,9 +218,8 @@ void SFZSound::dump()
 	printf("\n");
 
 	printf("Samples:\n");
-	for (HashMap<String,SFZSample*>::Iterator i(samples); i.next();)
-		i.getValue()->dump();
+	for (juce::HashMap<juce::String,SFZSample*>::Iterator itr(samples); itr.next();)
+		itr.getValue()->dump();
 }
 
-
-
+}

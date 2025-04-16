@@ -1,34 +1,27 @@
 #include "SFZeroAudioProcessor.h"
 #include "SFZeroEditor.h"
-#include "SFZSound.h"
-#include "SF2Sound.h"
-#include "SFZVoice.h"
-#include "SFZDebug.h"
-
-using namespace SFZero;
-
 
 SFZeroAudioProcessor::SFZeroAudioProcessor()
 	: loadProgress(0.0), loadThread(this)
 {
 #if JUCE_DEBUG
-	setupLogging(
-		FileLogger::createDefaultAppLogger(
+	SFZero::setupLogging(
+		 juce::FileLogger::createDefaultAppLogger(
 			"SFZero", "SFZero.log", "SFZero started"));
 #endif
 
-	formatManager.registerFormat(new WavAudioFormat(), false);
-	formatManager.registerFormat(new OggVorbisAudioFormat(), false);
+	formatManager.registerFormat(new juce::WavAudioFormat(), false);
+	formatManager.registerFormat(new juce::OggVorbisAudioFormat(), false);
 
 	for (int i = 0; i < 128; ++i)
-		synth.addVoice(new SFZVoice());
+		synth.addVoice(new SFZero::SFZVoice());
 }
 
 SFZeroAudioProcessor::~SFZeroAudioProcessor()
 {
 }
 
-const String SFZeroAudioProcessor::getName() const
+const juce::String SFZeroAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
@@ -47,40 +40,40 @@ void SFZeroAudioProcessor::setParameter(int index, float newValue)
 {
 }
 
-const String SFZeroAudioProcessor::getParameterName(int index)
+const juce::String SFZeroAudioProcessor::getParameterName(int index)
 {
-    return String::empty;
+    return {};
 }
 
-const String SFZeroAudioProcessor::getParameterText(int index)
+const juce::String SFZeroAudioProcessor::getParameterText(int index)
 {
-    return String::empty;
+	return {};
 }
 
 
-void SFZeroAudioProcessor::setSfzFile(File* newSfzFile)
+void SFZeroAudioProcessor::setSfzFile(const juce::File& newSfzFile)
 {
-	sfzFile = *newSfzFile;
+	sfzFile = newSfzFile;
 	loadSound();
 }
 
 
-void SFZeroAudioProcessor::setSfzFileThreaded(File* newSfzFile)
+void SFZeroAudioProcessor::setSfzFileThreaded(const juce::File& newSfzFile)
 {
 	loadThread.stopThread(2000);
-	sfzFile = *newSfzFile;
+	sfzFile = newSfzFile;
 	loadThread.startThread();
 }
 
 
-const String SFZeroAudioProcessor::getInputChannelName(int channelIndex) const
+const juce::String SFZeroAudioProcessor::getInputChannelName(int channelIndex) const
 {
-    return String(channelIndex + 1);
+    return juce::String(channelIndex + 1);
 }
 
-const String SFZeroAudioProcessor::getOutputChannelName(int channelIndex) const
+const juce::String SFZeroAudioProcessor::getOutputChannelName(int channelIndex) const
 {
-    return String(channelIndex + 1);
+    return juce::String(channelIndex + 1);
 }
 
 bool SFZeroAudioProcessor::isInputChannelStereoPair(int index) const
@@ -139,12 +132,12 @@ void SFZeroAudioProcessor::setCurrentProgram(int index)
 {
 }
 
-const String SFZeroAudioProcessor::getProgramName(int index)
+const juce::String SFZeroAudioProcessor::getProgramName(int index)
 {
-    return String::empty;
+    return {};
 }
 
-void SFZeroAudioProcessor::changeProgramName(int index, const String& newName)
+void SFZeroAudioProcessor::changeProgramName(int index, const juce::String& newName)
 {
 }
 
@@ -163,7 +156,7 @@ void SFZeroAudioProcessor::releaseResources()
 }
 
 
-void SFZeroAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
+void SFZeroAudioProcessor::processBlock(juce::AudioSampleBuffer& buffer, juce::MidiBuffer& midiMessages)
 {
 	int numSamples = buffer.getNumSamples();
 	keyboardState.processNextMidiBuffer(midiMessages, 0, numSamples, true);
@@ -176,42 +169,42 @@ bool SFZeroAudioProcessor::hasEditor() const
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor* SFZeroAudioProcessor::createEditor()
+juce::AudioProcessorEditor* SFZeroAudioProcessor::createEditor()
 {
 	return new SFZeroEditor(this);
 }
 
 
-void SFZeroAudioProcessor::getStateInformation(MemoryBlock& destData)
+void SFZeroAudioProcessor::getStateInformation(juce::MemoryBlock& destData)
 {
 	// There's something weird about JUCE's DynamicObjects that doesn't allow
 	// them to be used as stack-allocated variables.
-	DynamicObject::Ptr state = new DynamicObject();
+	juce::DynamicObject::Ptr state = new juce::DynamicObject();
 	state->setProperty("sfzFilePath", sfzFile.getFullPathName());
-	SFZSound* sound = getSound();
+	auto sound = getSound();
 	if (sound) {
 		int subsound = sound->selectedSubsound();
 		if (subsound != 0)
 			state->setProperty("subsound", subsound);
 		}
 
-	MemoryOutputStream out(destData, false);
-	JSON::writeToStream(out, var(state));
+	juce::MemoryOutputStream out(destData, false);
+	juce::JSON::writeToStream(out, juce::var(state));
 }
 
 void SFZeroAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
-	MemoryInputStream in(data, sizeInBytes, false);
-	var state = JSON::parse(in);
-	var pathVar = state["sfzFilePath"];
+	juce::MemoryInputStream in(data, sizeInBytes, false);
+	juce::var state = juce::JSON::parse(in);
+	juce::var pathVar = state["sfzFilePath"];
 	if (pathVar.isString()) {
-		String sfzFilePath = pathVar.toString();
+		juce::String sfzFilePath = pathVar.toString();
 		if (!sfzFilePath.isEmpty()) {
-			File file(sfzFilePath);
-			setSfzFile(&file);
-			SFZSound* sound = getSound();
+			juce::File file(sfzFilePath);
+			setSfzFile(file);
+			auto sound = getSound();
 			if (sound) {
-				var subsoundVar = state["subsound"];
+				juce::var subsoundVar = state["subsound"];
 				if (subsoundVar.isInt())
 					sound->useSubsound(int(subsoundVar));
 				}
@@ -220,10 +213,10 @@ void SFZeroAudioProcessor::setStateInformation(const void* data, int sizeInBytes
 }
 
 
-SFZSound* SFZeroAudioProcessor::getSound()
+SFZero::SFZSound* SFZeroAudioProcessor::getSound()
 {
-	SynthesiserSound* sound = synth.getSound(0);
-	return dynamic_cast<SFZSound*>(sound);
+	auto sound = synth.getSound(0).get();
+	return dynamic_cast<SFZero::SFZSound*>(sound);
 }
 
 
@@ -233,7 +226,7 @@ int SFZeroAudioProcessor::numVoicesUsed()
 }
 
 
-String SFZeroAudioProcessor::voiceInfoString()
+juce::String SFZeroAudioProcessor::voiceInfoString()
 {
 	return synth.voiceInfoString();
 }
@@ -242,13 +235,13 @@ String SFZeroAudioProcessor::voiceInfoString()
 #if JUCE_DEBUG
 void SFZeroAudioProcessor::relayLogMessages()
 {
-	relayFifoLogMessages();
+	SFZero::relayFifoLogMessages();
 }
 #endif
 
 
 
-void SFZeroAudioProcessor::loadSound(Thread* thread)
+void SFZeroAudioProcessor::loadSound(juce::Thread* thread)
 {
 	loadProgress = 0.0;
 	synth.clearSounds();
@@ -258,12 +251,11 @@ void SFZeroAudioProcessor::loadSound(Thread* thread)
 		return;
 		}
 
-	SFZSound* sound;
-	String extension = sfzFile.getFileExtension();
-	if (extension == ".sf2" || extension == ".SF2")
-		sound = new SF2Sound(sfzFile);
+	SFZero::SFZSound* sound;
+	if (sfzFile.hasFileExtension (".sf2"))
+		sound = new SFZero::SF2Sound(sfzFile);
 	else
-		sound = new SFZSound(sfzFile);
+		sound = new SFZero::SFZSound(sfzFile);
 	sound->loadRegions();
 	sound->loadSamples(&formatManager, &loadProgress, thread);
 	if (thread && thread->threadShouldExit()) {
@@ -289,7 +281,7 @@ void SFZeroAudioProcessor::LoadThread::run()
 
 
 
-AudioProcessor* JUCE_CALLTYPE createPluginFilter()
+juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new SFZeroAudioProcessor();
 }

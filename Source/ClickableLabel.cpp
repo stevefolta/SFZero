@@ -12,8 +12,8 @@
 
 
 ClickableLabel::ClickableLabel(
-	const String& componentName,
-	const String& labelText)
+	const juce::String& componentName,
+	const juce::String& labelText)
 	: Label(componentName, labelText)
 {
 }
@@ -31,7 +31,7 @@ void ClickableLabel::removeClickListener(ClickListener* listener)
 }
 
 
-void ClickableLabel::mouseUp(const MouseEvent& e)
+void ClickableLabel::mouseUp(const juce::MouseEvent& e)
 {
 	bool goodClick =
 		e.mouseWasClicked() && contains(e.getPosition()) && !e.mods.isPopupMenu();

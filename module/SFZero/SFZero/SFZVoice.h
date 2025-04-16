@@ -1,7 +1,6 @@
 #ifndef SFZVoice_h
 #define SFZVoice_h
 
-#include "../JuceLibraryCode/JuceHeader.h"
 #include "SFZEG.h"
 
 namespace SFZero {
@@ -12,23 +11,23 @@ class SFZRegion;
 class JUCE_API SFZVoice : public juce::SynthesiserVoice {
 	public:
 		SFZVoice();
-		~SFZVoice();
+		~SFZVoice() override;
 
-    bool	canPlaySound(juce::SynthesiserSound* sound);
+    bool	canPlaySound(juce::SynthesiserSound* sound) override;
     void	startNote(
 			const int midiNoteNumber,
 			const float velocity,
 			juce::SynthesiserSound* sound,
-			const int currentPitchWheelPosition);
-    void	stopNote(float velocity, const bool allowTailOff);
+			const int currentPitchWheelPosition) override;
+    void	stopNote(float velocity, const bool allowTailOff) override;
 		void	stopNoteForGroup();
 		void	stopNoteQuick();
-    void	pitchWheelMoved(const int newValue);
+    void	pitchWheelMoved(const int newValue) override;
     void	controllerMoved(
 			const int controllerNumber,
-			const int newValue);
+			const int newValue) override;
     void	renderNextBlock(
-			juce::AudioSampleBuffer& outputBuffer, int startSample, int numSamples);
+			juce::AudioSampleBuffer& outputBuffer, int startSample, int numSamples) override;
 		bool	isPlayingNoteDown();
 		bool	isPlayingOneShot();
 

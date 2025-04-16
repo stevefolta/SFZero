@@ -1,73 +1,72 @@
 #ifndef __PLUGINPROCESSOR_H_7DD34D53__
 #define __PLUGINPROCESSOR_H_7DD34D53__
 
-#include "../JuceLibraryCode/JuceHeader.h"
-#include "SFZSynth.h"
+#include <JuceHeader.h>
 
 namespace SFZero {
 	class SFZSound;
 	}
 
 
-class SFZeroAudioProcessor  : public AudioProcessor {
+class SFZeroAudioProcessor  : public juce::AudioProcessor {
 	public:
 		SFZeroAudioProcessor();
 		~SFZeroAudioProcessor();
 
-		void prepareToPlay(double sampleRate, int samplesPerBlock);
-		void releaseResources();
-		void processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages);
+		void prepareToPlay(double sampleRate, int samplesPerBlock) override;
+		void releaseResources() override;
+		void processBlock(juce::AudioSampleBuffer& buffer, juce::MidiBuffer& midiMessages) override;
 
-		AudioProcessorEditor* createEditor();
-		bool hasEditor() const;
+		juce::AudioProcessorEditor* createEditor() override;
+		bool hasEditor() const override;
 
-		const String getName() const;
+		const juce::String getName() const override;
 
-		int getNumParameters();
+		int getNumParameters() override;
 
-		float getParameter(int index);
-		void setParameter(int index, float newValue);
+		float getParameter(int index) override;
+		void setParameter(int index, float newValue) override;
 
-		const String getParameterName(int index);
-		const String getParameterText(int index);
+		const juce::String getParameterName(int index) override;
+		const juce::String getParameterText(int index) override;
 
-		void	setSfzFile(File* newSfzFile);
-		void	setSfzFileThreaded(File* newSfzFile);
-		File	getSfzFile() { return sfzFile; }
+		void		setSfzFile(const juce::File& newSfzFile);
+		void		setSfzFileThreaded(const juce::File& newSfzFile);
+		juce::File	getSfzFile() { return sfzFile; }
 
-		const String getInputChannelName(int channelIndex) const;
-		const String getOutputChannelName(int channelIndex) const;
-		bool isInputChannelStereoPair(int index) const;
-		bool isOutputChannelStereoPair(int index) const;
+		const juce::String getInputChannelName(int channelIndex) const override;
+		const juce::String getOutputChannelName(int channelIndex) const override;
+		bool isInputChannelStereoPair(int index) const override;
+		bool isOutputChannelStereoPair(int index) const override;
 
-		bool acceptsMidi() const;
-		bool producesMidi() const;
-		bool silenceInProducesSilenceOut() const;
-		double getTailLengthSeconds() const;
+		bool acceptsMidi() const override;
+		bool producesMidi() const override;
+		bool silenceInProducesSilenceOut() const override;
+		double getTailLengthSeconds() const override;
 
 
-		int getNumPrograms();
-		int getCurrentProgram();
-		void setCurrentProgram(int index);
-		const String getProgramName(int index);
-		void changeProgramName(int index, const String& newName);
+		int getNumPrograms() override;
+		int getCurrentProgram() override;
+		void setCurrentProgram(int index) override;
+		const juce::String getProgramName(int index) override;
+		void changeProgramName(int index, const juce::String& newName) override;
 
-		void getStateInformation(MemoryBlock& destData);
-		void setStateInformation(const void* data, int sizeInBytes);
+		void getStateInformation(juce::MemoryBlock& destData) override;
+		void setStateInformation(const void* data, int sizeInBytes) override;
 
-		MidiKeyboardState	keyboardState;
+		juce::MidiKeyboardState	keyboardState;
 		double loadProgress;
 
 		SFZero::SFZSound*	getSound();
-		int      	numVoicesUsed();
-		String   	voiceInfoString();
+		int      			numVoicesUsed();
+		juce::String   		voiceInfoString();
 
 #if JUCE_DEBUG
 		void	relayLogMessages();
 #endif
 
 	protected:
-		class LoadThread : public Thread {
+		class LoadThread : public juce::Thread {
 			public:
 				LoadThread(SFZeroAudioProcessor* processor);
 				void	run();
@@ -77,12 +76,12 @@ class SFZeroAudioProcessor  : public AudioProcessor {
 			};
 		friend class LoadThread;
 
-		File sfzFile;
+		juce::File sfzFile;
 		SFZero::SFZSynth synth;
-		AudioFormatManager formatManager;
+		juce::AudioFormatManager formatManager;
 		LoadThread	loadThread;
 
-		void	loadSound(Thread* thread = NULL);
+		void	loadSound(juce::Thread* thread = NULL);
 
 	private:
 		JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SFZeroAudioProcessor);

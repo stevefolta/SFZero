@@ -6,45 +6,43 @@
 
 namespace SFZero {
 
-class SF2Sound : public SFZSound {
-	public:
-		SF2Sound(const File& file);
-		~SF2Sound();
+class SF2Sound : public SFZSound
+{
+public:
+	SF2Sound(const juce::File& file);
+	~SF2Sound() override;
 
-		void	loadRegions();
-		void	loadSamples(
-			AudioFormatManager* formatManager,
-			double* progressVar = NULL, Thread* thread = NULL);
+	void	loadRegions() override;
+	void	loadSamples(juce::AudioFormatManager* formatManager, double* progressVar = NULL, juce::Thread* thread = NULL) override;
 
-		struct Preset {
-			String	name;
-			int    	bank;
-			int   	preset;
-			OwnedArray<SFZRegion>	regions;
+	struct Preset
+	{
+		juce::String	name;
+		int    	bank;
+		int   	preset;
+		juce::OwnedArray<SFZRegion>	regions;
 
-			Preset(String nameIn, int bankIn, int presetIn)
-				: name(nameIn), bank(bankIn), preset(presetIn) {}
-			~Preset() {}
+		Preset(juce::String nameIn, int bankIn, int presetIn)
+			: name(nameIn), bank(bankIn), preset(presetIn) {}
+		~Preset() {}
 
-			void	addRegion(SFZRegion* region) {
-				regions.add(region);
-				}
-			};
-		void	addPreset(Preset* preset);
+		void addRegion(SFZRegion* region) { regions.add(region); }
+		};
+	void	addPreset(Preset* preset);
 
-		int	numSubsounds();
-		String	subsoundName(int whichSubsound);
-		void	useSubsound(int whichSubsound);
-		int 	selectedSubsound();
+	int	numSubsounds() override;
+	juce::String	subsoundName(int whichSubsound) override;
+	void	useSubsound(int whichSubsound) override;
+	int 	selectedSubsound() override;
 
-		SFZSample*	sampleFor(unsigned long sampleRate);
-		void	setSamplesBuffer(AudioSampleBuffer* buffer);
+	SFZSample* sampleFor (unsigned long sampleRate);
+	void setSamplesBuffer (juce::AudioSampleBuffer* buffer);
 
-	protected:
-		OwnedArray<Preset>	presets;
-		HashMap<int64, SFZSample*>	samplesByRate;
-		int               	selectedPreset;
-	};
+protected:
+	juce::OwnedArray<Preset>	presets;
+	juce::HashMap<int64_t, SFZSample*>	samplesByRate;
+	int selectedPreset;
+};
 
 }
 

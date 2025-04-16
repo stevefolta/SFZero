@@ -1,9 +1,8 @@
 #include "RIFF.h"
 
-using namespace SFZero;
+namespace SFZero {
 
-
-void RIFFChunk::ReadFrom(InputStream* file)
+void RIFFChunk::ReadFrom(juce::InputStream* file)
 {
 	file->read(&id, sizeof(fourcc));
 	size = (dword) file->readInt();
@@ -26,28 +25,26 @@ void RIFFChunk::ReadFrom(InputStream* file)
 }
 
 
-void RIFFChunk::Seek(InputStream* file)
+void RIFFChunk::Seek(juce::InputStream* file)
 {
 	file->setPosition(start);
 }
 
 
-void RIFFChunk::SeekAfter(InputStream* file)
+void RIFFChunk::SeekAfter(juce::InputStream* file)
 {
-	int64 next = start + size;
+	int64_t next = start + size;
 	if (next % 2 != 0)
 		next += 1;
 	file->setPosition(next);
 }
 
 
-String RIFFChunk::ReadString(InputStream* file)
+juce::String RIFFChunk::ReadString(juce::InputStream* file)
 {
-	char str[size];
-	file->read(str, size);
-	return String(str);
+	char* str = (char*)alloca (size);
+	file->read(str, int (size));
+	return juce::String(str);
 }
 
-
-
-
+}

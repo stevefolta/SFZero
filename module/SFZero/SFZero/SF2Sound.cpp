@@ -3,11 +3,10 @@
 #include "SFZSample.h"
 #include "SFZDebug.h"
 
-using namespace SFZero;
+namespace SFZero {
 
-
-SF2Sound::SF2Sound(const File& file)
-	: SFZSound(file)
+SF2Sound::SF2Sound(const juce::File& f)
+	: SFZSound(f)
 {
 }
 
@@ -19,8 +18,8 @@ SF2Sound::~SF2Sound()
 	regions.clear();
 
 	// The samples all share a single buffer, so make sure they don't all delete it.
-	AudioSampleBuffer* buffer = NULL;
-	for (HashMap<int64, SFZSample*>::Iterator i(samplesByRate); i.next();)
+	juce::AudioSampleBuffer* buffer = NULL;
+	for (juce::HashMap<int64_t, SFZSample*>::Iterator i(samplesByRate); i.next();)
 		buffer = i.getValue()->detachBuffer();
 	delete buffer;
 }
@@ -49,15 +48,13 @@ void SF2Sound::loadRegions()
 }
 
 
-void SF2Sound::loadSamples(
-	AudioFormatManager* formatManager,
-	double* progressVar, Thread* thread)
+void SF2Sound::loadSamples(juce::AudioFormatManager* /*formatManager*/, double* progressVar, juce::Thread* thread)
 {
 	SF2Reader reader(this, file);
-	AudioSampleBuffer* buffer = reader.readSamples(progressVar, thread);
+	juce::AudioSampleBuffer* buffer = reader.readSamples(progressVar, thread);
 	if (buffer) {
 		// All the SFZSamples will share the buffer.
-		for (HashMap<int64, SFZSample*>::Iterator i(samplesByRate); i.next();)
+		for (juce::HashMap<int64_t, SFZSample*>::Iterator i(samplesByRate); i.next();)
 			i.getValue()->setBuffer(buffer);
 		}
 
@@ -78,10 +75,10 @@ int SF2Sound::numSubsounds()
 }
 
 
-String SF2Sound::subsoundName(int whichSubsound)
+juce::String SF2Sound::subsoundName(int whichSubsound)
 {
 	Preset* preset = presets[whichSubsound];
-	String result;
+	juce::String result;
 	if (preset->bank != 0) {
 		result += preset->bank;
 		result += "/";
@@ -118,11 +115,11 @@ SFZSample* SF2Sound::sampleFor(unsigned long sampleRate)
 }
 
 
-void SF2Sound::setSamplesBuffer(AudioSampleBuffer* buffer)
+void SF2Sound::setSamplesBuffer(juce::AudioSampleBuffer* buffer)
 {
-	for (HashMap<int64, SFZSample*>::Iterator i(samplesByRate); i.next();)
+	for (juce::HashMap<int64_t, SFZSample*>::Iterator i(samplesByRate); i.next();)
 		i.getValue()->setBuffer(buffer);
 }
 
 
-
+}

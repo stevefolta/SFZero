@@ -6,10 +6,10 @@
 #include "SF2Generator.h"
 #include "SFZDebug.h"
 
-using namespace SFZero;
+namespace SFZero {
 
 
-SF2Reader::SF2Reader(SF2Sound* soundIn, const File& fileIn)
+SF2Reader::SF2Reader(SF2Sound* soundIn, const juce::File& fileIn)
 	: sound(soundIn)
 {
 	file = fileIn.createInputStream();
@@ -18,7 +18,6 @@ SF2Reader::SF2Reader(SF2Sound* soundIn, const File& fileIn)
 
 SF2Reader::~SF2Reader()
 {
-	delete file;
 }
 
 
@@ -33,15 +32,15 @@ void SF2Reader::read()
 	SF2::Hydra hydra;
 	file->setPosition(0);
 	RIFFChunk riffChunk;
-	riffChunk.ReadFrom(file);
+	riffChunk.ReadFrom(file.get());
 	while (file->getPosition() < riffChunk.End()) {
 		RIFFChunk chunk;
-		chunk.ReadFrom(file);
+		chunk.ReadFrom(file.get());
 		if (FourCCEquals(chunk.id, "pdta")) {
-			hydra.ReadFrom(file, chunk.End());
+			hydra.ReadFrom(file.get(), chunk.End());
 			break;
 			}
-		chunk.SeekAfter(file);
+		chunk.SeekAfter(file.get());
 		}
 	if (!hydra.IsComplete()) {
 		sound->addError("Invalid SF2 file (missing or incomplete hydra).");
@@ -85,16 +84,16 @@ void SF2Reader::read()
 
 						SF2::inst* inst = &hydra.instItems[whichInst];
 						int firstZone = inst->instBagNdx;
-						int zoneEnd = inst[1].instBagNdx;
-						for (int whichZone = firstZone; whichZone < zoneEnd; ++whichZone) {
-							SF2::ibag* ibag = &hydra.ibagItems[whichZone];
+						int zoneEndL = inst[1].instBagNdx;
+						for (int whichZoneL = firstZone; whichZoneL < zoneEndL; ++whichZoneL) {
+							SF2::ibag* ibag = &hydra.ibagItems[whichZoneL];
 
 							// Generators.
 							SFZRegion zoneRegion = instRegion;
 							bool hadSampleID = false;
-							int genEnd = ibag[1].instGenNdx;
-							for (int whichGen = ibag->instGenNdx; whichGen < genEnd; ++whichGen) {
-								SF2::igen* igen = &hydra.igenItems[whichGen];
+							int genEndL = ibag[1].instGenNdx;
+							for (int whichGenL = ibag->instGenNdx; whichGenL < genEndL; ++whichGenL) {
+								SF2::igen* igen = &hydra.igenItems[whichGenL];
 								if (igen->genOper == SF2Generator::sampleID) {
 									int whichSample = igen->genAmount.wordAmount;
 									SF2::shdr* shdr = &hydra.shdrItems[whichSample];
@@ -128,7 +127,7 @@ void SF2Reader::read()
 								}
 
 							// Handle instrument's global zone.
-							if (whichZone == firstZone && !hadSampleID)
+							if (whichZoneL == firstZone && !hadSampleID)
 								instRegion = zoneRegion;
 
 							// Modulators.
@@ -157,8 +156,7 @@ void SF2Reader::read()
 }
 
 
-AudioSampleBuffer* SF2Reader::readSamples(
-	double* progressVar, Thread* thread)
+juce::AudioSampleBuffer* SF2Reader::readSamples (double* progressVar, juce::Thread* thread)
 {
 	static const unsigned long bufferSize = 32768;
 
@@ -170,26 +168,26 @@ AudioSampleBuffer* SF2Reader::readSamples(
 	// Find the "sdta" chunk.
 	file->setPosition(0);
 	RIFFChunk riffChunk;
-	riffChunk.ReadFrom(file);
+	riffChunk.ReadFrom(file.get());
 	bool found = false;
 	RIFFChunk chunk;
 	while (file->getPosition() < riffChunk.End()) {
-		chunk.ReadFrom(file);
+		chunk.ReadFrom(file.get());
 		if (FourCCEquals(chunk.id, "sdta")) {
 			found = true;
 			break;
 			}
-		chunk.SeekAfter(file);
+		chunk.SeekAfter(file.get());
 		}
-	int64 sdtaEnd = chunk.End();
+	int64_t sdtaEnd = chunk.End();
 	found = false;
 	while (file->getPosition() < sdtaEnd) {
-		chunk.ReadFrom(file);
+		chunk.ReadFrom(file.get());
 		if (FourCCEquals(chunk.id, "smpl")) {
 			found = true;
 			break;
 			}
-		chunk.SeekAfter(file);
+		chunk.SeekAfter(file.get());
 		}
 	if (!found) {
 		sound->addError("SF2 is missing its \"smpl\" chunk.");
@@ -198,7 +196,7 @@ AudioSampleBuffer* SF2Reader::readSamples(
 
 	// Allocate the AudioSampleBuffer.
 	unsigned long numSamples = chunk.size / sizeof(short);
-	AudioSampleBuffer* sampleBuffer = new AudioSampleBuffer(1, numSamples);
+	juce::AudioSampleBuffer* sampleBuffer = new juce::AudioSampleBuffer(1, int (numSamples));
 
 	// Read and convert.
 	short* buffer = new short[bufferSize];
@@ -209,7 +207,7 @@ AudioSampleBuffer* SF2Reader::readSamples(
 		unsigned long samplesToRead = bufferSize;
 		if (samplesToRead > samplesLeft)
 			samplesToRead = samplesLeft;
-		file->read(buffer, samplesToRead * sizeof(short));
+		file->read(buffer, int (samplesToRead * sizeof(short)));
 
 		// Convert from signed 16-bit to float.
 		unsigned long samplesToConvert = samplesToRead;
@@ -217,7 +215,7 @@ AudioSampleBuffer* SF2Reader::readSamples(
 		for (; samplesToConvert > 0; --samplesToConvert) {
 			// If we ever need to compile for big-endian platforms, we'll need to
 			// byte-swap here.
-			*out++ = *in++ / 32767.0;
+			*out++ = *in++ / 32767.0f;
 			}
 
 		samplesLeft -= samplesToRead;
@@ -262,7 +260,7 @@ void SF2Reader::addGeneratorToRegion(
 			region->end += amount->shortAmount * 32768;
 			break;
 		case SF2Generator::pan:
-			region->pan = amount->shortAmount * (2.0 / 10.0);
+			region->pan = amount->shortAmount * (2.0f / 10.0f);
 			break;
 		case SF2Generator::delayVolEnv:
 			region->ampeg.delay = amount->shortAmount;
@@ -296,7 +294,7 @@ void SF2Reader::addGeneratorToRegion(
 		case SF2Generator::initialAttenuation:
 			// The spec says "initialAttenuation" is in centibels.  But everyone
 			// seems to treat it as millibels.
-			region->volume += -amount->shortAmount / 100.0;
+			region->volume += -amount->shortAmount / 100.0f;
 			break;
 		case SF2Generator::endloopAddrsCoarseOffset:
 			region->loop_end += amount->shortAmount * 32768;
@@ -374,5 +372,4 @@ void SF2Reader::addGeneratorToRegion(
 		}
 }
 
-
-
+}
